@@ -1,6 +1,8 @@
 package com.example.trubin23.notesfromnetwork.presentation.common;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import com.example.trubin23.notesfromnetwork.domain.common.UseCaseHandler;
@@ -9,6 +11,7 @@ import com.example.trubin23.notesfromnetwork.domain.common.UseCaseHandler;
  * Created by Andrey on 31.12.2017.
  */
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity implements BaseView {
 
     @Nullable
@@ -42,7 +45,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         }
     }
 
-    protected void bindPresenterToView(BasePresenter presenter){
+    protected void bindPresenterToView(@NonNull BasePresenter presenter){
         mPresenter = presenter;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.trubin23.notesfromnetwork.presentation.notes.model;
 
+import android.support.annotation.NonNull;
 import com.example.trubin23.notesfromnetwork.domain.model.NoteDomain;
 
 /**
@@ -8,7 +9,8 @@ import com.example.trubin23.notesfromnetwork.domain.model.NoteDomain;
 
 public class NoteViewMapper {
 
-    public static NoteView toNoteDomain(NoteDomain noteDomain){
+    @NonNull
+    public static NoteView toNoteDomain(@NonNull NoteDomain noteDomain){
         String sha = noteDomain.getSha();
         String message = noteDomain.getMessage();
         String date = noteDomain.getDate();

@@ -1,5 +1,7 @@
 package com.example.trubin23.notesfromnetwork.domain.common;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Andrey on 03.01.2018.
  */
@@ -9,10 +11,11 @@ public class UseCaseHandler {
 
     private final UseCaseScheduler mUseCaseScheduler;
 
-    private UseCaseHandler(UseCaseScheduler useCaseScheduler) {
+    private UseCaseHandler(@NonNull UseCaseScheduler useCaseScheduler) {
         mUseCaseScheduler = useCaseScheduler;
     }
 
+    @NonNull
     public static UseCaseHandler getInstance(){
         if (mUseCaseHandler == null){
             mUseCaseHandler = new UseCaseHandler(new UseCaseThreadPoolScheduler());
@@ -22,23 +25,20 @@ public class UseCaseHandler {
     }
 
     public <T extends BaseUseCase.RequestValues, R extends BaseUseCase.ResponseValues> void execute(
-            final BaseUseCase<T, R> useCase, T request, BaseUseCase.UseCaseCallback<R> callback) {
+            @NonNull final BaseUseCase<T, R> useCase, @NonNull T request,
+            @NonNull BaseUseCase.UseCaseCallback<R> callback) {
         useCase.setRequest(request);
         useCase.setUseCaseCallback(new UiCallbackWrapper(callback, this));
 
-        mUseCaseScheduler.execute(new Runnable() {
-            @Override
-            public void run() {
-                useCase.run();
-            }
-        });
+        mUseCaseScheduler.execute(useCase::run);
     }
 
-    private <R extends BaseUseCase.ResponseValues> void notifyResponse(R response, BaseUseCase.UseCaseCallback<R> callback) {
+    private <R extends BaseUseCase.ResponseValues> void notifyResponse(
+            @NonNull R response, @NonNull BaseUseCase.UseCaseCallback<R> callback) {
         mUseCaseScheduler.onSuccess(response, callback);
     }
 
-    private <R extends BaseUseCase.ResponseValues> void notifyError(BaseUseCase.UseCaseCallback<R> callback) {
+    private <R extends BaseUseCase.ResponseValues> void notifyError(@NonNull BaseUseCase.UseCaseCallback<R> callback) {
         mUseCaseScheduler.onError(callback);
     }
 
@@ -47,14 +47,13 @@ public class UseCaseHandler {
         private final BaseUseCase.UseCaseCallback<R> mCallback;
         private final UseCaseHandler mUseCaseHandler;
 
-
-        public  UiCallbackWrapper(BaseUseCase.UseCaseCallback<R> callback, UseCaseHandler useCaseHandler) {
+        UiCallbackWrapper(@NonNull BaseUseCase.UseCaseCallback<R> callback, @NonNull UseCaseHandler useCaseHandler) {
             mCallback = callback;
             mUseCaseHandler = useCaseHandler;
         }
 
         @Override
-        public void onSuccess(R response) {
+        public void onSuccess(@NonNull R response) {
             mUseCaseHandler.notifyResponse(response, mCallback);
         }
 

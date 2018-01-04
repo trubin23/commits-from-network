@@ -36,7 +36,7 @@ class NotesPresenter extends BasePresenter<NotesContract.View> implements NotesC
         mUseCaseHandler.execute(mGetNotesUseCase, new GetNotesUseCase.RequestValues(),
                                 new BaseUseCase.UseCaseCallback<GetNotesUseCase.ResponseValues>() {
                                     @Override
-                                    public void onSuccess(GetNotesUseCase.ResponseValues response) {
+                                    public void onSuccess(@NonNull GetNotesUseCase.ResponseValues response) {
                                         List<NoteDomain> notesDomain = response.getNotesDomain();
 
                                         List<NoteView> notesView = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.example.trubin23.notesfromnetwork.presentation.notes.show;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -50,7 +51,7 @@ public class NotesActivity extends BaseActivity implements NotesContract.View {
     }
 
     @Override
-    public void setCommitsString(List<NoteView> notesView) {
+    public void setCommitsString(@NonNull List<NoteView> notesView) {
         for(NoteView note : notesView){
             Log.d(TAG, note.getSha());
             Log.d(TAG, note.getMessage());

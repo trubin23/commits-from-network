@@ -1,5 +1,6 @@
 package com.example.trubin23.notesfromnetwork.presentation.common;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.example.trubin23.notesfromnetwork.domain.common.UseCaseHandler;
 
@@ -15,12 +16,12 @@ public class BasePresenter<T extends BaseView> implements BasePresenterInterface
 
     protected UseCaseHandler mUseCaseHandler;
 
-    public BasePresenter(UseCaseHandler useCaseHandler){
+    public BasePresenter(@NonNull UseCaseHandler useCaseHandler){
         mUseCaseHandler = useCaseHandler;
     }
 
     @Override
-    public void bind(T view) {
+    public void bind(@NonNull T view) {
         mView = view;
         Log.d(TAG, "binding presenter [" + this + "] with view [" + mView + "]");
     }
@@ -31,6 +32,7 @@ public class BasePresenter<T extends BaseView> implements BasePresenterInterface
         mView = null;
     }
 
+    @NonNull
     @Override
     public T getView() {
         return mView;

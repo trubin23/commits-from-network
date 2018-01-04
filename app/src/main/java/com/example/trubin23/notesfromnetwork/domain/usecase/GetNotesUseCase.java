@@ -1,5 +1,6 @@
 package com.example.trubin23.notesfromnetwork.domain.usecase;
 
+import android.support.annotation.NonNull;
 import com.example.trubin23.notesfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.notesfromnetwork.domain.model.NoteDomain;
 import com.example.trubin23.notesfromnetwork.domain.model.NoteDomainMapper;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, GetNotesUseCase.ResponseValues> {
     @Override
-    protected void executeUseCase(RequestValues requestValues) {
+    protected void executeUseCase(@NonNull RequestValues requestValues) {
         RetrofitClient.getNotes(new Callback<List<NoteStorage>>() {
             @Override
             public void onResponse(Call<List<NoteStorage>> call, Response<List<NoteStorage>> response) {
@@ -53,10 +54,11 @@ public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, 
     public static class ResponseValues implements BaseUseCase.ResponseValues {
         private List<NoteDomain> mNotesDomain;
 
-        ResponseValues(List<NoteDomain> notesDomain) {
+        ResponseValues(@NonNull List<NoteDomain> notesDomain) {
             mNotesDomain = notesDomain;
         }
 
+        @NonNull
         public List<NoteDomain> getNotesDomain() {
             return mNotesDomain;
         }

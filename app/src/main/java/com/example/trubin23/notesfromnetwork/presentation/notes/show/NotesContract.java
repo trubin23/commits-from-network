@@ -15,7 +15,7 @@ import java.util.List;
 class NotesContract {
 
     interface View extends BaseView {
-        void setCommitsString(List<NoteView> notesView);
+        void setCommitsString(@NonNull List<NoteView> notesView);
     }
 
     interface Presenter {

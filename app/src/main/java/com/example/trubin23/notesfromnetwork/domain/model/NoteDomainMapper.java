@@ -1,5 +1,6 @@
 package com.example.trubin23.notesfromnetwork.domain.model;
 
+import android.support.annotation.NonNull;
 import com.example.trubin23.notesfromnetwork.storage.model.NoteStorage;
 
 /**
@@ -8,7 +9,8 @@ import com.example.trubin23.notesfromnetwork.storage.model.NoteStorage;
 
 public class NoteDomainMapper {
 
-    public static NoteDomain toNoteDomain(NoteStorage noteStorage){
+    @NonNull
+    public static NoteDomain toNoteDomain(@NonNull NoteStorage noteStorage){
         String sha = noteStorage.getSha();
         String message = noteStorage.getCommit().getMessage();
         String date = noteStorage.getCommit().getCommitAuthor().getDate();
