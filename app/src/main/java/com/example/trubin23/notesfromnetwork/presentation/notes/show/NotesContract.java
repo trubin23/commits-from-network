@@ -1,7 +1,9 @@
 package com.example.trubin23.notesfromnetwork.presentation.notes.show;
 
 import android.support.annotation.NonNull;
+import com.example.trubin23.notesfromnetwork.domain.model.NoteDomain;
 import com.example.trubin23.notesfromnetwork.presentation.common.BaseView;
+import com.example.trubin23.notesfromnetwork.presentation.notes.model.NoteView;
 import com.example.trubin23.notesfromnetwork.storage.model.NoteStorage;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
 class NotesContract {
 
     interface View extends BaseView {
-        void setCommitsString(List<NoteStorage> notesStorage);
+        void setCommitsString(List<NoteView> notesView);
     }
 
     interface Presenter {

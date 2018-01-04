@@ -9,9 +9,9 @@ import com.squareup.moshi.Json;
 public class Commit {
 
     @Json(name = "author")
-    private Author author;
+    private CommitAuthor commitAuthor;
     @Json(name = "committer")
-    private Committer committer;
+    private CommitCommitter commitCommitter;
     @Json(name = "message")
     private String message;
     @Json(name = "tree")
@@ -23,20 +23,20 @@ public class Commit {
     @Json(name = "verification")
     private Verification verification;
 
-    public Author getAuthor() {
-        return author;
+    public CommitAuthor getCommitAuthor() {
+        return commitAuthor;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setCommitAuthor(CommitAuthor commitAuthor) {
+        this.commitAuthor = commitAuthor;
     }
 
-    public Committer getCommitter() {
-        return committer;
+    public CommitCommitter getCommitCommitter() {
+        return commitCommitter;
     }
 
-    public void setCommitter(Committer committer) {
-        this.committer = committer;
+    public void setCommitCommitter(CommitCommitter commitCommitter) {
+        this.commitCommitter = commitCommitter;
     }
 
     public String getMessage() {

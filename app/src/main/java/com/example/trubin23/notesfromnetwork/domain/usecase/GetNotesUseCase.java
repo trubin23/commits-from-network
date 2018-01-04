@@ -1,12 +1,15 @@
 package com.example.trubin23.notesfromnetwork.domain.usecase;
 
 import com.example.trubin23.notesfromnetwork.domain.common.BaseUseCase;
+import com.example.trubin23.notesfromnetwork.domain.model.NoteDomain;
+import com.example.trubin23.notesfromnetwork.domain.model.NoteDomainMapper;
 import com.example.trubin23.notesfromnetwork.storage.model.NoteStorage;
 import com.example.trubin23.notesfromnetwork.storage.network.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +22,19 @@ public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, 
         RetrofitClient.getNotes(new Callback<List<NoteStorage>>() {
             @Override
             public void onResponse(Call<List<NoteStorage>> call, Response<List<NoteStorage>> response) {
-                if (response.isSuccessful()){
-                    List<NoteStorage> notesStorage = response.body();
-                    getUseCaseCallback().onSuccess(new ResponseValues(notesStorage));
-                } else {
+                List<NoteStorage> notesStorage = response.body();
+
+                if(response.isSuccessful() && notesStorage != null) {
+                    List<NoteDomain> notesDomain = new ArrayList<>();
+
+                    for(NoteStorage noteStorage : notesStorage) {
+                        NoteDomain noteDomain = NoteDomainMapper.toNoteDomain(noteStorage);
+                        notesDomain.add(noteDomain);
+                    }
+
+                    getUseCaseCallback().onSuccess(new ResponseValues(notesDomain));
+                }
+                else {
                     getUseCaseCallback().onError();
                 }
             }
@@ -39,14 +51,14 @@ public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, 
     }
 
     public static class ResponseValues implements BaseUseCase.ResponseValues {
-        private List<NoteStorage> mNotesStorage;
+        private List<NoteDomain> mNotesDomain;
 
-        ResponseValues(List<NoteStorage> notesStorage) {
-            mNotesStorage = notesStorage;
+        ResponseValues(List<NoteDomain> notesDomain) {
+            mNotesDomain = notesDomain;
         }
 
-        public List<NoteStorage> getNotesStorage(){
-            return mNotesStorage;
+        public List<NoteDomain> getNotesDomain() {
+            return mNotesDomain;
         }
     }
 }

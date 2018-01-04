@@ -21,9 +21,9 @@ public class NoteStorage {
     @Json(name = "comments_url")
     private String commentsUrl;
     @Json(name = "author")
-    private Author_ author;
+    private Author author;
     @Json(name = "committer")
-    private Committer_ committer;
+    private Committer committer;
     @Json(name = "parents")
     private List<Parent> parents = null;
 
@@ -67,19 +67,19 @@ public class NoteStorage {
         this.commentsUrl = commentsUrl;
     }
 
-    public Author_ getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author_ author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
-    public Committer_ getCommitter() {
+    public Committer getCommitter() {
         return committer;
     }
 
-    public void setCommitter(Committer_ committer) {
+    public void setCommitter(Committer committer) {
         this.committer = committer;
     }
 

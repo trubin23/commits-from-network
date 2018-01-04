@@ -9,9 +9,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.trubin23.notesfromnetwork.R;
+import com.example.trubin23.notesfromnetwork.domain.model.NoteDomain;
 import com.example.trubin23.notesfromnetwork.domain.usecase.GetNotesUseCase;
 import com.example.trubin23.notesfromnetwork.presentation.common.BaseActivity;
-import com.example.trubin23.notesfromnetwork.storage.model.NoteStorage;
+import com.example.trubin23.notesfromnetwork.presentation.notes.model.NoteView;
 
 import java.util.List;
 
@@ -49,11 +50,11 @@ public class NotesActivity extends BaseActivity implements NotesContract.View {
     }
 
     @Override
-    public void setCommitsString(List<NoteStorage> notesStorage) {
-        for(NoteStorage note : notesStorage){
+    public void setCommitsString(List<NoteView> notesView) {
+        for(NoteView note : notesView){
             Log.d(TAG, note.getSha());
-            Log.d(TAG, note.getCommit().getMessage());
-            Log.d(TAG, note.getCommit().getAuthor().getDate());
+            Log.d(TAG, note.getMessage());
+            Log.d(TAG, note.getDate());
             Log.d(TAG, "----------------------------------------");
         }
     }
