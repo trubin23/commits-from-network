@@ -11,12 +11,20 @@ public abstract class BaseUseCase<Q extends BaseUseCase.RequestValues, P extends
 
     protected abstract void executeUseCase(Q requestValues);
 
-    public <T extends RequestValues> void setRequest(Q request) {
+    <T extends RequestValues> void setRequest(Q request) {
         mRequestValues = request;
     }
 
-    public void setUseCaseCallback(UseCaseCallback<P> useCaseCallback) {
+    void setUseCaseCallback(UseCaseCallback<P> useCaseCallback) {
         mUseCaseCallback = useCaseCallback;
+    }
+
+    protected UseCaseCallback<P> getUseCaseCallback(){
+        return mUseCaseCallback;
+    }
+
+    void run() {
+        executeUseCase(mRequestValues);
     }
 
     public interface RequestValues {

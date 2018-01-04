@@ -25,6 +25,13 @@ public class UseCaseHandler {
             final BaseUseCase<T, R> useCase, T request, BaseUseCase.UseCaseCallback<R> callback) {
         useCase.setRequest(request);
         useCase.setUseCaseCallback(new UiCallbackWrapper(callback, this));
+
+        mUseCaseScheduler.execute(new Runnable() {
+            @Override
+            public void run() {
+                useCase.run();
+            }
+        });
     }
 
     private <R extends BaseUseCase.ResponseValues> void notifyResponse(R response, BaseUseCase.UseCaseCallback<R> callback) {

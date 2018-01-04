@@ -21,14 +21,15 @@ public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, 
             public void onResponse(Call<List<NoteStorage>> call, Response<List<NoteStorage>> response) {
                 if (response.isSuccessful()){
                     List<NoteStorage> notesStorage = response.body();
+                    getUseCaseCallback().onSuccess(new ResponseValues(notesStorage));
                 } else {
-
+                    getUseCaseCallback().onError();
                 }
             }
 
             @Override
             public void onFailure(Call<List<NoteStorage>> call, Throwable t) {
-
+                getUseCaseCallback().onError();
             }
         });
     }
@@ -38,6 +39,14 @@ public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, 
     }
 
     public static class ResponseValues implements BaseUseCase.ResponseValues {
+        private List<NoteStorage> mNotesStorage;
 
+        ResponseValues(List<NoteStorage> notesStorage) {
+            mNotesStorage = notesStorage;
+        }
+
+        public List<NoteStorage> getNotesStorage(){
+            return mNotesStorage;
+        }
     }
 }
