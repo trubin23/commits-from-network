@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Andrey on 02.01.2018.
  */
 
-public class GetNotesUseCase extends BaseUseCase {
+public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.ResponseValues> {
 
     @Override
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {

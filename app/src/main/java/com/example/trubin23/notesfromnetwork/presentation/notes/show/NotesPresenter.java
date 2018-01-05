@@ -32,11 +32,9 @@ class NotesPresenter extends BasePresenter<NotesContract.View> implements NotesC
     @Override
     public void loadCommits(@NonNull String repoName) {
         mUseCaseHandler.execute(mGetNotesUseCase, new GetNotesUseCase.RequestValues(),
-                new BaseUseCase.UseCaseCallback() {
+                new BaseUseCase.UseCaseCallback<GetNotesUseCase.ResponseValues>() {
                     @Override
-                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                        GetNotesUseCase.ResponseValues response =
-                                (GetNotesUseCase.ResponseValues) responseValues;
+                    public void onSuccess(@NonNull GetNotesUseCase.ResponseValues response) {
 
                         List<NoteDomain> notesDomain = response.getNotesDomain();
                         List<NoteView> notesView = new ArrayList<>();
