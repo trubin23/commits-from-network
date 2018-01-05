@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
  * Created by Andrey on 02.01.2018.
  */
 
-public abstract class BaseUseCase {
+public abstract class BaseUseCase<T extends BaseUseCase.ResponseValues> {
 
     private BaseUseCase.RequestValues mRequestValues;
-    private UseCaseCallback mUseCaseCallback;
+    private UseCaseCallback<T> mUseCaseCallback;
 
     protected abstract void executeUseCase(@NonNull RequestValues requestValues);
 
@@ -21,12 +21,12 @@ public abstract class BaseUseCase {
         mRequestValues = request;
     }
 
-    void setUseCaseCallback(@NonNull UseCaseCallback useCaseCallback) {
+    void setUseCaseCallback(@NonNull UseCaseCallback<T> useCaseCallback) {
         mUseCaseCallback = useCaseCallback;
     }
 
     @NonNull
-    protected UseCaseCallback getUseCaseCallback(){
+    protected UseCaseCallback<T> getUseCaseCallback(){
         return mUseCaseCallback;
     }
 
@@ -36,8 +36,8 @@ public abstract class BaseUseCase {
     public interface ResponseValues {
     }
 
-    public interface UseCaseCallback {
-        void onSuccess(@NonNull BaseUseCase.ResponseValues response);
+    public interface UseCaseCallback<R extends ResponseValues> {
+        void onSuccess(@NonNull R response);
         void onError();
     }
 }

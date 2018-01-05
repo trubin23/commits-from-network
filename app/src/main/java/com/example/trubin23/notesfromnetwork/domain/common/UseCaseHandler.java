@@ -31,9 +31,9 @@ public class UseCaseHandler {
         return mUseCaseHandler;
     }
 
-    public void execute(
-            @NonNull final BaseUseCase useCase, @NonNull BaseUseCase.RequestValues request,
-            @NonNull BaseUseCase.UseCaseCallback callback) {
+    public <T extends BaseUseCase.ResponseValues> void execute(
+            @NonNull final BaseUseCase<T> useCase, @NonNull BaseUseCase.RequestValues request,
+            @NonNull BaseUseCase.UseCaseCallback<T> callback) {
         useCase.setRequest(request);
         useCase.setUseCaseCallback(callback);
 
