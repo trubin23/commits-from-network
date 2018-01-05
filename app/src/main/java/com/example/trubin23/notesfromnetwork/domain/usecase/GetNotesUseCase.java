@@ -17,9 +17,10 @@ import java.util.List;
  * Created by Andrey on 02.01.2018.
  */
 
-public class GetNotesUseCase extends BaseUseCase<GetNotesUseCase.RequestValues, GetNotesUseCase.ResponseValues> {
+public class GetNotesUseCase extends BaseUseCase {
+
     @Override
-    protected void executeUseCase(@NonNull RequestValues requestValues) {
+    protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
         RetrofitClient.getNotes(new Callback<List<NoteStorage>>() {
             @Override
             public void onResponse(Call<List<NoteStorage>> call, Response<List<NoteStorage>> response) {

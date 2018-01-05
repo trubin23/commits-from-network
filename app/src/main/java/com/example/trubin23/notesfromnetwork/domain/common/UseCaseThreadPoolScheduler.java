@@ -15,8 +15,6 @@ public class UseCaseThreadPoolScheduler implements UseCaseScheduler {
 
     private ThreadPoolExecutor mThreadPoolExecutor;
 
-    private final Handler mUiHandler;
-
     UseCaseThreadPoolScheduler() {
         final int POOL_SIZE = 2;
         final int MAX_POOL_SIZE = 4;
@@ -24,7 +22,6 @@ public class UseCaseThreadPoolScheduler implements UseCaseScheduler {
 
         mThreadPoolExecutor = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, TIMEOUT, TimeUnit.SECONDS,
                                                      new ArrayBlockingQueue<>(POOL_SIZE));
-        mUiHandler = new Handler();
     }
 
     @Override
@@ -33,14 +30,13 @@ public class UseCaseThreadPoolScheduler implements UseCaseScheduler {
     }
 
     @Override
-    public <R extends BaseUseCase.ResponseValues> void onSuccess(
-            @NonNull R response, @NonNull BaseUseCase.UseCaseCallback<R> useCaseCallback) {
-        mUiHandler.post(() -> useCaseCallback.onSuccess(response));
+    public void onSuccess(@NonNull BaseUseCase.ResponseValues response,
+                          @NonNull BaseUseCase.UseCaseCallback useCaseCallback) {
+        useCaseCallback.onSuccess(response);
     }
 
     @Override
-    public <R extends BaseUseCase.ResponseValues> void onError(
-            @NonNull BaseUseCase.UseCaseCallback<R> useCaseCallback) {
-        mUiHandler.post(useCaseCallback::onError);
+    public void onError(@NonNull BaseUseCase.UseCaseCallback useCaseCallback) {
+        useCaseCallback.onError();
     }
 }

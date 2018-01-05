@@ -10,8 +10,8 @@ interface UseCaseScheduler {
 
     void execute(Runnable runnable);
 
-    <R extends BaseUseCase.ResponseValues> void onSuccess(
-            @NonNull final R response, @NonNull final BaseUseCase.UseCaseCallback<R> useCaseCallback);
+    void onSuccess(@NonNull final BaseUseCase.ResponseValues response,
+            @NonNull final BaseUseCase.UseCaseCallback useCaseCallback);
 
-    <R extends BaseUseCase.ResponseValues> void onError(@NonNull final BaseUseCase.UseCaseCallback<R> useCaseCallback);
+    void onError(@NonNull final BaseUseCase.UseCaseCallback useCaseCallback);
 }

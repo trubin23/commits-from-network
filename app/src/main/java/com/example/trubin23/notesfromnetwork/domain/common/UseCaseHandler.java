@@ -24,36 +24,38 @@ public class UseCaseHandler {
         return mUseCaseHandler;
     }
 
-    public <T extends BaseUseCase.RequestValues, R extends BaseUseCase.ResponseValues> void execute(
-            @NonNull final BaseUseCase<T, R> useCase, @NonNull T request,
-            @NonNull BaseUseCase.UseCaseCallback<R> callback) {
+    public void execute(
+            @NonNull final BaseUseCase useCase, @NonNull BaseUseCase.RequestValues request,
+            @NonNull BaseUseCase.UseCaseCallback callback) {
         useCase.setRequest(request);
         useCase.setUseCaseCallback(new UiCallbackWrapper(callback, this));
 
         mUseCaseScheduler.execute(useCase::run);
     }
 
-    private <R extends BaseUseCase.ResponseValues> void notifyResponse(
-            @NonNull R response, @NonNull BaseUseCase.UseCaseCallback<R> callback) {
+    private void notifyResponse(
+            @NonNull BaseUseCase.ResponseValues response,
+            @NonNull BaseUseCase.UseCaseCallback callback) {
         mUseCaseScheduler.onSuccess(response, callback);
     }
 
-    private <R extends BaseUseCase.ResponseValues> void notifyError(@NonNull BaseUseCase.UseCaseCallback<R> callback) {
+    private void notifyError(@NonNull BaseUseCase.UseCaseCallback callback) {
         mUseCaseScheduler.onError(callback);
     }
 
-    private static final class UiCallbackWrapper<R extends BaseUseCase.ResponseValues> implements
-            BaseUseCase.UseCaseCallback<R> {
-        private final BaseUseCase.UseCaseCallback<R> mCallback;
+    private static final class UiCallbackWrapper implements
+            BaseUseCase.UseCaseCallback {
+        private final BaseUseCase.UseCaseCallback mCallback;
         private final UseCaseHandler mUseCaseHandler;
 
-        UiCallbackWrapper(@NonNull BaseUseCase.UseCaseCallback<R> callback, @NonNull UseCaseHandler useCaseHandler) {
+        UiCallbackWrapper(@NonNull BaseUseCase.UseCaseCallback callback,
+                          @NonNull UseCaseHandler useCaseHandler) {
             mCallback = callback;
             mUseCaseHandler = useCaseHandler;
         }
 
         @Override
-        public void onSuccess(@NonNull R response) {
+        public void onSuccess(@NonNull BaseUseCase.ResponseValues response) {
             mUseCaseHandler.notifyResponse(response, mCallback);
         }
 
