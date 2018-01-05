@@ -32,25 +32,25 @@ class NotesPresenter extends BasePresenter<NotesContract.View> implements NotesC
     @Override
     public void loadCommits(@NonNull String repoName) {
         mUseCaseHandler.execute(mGetNotesUseCase, new GetNotesUseCase.RequestValues(),
-                                new BaseUseCase.UseCaseCallback() {
-                                    @Override
-                                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                                        GetNotesUseCase.ResponseValues response =
-                                                (GetNotesUseCase.ResponseValues) responseValues;
+                new BaseUseCase.UseCaseCallback() {
+                    @Override
+                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
+                        GetNotesUseCase.ResponseValues response =
+                                (GetNotesUseCase.ResponseValues) responseValues;
 
-                                        List<NoteDomain> notesDomain = response.getNotesDomain();
-                                        List<NoteView> notesView = new ArrayList<>();
-                                        for(NoteDomain noteDomain : notesDomain) {
-                                            NoteView noteView = NoteViewMapper.toNoteDomain(noteDomain);
-                                            notesView.add(noteView);
-                                        }
-                                        getView().setCommitsString(notesView);
-                                    }
+                        List<NoteDomain> notesDomain = response.getNotesDomain();
+                        List<NoteView> notesView = new ArrayList<>();
+                        for(NoteDomain noteDomain : notesDomain) {
+                            NoteView noteView = NoteViewMapper.toNoteDomain(noteDomain);
+                            notesView.add(noteView);
+                        }
+                        getView().setCommitsString(notesView);
+                    }
 
-                                    @Override
-                                    public void onError() {
-                                        Log.e(TAG, "GetNotesUseCase: error");
-                                    }
-                                });
+                    @Override
+                    public void onError() {
+                        Log.e(TAG, "GetNotesUseCase: error");
+                    }
+                });
     }
 }

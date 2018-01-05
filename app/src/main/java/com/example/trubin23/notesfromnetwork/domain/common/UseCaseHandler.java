@@ -2,6 +2,10 @@ package com.example.trubin23.notesfromnetwork.domain.common;
 
 import android.support.annotation.NonNull;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Andrey on 03.01.2018.
  */
@@ -9,16 +13,19 @@ import android.support.annotation.NonNull;
 public class UseCaseHandler {
     private static UseCaseHandler mUseCaseHandler;
 
-    private final UseCaseScheduler mUseCaseScheduler;
-
-    private UseCaseHandler(@NonNull UseCaseScheduler useCaseScheduler) {
-        mUseCaseScheduler = useCaseScheduler;
-    }
+    private static ThreadPoolExecutor mThreadPoolExecutor;
 
     @NonNull
     public static UseCaseHandler getInstance(){
         if (mUseCaseHandler == null){
-            mUseCaseHandler = new UseCaseHandler(new UseCaseThreadPoolScheduler());
+            final int POOL_SIZE = 2;
+            final int MAX_POOL_SIZE = 4;
+            final int TIMEOUT = 30;
+
+            mThreadPoolExecutor = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, TIMEOUT, TimeUnit.SECONDS,
+                                                         new ArrayBlockingQueue<>(POOL_SIZE));
+
+            mUseCaseHandler = new UseCaseHandler();
         }
 
         return mUseCaseHandler;
@@ -28,40 +35,8 @@ public class UseCaseHandler {
             @NonNull final BaseUseCase useCase, @NonNull BaseUseCase.RequestValues request,
             @NonNull BaseUseCase.UseCaseCallback callback) {
         useCase.setRequest(request);
-        useCase.setUseCaseCallback(new UiCallbackWrapper(callback, this));
+        useCase.setUseCaseCallback(callback);
 
-        mUseCaseScheduler.execute(useCase::run);
-    }
-
-    private void notifyResponse(
-            @NonNull BaseUseCase.ResponseValues response,
-            @NonNull BaseUseCase.UseCaseCallback callback) {
-        mUseCaseScheduler.onSuccess(response, callback);
-    }
-
-    private void notifyError(@NonNull BaseUseCase.UseCaseCallback callback) {
-        mUseCaseScheduler.onError(callback);
-    }
-
-    private static final class UiCallbackWrapper implements
-            BaseUseCase.UseCaseCallback {
-        private final BaseUseCase.UseCaseCallback mCallback;
-        private final UseCaseHandler mUseCaseHandler;
-
-        UiCallbackWrapper(@NonNull BaseUseCase.UseCaseCallback callback,
-                          @NonNull UseCaseHandler useCaseHandler) {
-            mCallback = callback;
-            mUseCaseHandler = useCaseHandler;
-        }
-
-        @Override
-        public void onSuccess(@NonNull BaseUseCase.ResponseValues response) {
-            mUseCaseHandler.notifyResponse(response, mCallback);
-        }
-
-        @Override
-        public void onError() {
-            mUseCaseHandler.notifyError(mCallback);
-        }
+        mThreadPoolExecutor.execute(useCase::run);
     }
 }

@@ -13,6 +13,10 @@ public abstract class BaseUseCase {
 
     protected abstract void executeUseCase(@NonNull RequestValues requestValues);
 
+    void run() {
+        executeUseCase(mRequestValues);
+    }
+
     void setRequest(@NonNull BaseUseCase.RequestValues request) {
         mRequestValues = request;
     }
@@ -24,10 +28,6 @@ public abstract class BaseUseCase {
     @NonNull
     protected UseCaseCallback getUseCaseCallback(){
         return mUseCaseCallback;
-    }
-
-    void run() {
-        executeUseCase(mRequestValues);
     }
 
     public interface RequestValues {
