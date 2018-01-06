@@ -35,7 +35,7 @@ public class RetrofitClient {
                     chain -> {
                         Request request = chain.request();
                         Request newRequest = request.newBuilder()
-                                .addHeader("User-Agent", "notes-app")
+                                .addHeader("User-Agent", "test-agent")
                                 .build();
 
                         return chain.proceed(newRequest);
@@ -54,8 +54,8 @@ public class RetrofitClient {
         return mSOService;
     }
 
-    public static void getNotes(@NonNull Callback<List<NoteStorage>> callback) {
+    public static void getNotes(@NonNull String repoName, @NonNull Callback<List<NoteStorage>> callback) {
         SOService soService = getSOService();
-        soService.getNotes().enqueue(callback);
+        soService.getNotes(repoName).enqueue(callback);
     }
 }

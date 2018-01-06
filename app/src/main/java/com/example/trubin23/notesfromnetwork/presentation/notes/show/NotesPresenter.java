@@ -31,7 +31,7 @@ class NotesPresenter extends BasePresenter<NotesContract.View> implements NotesC
 
     @Override
     public void loadCommits(@NonNull String repoName) {
-        mUseCaseHandler.execute(mGetNotesUseCase, new GetNotesUseCase.RequestValues(),
+        mUseCaseHandler.execute(mGetNotesUseCase, new GetNotesUseCase.RequestValues(repoName),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {

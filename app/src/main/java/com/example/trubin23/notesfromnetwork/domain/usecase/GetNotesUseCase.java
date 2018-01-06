@@ -21,7 +21,10 @@ public class GetNotesUseCase extends BaseUseCase {
 
     @Override
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
-        RetrofitClient.getNotes(new Callback<List<NoteStorage>>() {
+        RequestValues request = (RequestValues) requestValues;
+        String repositoryName = request.getRepositoryName();
+
+        RetrofitClient.getNotes(repositoryName, new Callback<List<NoteStorage>>() {
             @Override
             public void onResponse(Call<List<NoteStorage>> call, Response<List<NoteStorage>> response) {
                 List<NoteStorage> notesStorage = response.body();
@@ -49,7 +52,16 @@ public class GetNotesUseCase extends BaseUseCase {
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
+        private String mRepositoryName;
 
+        public RequestValues(@NonNull String repositoryName){
+            mRepositoryName = repositoryName;
+        }
+
+        @NonNull
+        public String getRepositoryName() {
+            return mRepositoryName;
+        }
     }
 
     public static class ResponseValues implements BaseUseCase.ResponseValues {
