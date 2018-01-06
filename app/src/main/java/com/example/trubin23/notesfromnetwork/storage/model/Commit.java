@@ -1,5 +1,6 @@
 package com.example.trubin23.notesfromnetwork.storage.model;
 
+import android.support.annotation.NonNull;
 import com.squareup.moshi.Json;
 
 /**
@@ -9,74 +10,26 @@ import com.squareup.moshi.Json;
 public class Commit {
 
     @Json(name = "author")
-    private CommitAuthor commitAuthor;
-    @Json(name = "committer")
-    private CommitCommitter commitCommitter;
+    private Author author;
     @Json(name = "message")
     private String message;
-    @Json(name = "tree")
-    private Tree tree;
-    @Json(name = "url")
-    private String url;
-    @Json(name = "comment_count")
-    private Integer commentCount;
-    @Json(name = "verification")
-    private Verification verification;
 
-    public CommitAuthor getCommitAuthor() {
-        return commitAuthor;
+    @NonNull
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setCommitAuthor(CommitAuthor commitAuthor) {
-        this.commitAuthor = commitAuthor;
+    public void setAuthor(@NonNull Author author) {
+        this.author = author;
     }
 
-    public CommitCommitter getCommitCommitter() {
-        return commitCommitter;
-    }
-
-    public void setCommitCommitter(CommitCommitter commitCommitter) {
-        this.commitCommitter = commitCommitter;
-    }
-
+    @NonNull
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(@NonNull String message) {
         this.message = message;
-    }
-
-    public Tree getTree() {
-        return tree;
-    }
-
-    public void setTree(Tree tree) {
-        this.tree = tree;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Integer getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(Integer commentCount) {
-        this.commentCount = commentCount;
-    }
-
-    public Verification getVerification() {
-        return verification;
-    }
-
-    public void setVerification(Verification verification) {
-        this.verification = verification;
     }
 
 }

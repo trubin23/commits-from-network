@@ -13,7 +13,7 @@ public class NoteDomainMapper {
     public static NoteDomain toNoteDomain(@NonNull NoteStorage noteStorage){
         String sha = noteStorage.getSha();
         String message = noteStorage.getCommit().getMessage();
-        String date = noteStorage.getCommit().getCommitAuthor().getDate();
+        String date = noteStorage.getCommit().getAuthor().getDate();
 
         return new NoteDomain(sha, message, date);
     }
