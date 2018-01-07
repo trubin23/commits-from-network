@@ -15,18 +15,19 @@
                 android:id="@+id/tv_repo_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Github user: "/>
+                android:text="@string/label_repo_name"/>
         <EditText
                 android:id="@+id/et_repo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="trubin23/notes-app/commits"/>
+                android:text="@string/repo_name"
+                android:inputType="text"/>
     </LinearLayout>
 
     <Button
             android:id="@+id/btn_load_commits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="request"/>
+            android:text="@string/btn_load_text"/>
 
 </LinearLayout>
