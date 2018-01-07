@@ -1,6 +1,8 @@
 package com.example.trubin23.commitsfromnetwork.domain.model;
 
 import android.support.annotation.NonNull;
+import com.example.trubin23.commitsfromnetwork.storage.model.Author;
+import com.example.trubin23.commitsfromnetwork.storage.model.CommitDescription;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
 /**
@@ -16,6 +18,26 @@ public class CommitDomainMapper {
         String date = commitStorage.getCommitDescription().getAuthor().getDate();
 
         return new CommitDomain(sha, message, date);
+    }
+
+    @NonNull
+    public static CommitStorage toCommitStorage(@NonNull CommitDomain commitDomain){
+        String sha = commitDomain.getSha();
+        String message = commitDomain.getMessage();
+        String date = commitDomain.getDate();
+
+        Author author = new Author();
+        author.setDate(date);
+
+        CommitDescription commitDescription = new CommitDescription();
+        commitDescription.setAuthor(author);
+        commitDescription.setMessage(message);
+
+        CommitStorage commitStorage = new CommitStorage();
+        commitStorage.setCommitDescription(commitDescription);
+        commitStorage.setSha(sha);
+
+        return commitStorage;
     }
 
 }

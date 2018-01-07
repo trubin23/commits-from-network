@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsUseCase;
+import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 
@@ -38,8 +38,8 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
     }
 
     private void createPresenter() {
-        GetCommitsUseCase getCommitsUseCase = new GetCommitsUseCase();
-        mPresenter = new CommitsPresenter(mUseCaseHandler, getCommitsUseCase);
+        GetCommitsNetworkUseCase getCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
+        mPresenter = new CommitsPresenter(mUseCaseHandler, getCommitsNetworkUseCase);
         bindPresenterToView(mPresenter);
     }
 
