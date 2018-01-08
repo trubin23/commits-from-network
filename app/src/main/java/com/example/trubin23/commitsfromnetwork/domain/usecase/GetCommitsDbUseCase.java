@@ -25,23 +25,23 @@ public class GetCommitsDbUseCase extends BaseUseCase {
             return;
         }
 
+
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
         Cursor cursor = commitDao.getCommits();
-        if (cursor == null) {
-            getUseCaseCallback().onError();
-            return;
-        }
 
         List<CommitDomain> commitsDomain = new ArrayList<>();
-        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            // The Cursor is now set to the right position
-            String sha = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_SHA));
-            String message = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_MESSAGE));
-            String date = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_DATE));
+        if (cursor != null) {
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                String sha = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_SHA));
+                String message = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_MESSAGE));
+                String date = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_DATE));
 
-            CommitDomain commit = new CommitDomain(sha, message, date);
-            commitsDomain.add(commit);
+                CommitDomain commit = new CommitDomain(sha, message, date);
+                commitsDomain.add(commit);
+            }
         }
+
+        getUseCaseCallback().onSuccess(new ResponseValues(commitsDomain));
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {

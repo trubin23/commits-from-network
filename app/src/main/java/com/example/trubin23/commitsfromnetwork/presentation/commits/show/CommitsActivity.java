@@ -38,8 +38,7 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
     }
 
     private void createPresenter() {
-        GetCommitsNetworkUseCase getCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
-        mPresenter = new CommitsPresenter(mUseCaseHandler, getCommitsNetworkUseCase);
+        mPresenter = new CommitsPresenter(mUseCaseHandler);
         bindPresenterToView(mPresenter);
     }
 
@@ -51,11 +50,12 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
 
     @Override
     public void setCommitsString(@NonNull List<CommitView> commitsView) {
-        for(CommitView commit : commitsView){
-            Log.d(TAG, commit.getSha());
-            Log.d(TAG, commit.getMessage());
-            Log.d(TAG, commit.getDate());
-            Log.d(TAG, "----------------------------------------");
-        }
+        Log.d(TAG, "Commits count: " + commitsView.size());
+//        for(CommitView commit : commitsView){
+//            Log.d(TAG, commit.getSha());
+//            Log.d(TAG, commit.getMessage());
+//            Log.d(TAG, commit.getDate());
+//            Log.d(TAG, "----------------------------------------");
+//        }
     }
 }

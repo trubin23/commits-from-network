@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
+import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
@@ -21,18 +22,42 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     private static final String TAG = CommitsPresenter.class.getSimpleName();
 
+    private final GetCommitsDbUseCase mGetCommitsDbUseCase;
     private final GetCommitsNetworkUseCase mGetCommitsNetworkUseCase;
 
-    CommitsPresenter(@NonNull UseCaseHandler useCaseHandler,
-                     @NonNull GetCommitsNetworkUseCase getCommitsNetworkUseCase) {
+    CommitsPresenter(@NonNull UseCaseHandler useCaseHandler) {
         super(useCaseHandler);
-        mGetCommitsNetworkUseCase = getCommitsNetworkUseCase;
+        mGetCommitsDbUseCase = new GetCommitsDbUseCase();
+        mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();;
     }
 
-    @Override
-    public void loadCommits(@NonNull String repoName) {
+    private void getCommitsDb(){
+        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(),
+                new BaseUseCase.UseCaseCallback() {
+            @Override
+            public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
+                GetCommitsDbUseCase.ResponseValues response =
+                        (GetCommitsDbUseCase.ResponseValues) responseValues;
+
+                List<CommitDomain> commitsDomain = response.getCommitsDomain();
+                List<CommitView> commitsView = new ArrayList<>();
+                for(CommitDomain commitDomain : commitsDomain) {
+                    CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
+                    commitsView.add(commitView);
+                }
+                getView().setCommitsString(commitsView);
+            }
+
+            @Override
+            public void onError() {
+                Log.e(TAG, "GetCommitsDbUseCase: error");
+            }
+        });
+    }
+
+    private void getCommitsNetwork(@NonNull String repoName) {
         mUseCaseHandler.execute(mGetCommitsNetworkUseCase, new GetCommitsNetworkUseCase.RequestValues(repoName),
-                                new BaseUseCase.UseCaseCallback() {
+                new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
                         GetCommitsNetworkUseCase.ResponseValues response =
@@ -52,5 +77,11 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                         Log.e(TAG, "GetCommitsNetworkUseCase: error");
                     }
                 });
+    }
+
+    @Override
+    public void loadCommits(@NonNull String repoName) {
+        getCommitsDb();
+        getCommitsNetwork(repoName);
     }
 }

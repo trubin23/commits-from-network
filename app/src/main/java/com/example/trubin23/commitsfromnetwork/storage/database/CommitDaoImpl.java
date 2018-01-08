@@ -19,10 +19,10 @@ public class CommitDaoImpl implements CommitDao {
 
     private static final String TAG = CommitDaoImpl.class.getSimpleName();
 
-    static final String COMMIT_CREATE_TABLE = "create table " + TABLE_COMMIT + "("
-            + COLUMN_COMMIT_SHA + " text primary key,"
-            + COLUMN_COMMIT_MESSAGE + " text,"
-            + COLUMN_COMMIT_DATE + " text)";
+    static final String COMMIT_CREATE_TABLE = "CREATE TABLE " + TABLE_COMMIT + "("
+            + COLUMN_COMMIT_SHA + " TEXT PRIMARY KEY, "
+            + COLUMN_COMMIT_MESSAGE + " TEXT, "
+            + COLUMN_COMMIT_DATE + " TEXT)";
 
     private DatabaseHelper mDbOpenHelper;
 

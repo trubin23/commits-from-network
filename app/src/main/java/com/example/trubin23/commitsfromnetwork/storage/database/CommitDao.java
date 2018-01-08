@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public interface CommitDao {
-    String TABLE_COMMIT = "commit";
+    String TABLE_COMMIT = "table_commit";
 
     String COLUMN_COMMIT_SHA = "sha";
     String COLUMN_COMMIT_MESSAGE = "message";
