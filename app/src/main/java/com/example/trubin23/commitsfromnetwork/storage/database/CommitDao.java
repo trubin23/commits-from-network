@@ -1,6 +1,8 @@
 package com.example.trubin23.commitsfromnetwork.storage.database;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
 import java.util.List;
@@ -23,4 +25,7 @@ public interface CommitDao {
     };
 
     void insertCommits(@NonNull final List<CommitStorage> commits);
+
+    @Nullable
+    Cursor getCommits();
 }

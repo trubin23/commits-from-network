@@ -38,8 +38,7 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
                     }
 
                     getUseCaseCallback().onSuccess(new ResponseValues(commitsDomain));
-                }
-                else {
+                } else {
                     getUseCaseCallback().onError();
                 }
             }

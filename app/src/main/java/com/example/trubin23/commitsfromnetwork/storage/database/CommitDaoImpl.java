@@ -1,11 +1,14 @@
 package com.example.trubin23.commitsfromnetwork.storage.database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,5 +50,26 @@ public class CommitDaoImpl implements CommitDao {
         } finally {
             db.endTransaction();
         }
+    }
+
+    @Nullable
+    @Override
+    public Cursor getCommits() {
+        Cursor cursor = null;
+
+        SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
+        db.beginTransaction();
+        try {
+            cursor = db.query(TABLE_COMMIT, COLUMNS, null,
+                              null, null, null, null);
+
+            db.setTransactionSuccessful();
+        } catch(Exception e){
+            Log.e(TAG, "public Cursor getCommits()", e);
+        } finally {
+            db.endTransaction();
+        }
+
+        return cursor;
     }
 }

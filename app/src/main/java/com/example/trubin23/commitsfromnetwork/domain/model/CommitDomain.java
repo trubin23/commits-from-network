@@ -11,7 +11,7 @@ public class CommitDomain {
     private String mMessage;
     private String mDate;
 
-    CommitDomain(@NonNull String sha, @NonNull String message, @NonNull String date) {
+    public CommitDomain(@NonNull String sha, @NonNull String message, @NonNull String date) {
         mSha = sha;
         mMessage = message;
         mDate = date;

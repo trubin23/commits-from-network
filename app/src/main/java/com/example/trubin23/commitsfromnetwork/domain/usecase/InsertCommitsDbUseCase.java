@@ -24,16 +24,17 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
         RequestValues request = (RequestValues) requestValues;
 
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(null);
+        if (databaseHelper == null) {
+            getUseCaseCallback().onError();
+            return;
+        }
+
         List<CommitDomain> commitsDomain = request.getCommitsDomain();
         List<CommitStorage> commitsStorage = new ArrayList<>();
         for (CommitDomain commitDomain : commitsDomain){
             CommitStorage commitStorage = CommitDomainMapper.toCommitStorage(commitDomain);
             commitsStorage.add(commitStorage);
-        }
-
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(null);
-        if (databaseHelper == null) {
-            getUseCaseCallback().onError();
         }
 
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
