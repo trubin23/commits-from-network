@@ -10,9 +10,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
-import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
+import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 
 import java.util.List;
 

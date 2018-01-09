@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class CommitDaoImpl implements CommitDao {
                 values.put(COLUMN_COMMIT_MESSAGE, commit.getCommitDescription().getMessage());
                 values.put(COLUMN_COMMIT_DATE, commit.getCommitDescription().getAuthor().getDate());
 
-                db.insert(TABLE_COMMIT, null, values);
+                db.insertWithOnConflict(TABLE_COMMIT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
 
             db.setTransactionSuccessful();

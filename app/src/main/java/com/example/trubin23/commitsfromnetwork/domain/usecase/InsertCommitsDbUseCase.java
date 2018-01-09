@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomainMapper;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitViewMapper;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;

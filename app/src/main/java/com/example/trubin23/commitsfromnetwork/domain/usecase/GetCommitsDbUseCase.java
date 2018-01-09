@@ -7,7 +7,6 @@ import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;
-import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
 import java.util.ArrayList;
 import java.util.List;

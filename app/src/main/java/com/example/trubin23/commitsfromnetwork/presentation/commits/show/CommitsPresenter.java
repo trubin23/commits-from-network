@@ -7,9 +7,10 @@ import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
-import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
+import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitViewMapper;
+import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,13 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     private final GetCommitsDbUseCase mGetCommitsDbUseCase;
     private final GetCommitsNetworkUseCase mGetCommitsNetworkUseCase;
+    private final InsertCommitsDbUseCase mInsertCommitsDbUseCase;
 
     CommitsPresenter(@NonNull UseCaseHandler useCaseHandler) {
         super(useCaseHandler);
         mGetCommitsDbUseCase = new GetCommitsDbUseCase();
         mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();;
+        mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
     }
 
     private void getCommitsDb(){
@@ -64,12 +67,28 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                                 (GetCommitsNetworkUseCase.ResponseValues) responseValues;
 
                         List<CommitDomain> commitsDomain = response.getCommitsDomain();
+                        insertCommitsDb(commitsDomain);
+
                         List<CommitView> commitsView = new ArrayList<>();
                         for(CommitDomain commitDomain : commitsDomain) {
                             CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
                             commitsView.add(commitView);
                         }
                         getView().setCommitsString(commitsView);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e(TAG, "GetCommitsNetworkUseCase: error");
+                    }
+                });
+    }
+
+    private void insertCommitsDb(@NonNull List<CommitDomain> commitsDomain){
+        mUseCaseHandler.execute(mInsertCommitsDbUseCase, new InsertCommitsDbUseCase.RequestValues(commitsDomain),
+                new BaseUseCase.UseCaseCallback() {
+                    @Override
+                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
                     }
 
                     @Override
