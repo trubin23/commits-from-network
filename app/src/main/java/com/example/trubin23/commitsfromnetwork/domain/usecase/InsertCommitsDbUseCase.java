@@ -20,13 +20,14 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
 
     @Override
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
-        RequestValues request = (RequestValues) requestValues;
-
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(null);
         if (databaseHelper == null) {
             getUseCaseCallback().onError();
             return;
         }
+
+        RequestValues request = (RequestValues) requestValues;
+        String repoName = request.getRepoName();
 
         List<CommitDomain> commitsDomain = request.getCommitsDomain();
         List<CommitStorage> commitsStorage = new ArrayList<>();
@@ -36,20 +37,27 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
-        commitDao.insertCommits(commitsStorage);
+        commitDao.insertCommits(commitsStorage, repoName);
         getUseCaseCallback().onSuccess(new ResponseValues());
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
         private List<CommitDomain> mCommitsDomain;
+        private String mRepoName;
 
-        public RequestValues(@NonNull List<CommitDomain> commitsDomain){
+        public RequestValues(@NonNull List<CommitDomain> commitsDomain, @NonNull String repoName){
             mCommitsDomain = commitsDomain;
+            mRepoName = repoName;
         }
 
         @NonNull
         List<CommitDomain> getCommitsDomain() {
             return mCommitsDomain;
+        }
+
+        @NonNull
+        public String getRepoName() {
+            return mRepoName;
         }
     }
 

@@ -34,8 +34,8 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
     }
 
-    private void getCommitsDb(){
-        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(),
+    private void getCommitsDb(@NonNull String repoName){
+        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(repoName),
                 new BaseUseCase.UseCaseCallback() {
             @Override
             public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
@@ -53,7 +53,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
             @Override
             public void onError() {
-                Log.e(TAG, "GetCommitsDbUseCase: error");
+                errorMessage("GetCommitsDbUseCase: error");
             }
         });
     }
@@ -67,7 +67,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                                 (GetCommitsNetworkUseCase.ResponseValues) responseValues;
 
                         List<CommitDomain> commitsDomain = response.getCommitsDomain();
-                        insertCommitsDb(commitsDomain);
+                        insertCommitsDb(commitsDomain, repoName);
 
                         List<CommitView> commitsView = new ArrayList<>();
                         for(CommitDomain commitDomain : commitsDomain) {
@@ -79,13 +79,14 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
                     @Override
                     public void onError() {
-                        Log.e(TAG, "GetCommitsNetworkUseCase: error");
+                        errorMessage("GetCommitsNetworkUseCase: error");
                     }
                 });
     }
 
-    private void insertCommitsDb(@NonNull List<CommitDomain> commitsDomain){
-        mUseCaseHandler.execute(mInsertCommitsDbUseCase, new InsertCommitsDbUseCase.RequestValues(commitsDomain),
+    private void insertCommitsDb(@NonNull List<CommitDomain> commitsDomain, @NonNull String repoName){
+        mUseCaseHandler.execute(mInsertCommitsDbUseCase,
+                new InsertCommitsDbUseCase.RequestValues(commitsDomain, repoName),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
@@ -93,14 +94,19 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
                     @Override
                     public void onError() {
-                        Log.e(TAG, "GetCommitsNetworkUseCase: error");
+                        errorMessage("InsertCommitsDbUseCase: error");
                     }
                 });
     }
 
     @Override
     public void loadCommits(@NonNull String repoName) {
-        getCommitsDb();
+        getCommitsDb(repoName);
         getCommitsNetwork(repoName);
+    }
+
+    private void errorMessage(@NonNull String message){
+        Log.e(TAG, message);
+        getView().showToast(message);
     }
 }

@@ -21,7 +21,8 @@ public class CommitDaoImpl implements CommitDao {
     static final String COMMIT_CREATE_TABLE = "CREATE TABLE " + TABLE_COMMIT + "("
             + COLUMN_COMMIT_SHA + " TEXT PRIMARY KEY, "
             + COLUMN_COMMIT_MESSAGE + " TEXT, "
-            + COLUMN_COMMIT_DATE + " TEXT)";
+            + COLUMN_COMMIT_DATE + " TEXT, "
+            + COLUMN_COMMIT_REPO_NAME + " TEXT)";
 
     private DatabaseHelper mDbOpenHelper;
 
@@ -30,7 +31,7 @@ public class CommitDaoImpl implements CommitDao {
     }
 
     @Override
-    public void insertCommits(@NonNull List<CommitStorage> commits) {
+    public void insertCommits(@NonNull List<CommitStorage> commits, @NonNull String repoName) {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -39,6 +40,7 @@ public class CommitDaoImpl implements CommitDao {
                 values.put(COLUMN_COMMIT_SHA, commit.getSha());
                 values.put(COLUMN_COMMIT_MESSAGE, commit.getCommitDescription().getMessage());
                 values.put(COLUMN_COMMIT_DATE, commit.getCommitDescription().getAuthor().getDate());
+                values.put(COLUMN_COMMIT_REPO_NAME, repoName);
 
                 db.insertWithOnConflict(TABLE_COMMIT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
@@ -53,14 +55,17 @@ public class CommitDaoImpl implements CommitDao {
 
     @Nullable
     @Override
-    public Cursor getCommits() {
+    public Cursor getCommits(@NonNull String repoName) {
         Cursor cursor = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
         try {
-            cursor = db.query(TABLE_COMMIT, COLUMNS, null,
-                              null, null, null, null);
+            String whereClause = COLUMN_COMMIT_REPO_NAME + " = ?";
+            String[] whereArgs = new String[] {repoName};
+
+            cursor = db.query(TABLE_COMMIT, COLUMNS,  whereClause, whereArgs,
+                    null, null, null);
 
             db.setTransactionSuccessful();
         } catch(Exception e){

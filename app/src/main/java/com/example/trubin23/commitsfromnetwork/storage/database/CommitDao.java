@@ -17,15 +17,17 @@ public interface CommitDao {
     String COLUMN_COMMIT_SHA = "sha";
     String COLUMN_COMMIT_MESSAGE = "message";
     String COLUMN_COMMIT_DATE = "date";
+    String COLUMN_COMMIT_REPO_NAME = "repo_name";
 
     String[] COLUMNS = {
             COLUMN_COMMIT_SHA,
             COLUMN_COMMIT_MESSAGE,
-            COLUMN_COMMIT_DATE
+            COLUMN_COMMIT_DATE,
+            COLUMN_COMMIT_REPO_NAME
     };
 
-    void insertCommits(@NonNull final List<CommitStorage> commits);
+    void insertCommits(@NonNull final List<CommitStorage> commits, @NonNull String repoName);
 
     @Nullable
-    Cursor getCommits();
+    Cursor getCommits(@NonNull String repoName);
 }
