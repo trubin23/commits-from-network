@@ -4,16 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CommitsActivity extends BaseActivity implements CommitsContract.View {
 
@@ -21,9 +22,6 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
 
     @BindView(R.id.et_repo_name)
     EditText mRepoName;
-
-    @BindView(R.id.btn_load_commits)
-    Button mLoadCommits;
 
     private CommitsPresenter mPresenter;
 

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.trubin23.commitsfromnetwork.presentation.commits.show.CommitsActivity"
-        android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.trubin23.commitsfromnetwork.presentation.commits.show.CommitsActivity"
+    android:orientation="vertical">
+
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+        android:id="@+id/linearLayout">
         <TextView
                 android:id="@+id/tv_repo_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:labelFor="@+id/et_repo_name"
                 android:text="@string/label_repo_name"/>
         <EditText
                 android:id="@+id/et_repo_name"
@@ -24,10 +27,12 @@
                 android:inputType="text"/>
     </LinearLayout>
 
-    <Button
-            android:id="@+id/btn_load_commits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_load_text"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_load_commits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_storage" />
 
-</LinearLayout>
+</RelativeLayout>
