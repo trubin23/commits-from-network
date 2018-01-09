@@ -7,26 +7,6 @@
     tools:context="com.example.trubin23.commitsfromnetwork.presentation.commits.show.CommitsActivity"
     android:orientation="vertical">
 
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-        android:id="@+id/linearLayout">
-        <TextView
-                android:id="@+id/tv_repo_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/et_repo_name"
-                android:text="@string/label_repo_name"/>
-        <EditText
-                android:id="@+id/et_repo_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/repo_name"
-                android:inputType="text"/>
-    </LinearLayout>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_load_commits"
         android:layout_width="wrap_content"
