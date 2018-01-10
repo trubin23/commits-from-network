@@ -3,6 +3,7 @@ package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,6 +41,10 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         mCommitsAdapter = new CommitsAdapter(null);
         mRecyclerView.setAdapter(mCommitsAdapter);
