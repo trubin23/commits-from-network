@@ -33,6 +33,8 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
     RecyclerView mRecyclerView;
     private CommitsAdapter mCommitsAdapter;
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,12 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
         bindPresenterToView(mPresenter);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dismissRepoDialog();
+    }
+
     @OnClick(R.id.btn_load_commits)
     public void onClickLoadCommits(View v) {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -68,12 +76,22 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
         builder.setView(dialogRepoName);
         builder.setTitle(R.string.label_repo_name);
 
-        builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
-                mPresenter.loadCommits(repoName.getText().toString()));
-        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            mPresenter.loadCommits(repoName.getText().toString());
+            dismissRepoDialog();
+        });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dismissRepoDialog());
+        builder.setOnCancelListener(dialog -> dismissRepoDialog());
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        mAlertDialog = builder.create();
+        mAlertDialog.show();
+    }
+
+    private void dismissRepoDialog(){
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+            mAlertDialog = null;
+        }
     }
 
     @Override

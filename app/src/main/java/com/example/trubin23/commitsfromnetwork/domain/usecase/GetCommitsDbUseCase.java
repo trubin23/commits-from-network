@@ -25,10 +25,10 @@ public class GetCommitsDbUseCase extends BaseUseCase {
         }
 
         RequestValues request = (RequestValues) requestValues;
-        String repositoryName = request.getRepositoryName();
+        String repoName = request.getRepoName();
 
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
-        Cursor cursor = commitDao.getCommits(repositoryName);
+        Cursor cursor = commitDao.getCommits(repoName);
 
         List<CommitDomain> commitsDomain = new ArrayList<>();
         if (cursor != null) {
@@ -46,15 +46,15 @@ public class GetCommitsDbUseCase extends BaseUseCase {
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
-        private String mRepositoryName;
+        private String mRepoName;
 
-        public RequestValues(@NonNull String repositoryName){
-            mRepositoryName = repositoryName;
+        public RequestValues(@NonNull String repoName){
+            mRepoName = repoName;
         }
 
         @NonNull
-        public String getRepositoryName() {
-            return mRepositoryName;
+        public String getRepoName() {
+            return mRepoName;
         }
     }
 

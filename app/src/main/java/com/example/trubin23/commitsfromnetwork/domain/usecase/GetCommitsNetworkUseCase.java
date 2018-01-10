@@ -1,17 +1,19 @@
 package com.example.trubin23.commitsfromnetwork.domain.usecase;
 
 import android.support.annotation.NonNull;
+
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomainMapper;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 import com.example.trubin23.commitsfromnetwork.storage.network.RetrofitClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Andrey on 02.01.2018.
@@ -22,9 +24,9 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     @Override
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
         RequestValues request = (RequestValues) requestValues;
-        String repositoryName = request.getRepositoryName();
+        String repoName = request.getRepoName();
 
-        RetrofitClient.getCommits(repositoryName, new Callback<List<CommitStorage>>() {
+        RetrofitClient.getCommits(repoName, new Callback<List<CommitStorage>>() {
             @Override
             public void onResponse(Call<List<CommitStorage>> call, Response<List<CommitStorage>> response) {
                 List<CommitStorage> commitsStorage = response.body();
@@ -51,15 +53,15 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
-        private String mRepositoryName;
+        private String mRepoName;
 
-        public RequestValues(@NonNull String repositoryName){
-            mRepositoryName = repositoryName;
+        public RequestValues(@NonNull String repoName){
+            mRepoName = repoName;
         }
 
         @NonNull
-        public String getRepositoryName() {
-            return mRepositoryName;
+        public String getRepoName() {
+            return mRepoName;
         }
     }
 
