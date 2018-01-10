@@ -48,7 +48,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                     CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
                     commitsView.add(commitView);
                 }
-                getView().setCommitsString(commitsView);
+                getView().setCommits(commitsView);
             }
 
             @Override
@@ -74,7 +74,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                             CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
                             commitsView.add(commitView);
                         }
-                        getView().setCommitsString(commitsView);
+                        getView().setCommits(commitsView);
                     }
 
                     @Override

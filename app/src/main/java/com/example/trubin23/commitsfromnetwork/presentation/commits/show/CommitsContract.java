@@ -13,7 +13,7 @@ import java.util.List;
 class CommitsContract {
 
     interface View extends BaseView {
-        void setCommitsString(@NonNull List<CommitView> commitsView);
+        void setCommits(@NonNull List<CommitView> commitsView);
         void showToast(@NonNull String message);
     }
 
