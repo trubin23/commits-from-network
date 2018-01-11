@@ -1,5 +1,6 @@
 package com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +13,13 @@ public class SimpleScrollListener extends RecyclerView.OnScrollListener  {
 
     private static final String TAG = SimpleScrollListener.class.getSimpleName();
 
-    private boolean mLoading = true;
+    private boolean mLoading;
+    private LoadCommitsActionHandler mLoadCommitsActionHandler;
+
+    public SimpleScrollListener(@NonNull LoadCommitsActionHandler loadCommits) {
+        mLoadCommitsActionHandler = loadCommits;
+        mLoading = true;
+    }
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -32,7 +39,8 @@ public class SimpleScrollListener extends RecyclerView.OnScrollListener  {
         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
             mLoading = false;
             Log.v(TAG, "Last Item Wow !");
-            //Do pagination.. i.e. fetch new data
+
+            mLoadCommitsActionHandler.loadCommits();
 
             mLoading = true;
         }

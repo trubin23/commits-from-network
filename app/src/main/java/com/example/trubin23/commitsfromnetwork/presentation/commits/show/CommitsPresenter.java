@@ -75,6 +75,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                             commitsView.add(commitView);
                         }
                         getView().setCommits(commitsView);
+                        getView().loadFinished();
                     }
 
                     @Override
@@ -108,5 +109,6 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     private void errorMessage(@NonNull String message){
         Log.e(TAG, message);
         getView().showToast(message);
+        getView().loadFinished();
     }
 }

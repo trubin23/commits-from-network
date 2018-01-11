@@ -14,6 +14,7 @@ class CommitsContract {
 
     interface View extends BaseView {
         void setCommits(@NonNull List<CommitView> commitsView);
+        void loadFinished();
         void showToast(@NonNull String message);
     }
 

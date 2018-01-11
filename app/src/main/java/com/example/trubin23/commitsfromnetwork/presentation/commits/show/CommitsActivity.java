@@ -2,6 +2,7 @@ package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.CommitsAdapter;
+import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.LoadCommitsActionHandler;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.SimpleScrollListener;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 
@@ -24,11 +26,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CommitsActivity extends BaseActivity implements CommitsContract.View {
+public class CommitsActivity extends BaseActivity implements
+        CommitsContract.View,
+        LoadCommitsActionHandler {
 
     private static final String TAG = CommitsActivity.class.getSimpleName();
 
     private CommitsPresenter mPresenter;
+
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -52,7 +59,7 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
         mCommitsAdapter = new CommitsAdapter(null);
         mRecyclerView.setAdapter(mCommitsAdapter);
 
-        mRecyclerView.addOnScrollListener(new SimpleScrollListener());
+        mRecyclerView.addOnScrollListener(new SimpleScrollListener(this));
 
         createPresenter();
     }
@@ -80,6 +87,7 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
         builder.setTitle(R.string.label_repo_name);
 
         builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            mSwipeRefreshLayout.setRefreshing(true);
             mPresenter.loadCommits(repoName.getText().toString());
             dismissRepoDialog();
         });
@@ -105,7 +113,17 @@ public class CommitsActivity extends BaseActivity implements CommitsContract.Vie
     }
 
     @Override
+    public void loadFinished() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showToast(@NonNull String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loadCommits() {
+
     }
 }

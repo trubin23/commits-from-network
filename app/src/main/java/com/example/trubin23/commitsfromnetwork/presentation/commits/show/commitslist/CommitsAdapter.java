@@ -57,6 +57,11 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
         notifyDataSetChanged();
     }
 
+    public void insertCommits(@NonNull List<CommitView> commits) {
+        mCommits.addAll(commits);
+        notifyDataSetChanged();
+    }
+
     class CommitHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_sha)
