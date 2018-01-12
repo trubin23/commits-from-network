@@ -41,7 +41,9 @@ public class CommitsActivity extends BaseActivity implements
     RecyclerView mRecyclerView;
     private CommitsAdapter mCommitsAdapter;
 
-    private AlertDialog mAlertDialog;
+    private String mOwnerName;
+    private String mRepoName;
+    private AlertDialog mRepoNameDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,28 +82,29 @@ public class CommitsActivity extends BaseActivity implements
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View repoNameDialog = layoutInflater.inflate(R.layout.repo_name_dialog, null);
 
-        final EditText repoName = repoNameDialog.findViewById(R.id.et_repo_name);
+        final EditText ownerName = repoNameDialog.findViewById(R.id.et_owner);
+        final EditText repoName = repoNameDialog.findViewById(R.id.et_repo);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(repoNameDialog);
-        builder.setTitle(R.string.label_repo_name);
 
         builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
-            mSwipeRefreshLayout.setRefreshing(true);
-            mPresenter.loadCommits(repoName.getText().toString());
+            mOwnerName = ownerName.getText().toString();
+            mRepoName = repoName.getText().toString();
+            loadCommits();
             dismissRepoDialog();
         });
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dismissRepoDialog());
         builder.setOnCancelListener(dialog -> dismissRepoDialog());
 
-        mAlertDialog = builder.create();
-        mAlertDialog.show();
+        mRepoNameDialog = builder.create();
+        mRepoNameDialog.show();
     }
 
     private void dismissRepoDialog() {
-        if (mAlertDialog != null) {
-            mAlertDialog.dismiss();
-            mAlertDialog = null;
+        if (mRepoNameDialog != null) {
+            mRepoNameDialog.dismiss();
+            mRepoNameDialog = null;
         }
     }
 
@@ -124,6 +127,7 @@ public class CommitsActivity extends BaseActivity implements
 
     @Override
     public void loadCommits() {
-
+        mSwipeRefreshLayout.setRefreshing(true);
+        mPresenter.loadCommits(mOwnerName, mRepoName);
     }
 }

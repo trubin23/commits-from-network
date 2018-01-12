@@ -58,8 +58,9 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         });
     }
 
-    private void getCommitsNetwork(@NonNull String repoName) {
-        mUseCaseHandler.execute(mGetCommitsNetworkUseCase, new GetCommitsNetworkUseCase.RequestValues(repoName),
+    private void getCommitsNetwork(@NonNull String owner, @NonNull String repo) {
+        mUseCaseHandler.execute(mGetCommitsNetworkUseCase,
+                new GetCommitsNetworkUseCase.RequestValues(owner, repo),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
@@ -67,7 +68,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                                 (GetCommitsNetworkUseCase.ResponseValues) responseValues;
 
                         List<CommitDomain> commitsDomain = response.getCommitsDomain();
-                        insertCommitsDb(commitsDomain, repoName);
+                        insertCommitsDb(commitsDomain, repo);
 
                         List<CommitView> commitsView = new ArrayList<>();
                         for(CommitDomain commitDomain : commitsDomain) {
@@ -101,9 +102,9 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     }
 
     @Override
-    public void loadCommits(@NonNull String repoName) {
-        getCommitsDb(repoName);
-        getCommitsNetwork(repoName);
+    public void loadCommits(@NonNull String owner, @NonNull String repo) {
+        getCommitsDb(repo);
+        getCommitsNetwork(owner, repo);
     }
 
     private void errorMessage(@NonNull String message){

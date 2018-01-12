@@ -19,6 +19,6 @@ class CommitsContract {
     }
 
     interface Presenter {
-        void loadCommits(@NonNull String repoName);
+        void loadCommits(@NonNull String owner, @NonNull String repo);
     }
 }

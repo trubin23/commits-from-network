@@ -1,15 +1,17 @@
 package com.example.trubin23.commitsfromnetwork.storage.network;
 
 import android.support.annotation.NonNull;
+
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
-
-import java.util.List;
 
 /**
  * Created by Andrey on 31.12.2017.
@@ -48,8 +50,9 @@ public class RetrofitClient {
         return mSOService;
     }
 
-    public static void getCommits(@NonNull String repoName, @NonNull Callback<List<CommitStorage>> callback) {
+    public static void getCommits(@NonNull String owner, @NonNull String repo,
+                                  @NonNull Callback<List<CommitStorage>> callback) {
         SOService soService = getSOService();
-        soService.getCommits(repoName).enqueue(callback);
+        soService.getCommits(owner, repo).enqueue(callback);
     }
 }

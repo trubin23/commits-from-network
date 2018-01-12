@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CommitsFromNetwork</string>
-    <string name="label_repo_name">Github user:</string>
-    <string name="repo_name">trubin23/notes-app/commits</string>
+    <string name="label_github_user">Github user (owner): </string>
+    <string name="label_repo_name">Repository name (repo): </string>
+    <string name="github_user">trubin23</string>
+    <string name="repo_name">notes-app</string>
     <string name="btn_load_text">request</string>
 </resources>

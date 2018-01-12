@@ -24,17 +24,18 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     @Override
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
         RequestValues request = (RequestValues) requestValues;
-        String repoName = request.getRepoName();
+        String owner = request.getOwner();
+        String repo = request.getRepo();
 
-        RetrofitClient.getCommits(repoName, new Callback<List<CommitStorage>>() {
+        RetrofitClient.getCommits(owner, repo, new Callback<List<CommitStorage>>() {
             @Override
             public void onResponse(Call<List<CommitStorage>> call, Response<List<CommitStorage>> response) {
                 List<CommitStorage> commitsStorage = response.body();
 
-                if(response.isSuccessful() && commitsStorage != null) {
+                if (response.isSuccessful() && commitsStorage != null) {
                     List<CommitDomain> commitsDomain = new ArrayList<>();
 
-                    for(CommitStorage commitStorage : commitsStorage) {
+                    for (CommitStorage commitStorage : commitsStorage) {
                         CommitDomain commitDomain = CommitDomainMapper.toCommitDomain(commitStorage);
                         commitsDomain.add(commitDomain);
                     }
@@ -53,15 +54,21 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
-        private String mRepoName;
+        private String mOwner, mRepo;
 
-        public RequestValues(@NonNull String repoName){
-            mRepoName = repoName;
+        public RequestValues(@NonNull String owner, @NonNull String repo) {
+            mOwner = owner;
+            mRepo = repo;
         }
 
         @NonNull
-        public String getRepoName() {
-            return mRepoName;
+        public String getOwner() {
+            return mOwner;
+        }
+
+        @NonNull
+        public String getRepo() {
+            return mRepo;
         }
     }
 
