@@ -14,10 +14,12 @@ public class SimpleScrollListener extends RecyclerView.OnScrollListener  {
     private static final String TAG = SimpleScrollListener.class.getSimpleName();
 
     private boolean mLoading;
+
     private LoadCommitsActionHandler mLoadCommitsActionHandler;
 
-    public SimpleScrollListener(@NonNull LoadCommitsActionHandler loadCommits) {
-        mLoadCommitsActionHandler = loadCommits;
+    public SimpleScrollListener(@NonNull LoadCommitsActionHandler loadCommitsActionHandler) {
+        mLoadCommitsActionHandler = loadCommitsActionHandler;
+
         mLoading = true;
     }
 

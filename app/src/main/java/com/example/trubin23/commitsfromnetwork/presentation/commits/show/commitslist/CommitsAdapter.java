@@ -25,8 +25,12 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     private List<CommitView> mCommits;
 
-    public CommitsAdapter(@Nullable List<CommitView> commits) {
+    private CommitItemActionHandler mCommitItemActionHandler;
+
+    public CommitsAdapter(@Nullable List<CommitView> commits,
+                          @NonNull CommitItemActionHandler commitItemActionHandler) {
         setCommits(commits);
+        mCommitItemActionHandler = commitItemActionHandler;
     }
 
     @Override
@@ -41,6 +45,12 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     public void onBindViewHolder(CommitHolder holder, int position) {
         CommitView commitView = mCommits.get(position);
         holder.setCommit(commitView);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (mCommitItemActionHandler != null) {
+                mCommitItemActionHandler.showDetailCommit(commitView);
+            }
+        });
     }
 
     @Override
@@ -78,7 +88,7 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
             ButterKnife.bind(this, itemView);
         }
 
-        void setCommit(CommitView commit){
+        void setCommit(CommitView commit) {
             mTextViewSha.setText(commit.getSha());
             mTextViewMessage.setText(commit.getMessage());
             mTextViewDate.setText(commit.getDate());
