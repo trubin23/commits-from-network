@@ -1,6 +1,8 @@
 package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseView;
 
@@ -19,6 +21,6 @@ class CommitsContract {
     }
 
     interface Presenter {
-        void loadCommits(@NonNull String owner, @NonNull String repo);
+        void loadCommits(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber);
     }
 }

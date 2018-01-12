@@ -1,6 +1,7 @@
 package com.example.trubin23.commitsfromnetwork.domain.usecase;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
@@ -26,8 +27,9 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
         RequestValues request = (RequestValues) requestValues;
         String owner = request.getOwner();
         String repo = request.getRepo();
+        String pageNumber = request.getPageNumber();
 
-        RetrofitClient.getCommits(owner, repo, new Callback<List<CommitStorage>>() {
+        RetrofitClient.getCommits(owner, repo, pageNumber, new Callback<List<CommitStorage>>() {
             @Override
             public void onResponse(Call<List<CommitStorage>> call, Response<List<CommitStorage>> response) {
                 List<CommitStorage> commitsStorage = response.body();
@@ -54,21 +56,27 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
-        private String mOwner, mRepo;
+        private String mOwner, mRepo, mPageNumber;
 
-        public RequestValues(@NonNull String owner, @NonNull String repo) {
+        public RequestValues(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber) {
             mOwner = owner;
             mRepo = repo;
+            mPageNumber = pageNumber;
         }
 
         @NonNull
-        public String getOwner() {
+        String getOwner() {
             return mOwner;
         }
 
         @NonNull
-        public String getRepo() {
+        String getRepo() {
             return mRepo;
+        }
+
+        @Nullable
+        String getPageNumber() {
+            return mPageNumber;
         }
     }
 

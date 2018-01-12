@@ -1,6 +1,7 @@
 package com.example.trubin23.commitsfromnetwork.storage.network;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
@@ -50,9 +51,13 @@ public class RetrofitClient {
         return mSOService;
     }
 
-    public static void getCommits(@NonNull String owner, @NonNull String repo,
+    public static void getCommits(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber,
                                   @NonNull Callback<List<CommitStorage>> callback) {
         SOService soService = getSOService();
-        soService.getCommits(owner, repo).enqueue(callback);
+        if (pageNumber==null) {
+            soService.getCommits(owner, repo).enqueue(callback);
+        } else {
+            soService.getPageCommits(owner, repo, pageNumber).enqueue(callback);
+        }
     }
 }

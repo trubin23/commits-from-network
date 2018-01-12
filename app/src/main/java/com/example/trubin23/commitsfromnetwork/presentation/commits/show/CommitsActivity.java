@@ -128,6 +128,8 @@ public class CommitsActivity extends BaseActivity implements
     @Override
     public void loadCommits() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mPresenter.loadCommits(mOwnerName, mRepoName);
+
+        String pageNumber = "1";
+        mPresenter.loadCommits(mOwnerName, mRepoName, pageNumber);
     }
 }
