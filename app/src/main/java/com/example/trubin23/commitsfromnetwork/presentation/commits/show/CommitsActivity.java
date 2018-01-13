@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.CommitItemActionHandler;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.CommitsAdapter;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.LoadCommitsActionHandler;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.SimpleScrollListener;
@@ -29,8 +28,7 @@ import butterknife.OnClick;
 
 public class CommitsActivity extends BaseActivity implements
         CommitsContract.View,
-        LoadCommitsActionHandler,
-        CommitItemActionHandler {
+        LoadCommitsActionHandler {
 
     private static final String TAG = CommitsActivity.class.getSimpleName();
 
@@ -60,7 +58,8 @@ public class CommitsActivity extends BaseActivity implements
                 mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        mCommitsAdapter = new CommitsAdapter(null, this);
+        mCommitsAdapter = new CommitsAdapter(null);
+        mCommitsAdapter.getViewClickedObservable().subscribe(this::clickItemRecyclerView);
         mRecyclerView.setAdapter(mCommitsAdapter);
 
         mRecyclerView.addOnScrollListener(new SimpleScrollListener(this));
@@ -135,8 +134,7 @@ public class CommitsActivity extends BaseActivity implements
         mPresenter.loadCommits(mOwnerName, mRepoName, pageNumber);
     }
 
-    @Override
-    public void showDetailCommit(CommitView commitView) {
+    private void clickItemRecyclerView(View view) {
 
     }
 }

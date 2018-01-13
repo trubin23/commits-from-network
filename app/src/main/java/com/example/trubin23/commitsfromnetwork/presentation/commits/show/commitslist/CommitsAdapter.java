@@ -10,12 +10,15 @@ import android.widget.TextView;
 
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Andrey on 10.01.2018.
@@ -25,18 +28,26 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     private List<CommitView> mCommits;
 
-    private CommitItemActionHandler mCommitItemActionHandler;
+    private PublishSubject<View> mViewClickSubject;
 
-    public CommitsAdapter(@Nullable List<CommitView> commits,
-                          @NonNull CommitItemActionHandler commitItemActionHandler) {
+    public CommitsAdapter(@Nullable List<CommitView> commits) {
+        mViewClickSubject = PublishSubject.create();
         setCommits(commits);
-        mCommitItemActionHandler = commitItemActionHandler;
+    }
+
+    public Observable<View> getViewClickedObservable() {
+        return mViewClickSubject.hide();
     }
 
     @Override
     public CommitHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.commit_item, parent, false);
+
+        RxView.clicks(itemView)
+                .takeUntil(RxView.detaches(parent))
+                .map(aVoid -> itemView)
+                .subscribe(mViewClickSubject);
 
         return new CommitHolder(itemView);
     }
@@ -45,12 +56,6 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     public void onBindViewHolder(CommitHolder holder, int position) {
         CommitView commitView = mCommits.get(position);
         holder.setCommit(commitView);
-
-        holder.itemView.setOnClickListener(v -> {
-            if (mCommitItemActionHandler != null) {
-                mCommitItemActionHandler.showDetailCommit(commitView);
-            }
-        });
     }
 
     @Override
