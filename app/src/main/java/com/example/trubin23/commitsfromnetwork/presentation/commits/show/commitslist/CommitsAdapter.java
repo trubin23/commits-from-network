@@ -83,6 +83,10 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
         notifyDataSetChanged();
     }
 
+    public List<CommitView> getItems() {
+        return mCommits;
+    }
+
     class CommitHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_sha)

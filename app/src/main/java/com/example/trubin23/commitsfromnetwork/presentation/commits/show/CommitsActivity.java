@@ -22,6 +22,7 @@ import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commits
 import com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails.DetailCommitActivity;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +36,8 @@ public class CommitsActivity extends BaseActivity implements
         LoadCommitsActionHandler {
 
     private static final String TAG = CommitsActivity.class.getSimpleName();
+
+    private static final String COMMIT_ARRAY_LIST = "commit-array-list";
 
     private CommitsPresenter mPresenter;
 
@@ -69,6 +72,24 @@ public class CommitsActivity extends BaseActivity implements
         mRecyclerView.addOnScrollListener(new SimpleScrollListener(this));
 
         createPresenter();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        ArrayList<CommitView> commits = savedInstanceState.getParcelableArrayList(COMMIT_ARRAY_LIST);
+        if (commits != null) {
+            mCommitsAdapter.setCommits(commits);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        ArrayList<CommitView> commits = new ArrayList<>(mCommitsAdapter.getItems());
+        outState.putParcelableArrayList(COMMIT_ARRAY_LIST, commits);
     }
 
     private void createPresenter() {
