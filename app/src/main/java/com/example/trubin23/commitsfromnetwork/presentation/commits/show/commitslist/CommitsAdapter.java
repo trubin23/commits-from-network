@@ -28,14 +28,14 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     private List<CommitView> mCommits;
 
-    private PublishSubject<View> mViewClickSubject;
+    private PublishSubject<CommitView> mViewClickSubject;
 
     public CommitsAdapter(@Nullable List<CommitView> commits) {
         mViewClickSubject = PublishSubject.create();
         setCommits(commits);
     }
 
-    public Observable<View> getViewClickedObservable() {
+    public Observable<CommitView> getViewClickedObservable() {
         return mViewClickSubject.hide();
     }
 
@@ -44,11 +44,6 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.commit_item, parent, false);
 
-        RxView.clicks(itemView)
-                .takeUntil(RxView.detaches(parent))
-                .map(aVoid -> itemView)
-                .subscribe(mViewClickSubject);
-
         return new CommitHolder(itemView);
     }
 
@@ -56,11 +51,22 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     public void onBindViewHolder(CommitHolder holder, int position) {
         CommitView commitView = mCommits.get(position);
         holder.setCommit(commitView);
+
+        RxView.clicks(holder.itemView)
+                .map(aVoid -> commitView)
+                .subscribe(mViewClickSubject);
     }
 
     @Override
     public int getItemCount() {
         return mCommits.size();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+
+        mViewClickSubject.onComplete();
     }
 
     public void setCommits(@Nullable List<CommitView> commits) {

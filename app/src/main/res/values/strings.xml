@@ -5,4 +5,9 @@
     <string name="github_user">trubin23</string>
     <string name="repo_name">notes-app</string>
     <string name="btn_load_text">request</string>
+
+    <string name="commit_sha">Sha: </string>
+    <string name="commit_message">Message: </string>
+    <string name="commit_date">Date: </string>
+
 </resources>

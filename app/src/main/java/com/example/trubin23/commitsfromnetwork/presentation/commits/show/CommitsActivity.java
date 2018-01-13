@@ -1,5 +1,6 @@
 package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +19,7 @@ import com.example.trubin23.commitsfromnetwork.presentation.commits.model.Commit
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.CommitsAdapter;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.LoadCommitsActionHandler;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.SimpleScrollListener;
+import com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails.DetailCommitActivity;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
 
 import java.util.List;
@@ -25,6 +27,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView.CLASS_COMMIT_VIEW;
 
 public class CommitsActivity extends BaseActivity implements
         CommitsContract.View,
@@ -134,7 +138,9 @@ public class CommitsActivity extends BaseActivity implements
         mPresenter.loadCommits(mOwnerName, mRepoName, pageNumber);
     }
 
-    private void clickItemRecyclerView(View view) {
-
+    private void clickItemRecyclerView(CommitView commitView) {
+        Intent intent = new Intent(CommitsActivity.this, DetailCommitActivity.class);
+        intent.putExtra(CLASS_COMMIT_VIEW, commitView);
+        startActivity(intent);
     }
 }
