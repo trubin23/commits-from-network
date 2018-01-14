@@ -61,9 +61,10 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                 });
     }
 
-    private void getCommitsNetwork(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber) {
+    private void getCommitsNetwork(@NonNull String owner, @NonNull String repo,
+                                   @Nullable Integer pageNumber, @Nullable Integer pageSize) {
         mUseCaseHandler.execute(mGetCommitsNetworkUseCase,
-                new GetCommitsNetworkUseCase.RequestValues(owner, repo, pageNumber),
+                new GetCommitsNetworkUseCase.RequestValues(owner, repo, pageNumber, pageSize),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
@@ -105,9 +106,10 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     }
 
     @Override
-    public void loadCommits(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber) {
+    public void loadCommits(@NonNull String owner, @NonNull String repo,
+                            @Nullable Integer pageNumber, @Nullable Integer pageSize) {
         getCommitsDb(repo);
-        getCommitsNetwork(owner, repo, pageNumber);
+        getCommitsNetwork(owner, repo, pageNumber, pageSize);
     }
 
     private void errorMessage(@NonNull String message) {

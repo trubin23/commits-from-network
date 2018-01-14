@@ -21,6 +21,7 @@ class CommitsContract {
     }
 
     interface Presenter {
-        void loadCommits(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber);
+        void loadCommits(@NonNull String owner, @NonNull String repo,
+                         @Nullable Integer pageNumber, @Nullable Integer pageSize);
     }
 }

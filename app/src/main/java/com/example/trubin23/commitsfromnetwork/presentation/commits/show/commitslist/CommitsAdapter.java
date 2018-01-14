@@ -26,6 +26,8 @@ import io.reactivex.subjects.PublishSubject;
 
 public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHolder> {
 
+    public static final int PAGE_SIZE = 7;
+
     private List<CommitView> mCommits;
 
     private PublishSubject<CommitView> mViewClickSubject;

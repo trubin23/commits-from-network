@@ -153,10 +153,12 @@ public class CommitsActivity extends BaseActivity implements
 
     @Override
     public void loadCommits() {
-        mSwipeRefreshLayout.setRefreshing(true);
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(true);
 
-        String pageNumber = "1";
-        mPresenter.loadCommits(mOwnerName, mRepoName, pageNumber);
+            Integer pageNext = mCommitsAdapter.getItemCount()/CommitsAdapter.PAGE_SIZE;;
+            mPresenter.loadCommits(mOwnerName, mRepoName, pageNext, CommitsAdapter.PAGE_SIZE);
+        }
     }
 
     private void clickItemRecyclerView(CommitView commitView) {

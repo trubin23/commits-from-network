@@ -27,7 +27,7 @@ public class RetrofitClient {
 
     @NonNull
     private static SOService getSOService() {
-        if(mSOService == null) {
+        if (mSOService == null) {
             OkHttpClient httpClient = new OkHttpClient().newBuilder().addInterceptor(
                     chain -> {
                         Request request = chain.request();
@@ -51,13 +51,14 @@ public class RetrofitClient {
         return mSOService;
     }
 
-    public static void getCommits(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber,
+    public static void getCommits(@NonNull String owner, @NonNull String repo,
+                                  @Nullable Integer pageNumber, @Nullable Integer pageSize,
                                   @NonNull Callback<List<CommitStorage>> callback) {
         SOService soService = getSOService();
-        if (pageNumber==null) {
+        if (pageNumber == null) {
             soService.getCommits(owner, repo).enqueue(callback);
         } else {
-            soService.getPageCommits(owner, repo, pageNumber).enqueue(callback);
+            soService.getPageCommits(owner, repo, pageNumber, pageSize).enqueue(callback);
         }
     }
 }

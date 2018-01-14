@@ -22,5 +22,6 @@ public interface SOService {
     @GET("/repos/{owner}/{repo}/commits")
     Call<List<CommitStorage>> getPageCommits(@Path(value = "owner") String owner,
                                              @Path(value = "repo") String repo,
-                                             @Query(value = "page") String page);
+                                             @Query(value = "page") Integer page,
+                                             @Query(value = "per_page") Integer pageSize);
 }

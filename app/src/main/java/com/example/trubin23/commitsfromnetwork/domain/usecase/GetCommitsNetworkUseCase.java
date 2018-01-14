@@ -27,9 +27,10 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
         RequestValues request = (RequestValues) requestValues;
         String owner = request.getOwner();
         String repo = request.getRepo();
-        String pageNumber = request.getPageNumber();
+        Integer pageNumber = request.getPageNumber();
+        Integer pageSize = request.getPageSize();
 
-        RetrofitClient.getCommits(owner, repo, pageNumber, new Callback<List<CommitStorage>>() {
+        RetrofitClient.getCommits(owner, repo, pageNumber, pageSize, new Callback<List<CommitStorage>>() {
             @Override
             public void onResponse(Call<List<CommitStorage>> call, Response<List<CommitStorage>> response) {
                 List<CommitStorage> commitsStorage = response.body();
@@ -56,12 +57,15 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
-        private String mOwner, mRepo, mPageNumber;
+        private String mOwner, mRepo;
+        private Integer mPageNumber, mPageSize;
 
-        public RequestValues(@NonNull String owner, @NonNull String repo, @Nullable String pageNumber) {
+        public RequestValues(@NonNull String owner, @NonNull String repo,
+                             @Nullable Integer pageNumber, @Nullable Integer pageSize) {
             mOwner = owner;
             mRepo = repo;
             mPageNumber = pageNumber;
+            mPageSize = pageSize;
         }
 
         @NonNull
@@ -75,8 +79,13 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
         }
 
         @Nullable
-        String getPageNumber() {
+        Integer getPageNumber() {
             return mPageNumber;
+        }
+
+        @Nullable
+        Integer getPageSize() {
+            return mPageSize;
         }
     }
 
