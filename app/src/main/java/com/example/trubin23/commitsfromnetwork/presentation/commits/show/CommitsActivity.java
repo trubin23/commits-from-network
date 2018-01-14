@@ -144,6 +144,17 @@ public class CommitsActivity extends BaseActivity implements
     @Override
     public void loadFinished() {
         mSwipeRefreshLayout.setRefreshing(false);
+
+        LinearLayoutManager layoutManager =
+                (LinearLayoutManager) mRecyclerView.getLayoutManager();
+
+        int visibleItemCount = layoutManager.getChildCount();
+        int totalItemCount = layoutManager.getItemCount();
+        int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+
+        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+            loadCommits();
+        }
     }
 
     @Override
@@ -156,7 +167,8 @@ public class CommitsActivity extends BaseActivity implements
         if (!mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(true);
 
-            Integer pageNext = mCommitsAdapter.getItemCount()/CommitsAdapter.PAGE_SIZE;;
+            Integer pageNext = 1 + (mCommitsAdapter.getItemCount() + CommitsAdapter.PAGE_SIZE - 1)
+                    / CommitsAdapter.PAGE_SIZE;
             mPresenter.loadCommits(mOwnerName, mRepoName, pageNext, CommitsAdapter.PAGE_SIZE);
         }
     }

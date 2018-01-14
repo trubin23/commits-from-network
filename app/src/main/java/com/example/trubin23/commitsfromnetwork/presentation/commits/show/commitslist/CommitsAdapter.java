@@ -3,7 +3,6 @@ package com.example.trubin23.commitsfromnetwork.presentation.commits.show.commit
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.example.trubin23.commitsfromnetwork.presentation.commits.model.Commit
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,14 +27,14 @@ import io.reactivex.subjects.PublishSubject;
 
 public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHolder> {
 
-    public static final int PAGE_SIZE = 7;
+    public static final int PAGE_SIZE = 20;
 
-    private ArrayMap<String, CommitView> mCommits;
+    private LinkedHashMap<String, CommitView> mCommits;
 
     private PublishSubject<CommitView> mViewClickSubject;
 
     public CommitsAdapter() {
-        mCommits = new ArrayMap<>();
+        mCommits = new LinkedHashMap<>();
         mViewClickSubject = PublishSubject.create();
     }
 
@@ -52,7 +52,7 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     @Override
     public void onBindViewHolder(CommitHolder holder, int position) {
-        CommitView commitView = mCommits.valueAt(position);
+        CommitView commitView = mCommits.get( (mCommits.keySet().toArray())[ position ] );
         holder.setCommit(commitView);
 
         RxView.clicks(holder.itemView)
@@ -73,7 +73,7 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     }
 
     public void setCommits(@Nullable List<CommitView> commits) {
-        mCommits = new ArrayMap<>();
+        mCommits = new LinkedHashMap<>();
         if (commits != null) {
             insertCommits(commits);
         }
