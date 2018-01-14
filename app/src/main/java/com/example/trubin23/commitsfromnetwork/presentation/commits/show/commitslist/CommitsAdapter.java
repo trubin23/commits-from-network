@@ -3,6 +3,7 @@ package com.example.trubin23.commitsfromnetwork.presentation.commits.show.commit
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +29,13 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     public static final int PAGE_SIZE = 7;
 
-    private List<CommitView> mCommits;
+    private ArrayMap<String, CommitView> mCommits;
 
     private PublishSubject<CommitView> mViewClickSubject;
 
-    public CommitsAdapter(@Nullable List<CommitView> commits) {
+    public CommitsAdapter() {
+        mCommits = new ArrayMap<>();
         mViewClickSubject = PublishSubject.create();
-        setCommits(commits);
     }
 
     public Observable<CommitView> getViewClickedObservable() {
@@ -51,7 +52,7 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     @Override
     public void onBindViewHolder(CommitHolder holder, int position) {
-        CommitView commitView = mCommits.get(position);
+        CommitView commitView = mCommits.valueAt(position);
         holder.setCommit(commitView);
 
         RxView.clicks(holder.itemView)
@@ -72,21 +73,21 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     }
 
     public void setCommits(@Nullable List<CommitView> commits) {
+        mCommits = new ArrayMap<>();
         if (commits != null) {
-            mCommits = commits;
-        } else {
-            mCommits = new ArrayList<>();
+            insertCommits(commits);
         }
-        notifyDataSetChanged();
     }
 
     public void insertCommits(@NonNull List<CommitView> commits) {
-        mCommits.addAll(commits);
-        notifyDataSetChanged();
+        for (CommitView commit : commits) {
+            mCommits.put(commit.getSha(), commit);
+        }
+        notifyItemRangeChanged(mCommits.size() - commits.size(), commits.size());
     }
 
     public List<CommitView> getItems() {
-        return mCommits;
+        return new ArrayList<>(mCommits.values());
     }
 
     class CommitHolder extends RecyclerView.ViewHolder {

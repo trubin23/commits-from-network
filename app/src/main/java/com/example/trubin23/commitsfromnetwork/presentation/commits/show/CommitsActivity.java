@@ -65,7 +65,7 @@ public class CommitsActivity extends BaseActivity implements
                 mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        mCommitsAdapter = new CommitsAdapter(null);
+        mCommitsAdapter = new CommitsAdapter();
         mCommitsAdapter.getViewClickedObservable().subscribe(this::clickItemRecyclerView);
         mRecyclerView.setAdapter(mCommitsAdapter);
 
@@ -138,7 +138,7 @@ public class CommitsActivity extends BaseActivity implements
     public void setCommits(@NonNull List<CommitView> commitsView) {
         Log.d(TAG, "Commits count: " + commitsView.size());
 
-        runOnUiThread(() -> mCommitsAdapter.setCommits(commitsView));
+        runOnUiThread(() -> mCommitsAdapter.insertCommits(commitsView));
     }
 
     @Override
