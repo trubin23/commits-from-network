@@ -33,7 +33,6 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         super(useCaseHandler);
         mGetCommitsDbUseCase = new GetCommitsDbUseCase();
         mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
-        ;
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
     }
 
@@ -79,7 +78,11 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                             CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
                             commitsView.add(commitView);
                         }
+
                         getView().setCommits(commitsView);
+                        if (commitsView.size() < pageSize) {
+                            getView().lastPageLoaded(true);
+                        }
                         getView().loadFinished();
                     }
 

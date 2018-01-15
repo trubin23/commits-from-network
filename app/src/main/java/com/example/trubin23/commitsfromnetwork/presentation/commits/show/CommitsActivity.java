@@ -38,6 +38,7 @@ public class CommitsActivity extends BaseActivity implements
     private static final String TAG = CommitsActivity.class.getSimpleName();
 
     private static final String COMMIT_ARRAY_LIST = "commit-array-list";
+    private static final String LAST_PAGE_LOADED = "last-page-loaded";
 
     private CommitsPresenter mPresenter;
 
@@ -52,11 +53,15 @@ public class CommitsActivity extends BaseActivity implements
     private String mRepoName;
     private AlertDialog mRepoNameDialog;
 
+    private boolean mLastPageLoaded;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commits);
         ButterKnife.bind(this);
+
+        mLastPageLoaded = false;
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
@@ -79,9 +84,9 @@ public class CommitsActivity extends BaseActivity implements
         super.onRestoreInstanceState(savedInstanceState);
 
         ArrayList<CommitView> commits = savedInstanceState.getParcelableArrayList(COMMIT_ARRAY_LIST);
-        if (commits != null) {
-            mCommitsAdapter.setCommits(commits);
-        }
+        mCommitsAdapter.setCommits(commits);
+
+        mLastPageLoaded = savedInstanceState.getBoolean(LAST_PAGE_LOADED);
     }
 
     @Override
@@ -163,8 +168,13 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     @Override
+    public void lastPageLoaded(boolean loaded) {
+        mLastPageLoaded = loaded;
+    }
+
+    @Override
     public void loadCommits() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
+        if (!mLastPageLoaded && !mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(true);
 
             Integer pageNext = 1 + (mCommitsAdapter.getItemCount() + CommitsAdapter.PAGE_SIZE - 1)

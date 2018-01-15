@@ -18,6 +18,7 @@ class CommitsContract {
         void setCommits(@NonNull List<CommitView> commitsView);
         void loadFinished();
         void showToast(@NonNull String message);
+        void lastPageLoaded(boolean loaded);
     }
 
     interface Presenter {
