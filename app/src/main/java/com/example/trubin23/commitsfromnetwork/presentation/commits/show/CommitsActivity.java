@@ -38,7 +38,7 @@ public class CommitsActivity extends BaseActivity implements
     private static final String TAG = CommitsActivity.class.getSimpleName();
 
     private static final String OWNER_NAME = "owner-name";
-    private static final String REPO_NEME = "repo-name";
+    private static final String REPO_NAME = "repo-name";
     private static final String LAST_PAGE_LOADED = "last-page-loaded";
     private static final String COMMIT_ARRAY_LIST = "commit-array-list";
 
@@ -78,6 +78,8 @@ public class CommitsActivity extends BaseActivity implements
 
         mRecyclerView.addOnScrollListener(new SimpleScrollListener(this));
 
+        mSwipeRefreshLayout.setEnabled(false);
+
         createPresenter();
     }
 
@@ -86,7 +88,7 @@ public class CommitsActivity extends BaseActivity implements
         super.onRestoreInstanceState(savedInstanceState);
 
         mOwnerName = savedInstanceState.getString(OWNER_NAME);
-        mRepoName = savedInstanceState.getString(REPO_NEME);
+        mRepoName = savedInstanceState.getString(REPO_NAME);
         mLastPageLoaded = savedInstanceState.getBoolean(LAST_PAGE_LOADED);
 
         ArrayList<CommitView> commits = savedInstanceState.getParcelableArrayList(COMMIT_ARRAY_LIST);
@@ -98,7 +100,7 @@ public class CommitsActivity extends BaseActivity implements
         super.onSaveInstanceState(outState);
 
         outState.putString(OWNER_NAME, mOwnerName);
-        outState.putString(REPO_NEME, mRepoName);
+        outState.putString(REPO_NAME, mRepoName);
         outState.putBoolean(LAST_PAGE_LOADED, mLastPageLoaded);
 
         ArrayList<CommitView> commits = new ArrayList<>(mCommitsAdapter.getItems());
@@ -157,6 +159,7 @@ public class CommitsActivity extends BaseActivity implements
     @Override
     public void loadFinished() {
         mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setEnabled(false);
 
         LinearLayoutManager layoutManager =
                 (LinearLayoutManager) mRecyclerView.getLayoutManager();
@@ -183,6 +186,7 @@ public class CommitsActivity extends BaseActivity implements
     @Override
     public void loadCommits() {
         if (!mLastPageLoaded && !mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setEnabled(true);
             mSwipeRefreshLayout.setRefreshing(true);
 
             Integer pageNext = 1 + (mCommitsAdapter.getItemCount() + CommitsAdapter.PAGE_SIZE - 1)
