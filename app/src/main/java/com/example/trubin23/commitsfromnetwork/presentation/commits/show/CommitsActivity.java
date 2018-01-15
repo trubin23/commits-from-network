@@ -37,8 +37,10 @@ public class CommitsActivity extends BaseActivity implements
 
     private static final String TAG = CommitsActivity.class.getSimpleName();
 
-    private static final String COMMIT_ARRAY_LIST = "commit-array-list";
+    private static final String OWNER_NAME = "owner-name";
+    private static final String REPO_NEME = "repo-name";
     private static final String LAST_PAGE_LOADED = "last-page-loaded";
+    private static final String COMMIT_ARRAY_LIST = "commit-array-list";
 
     private CommitsPresenter mPresenter;
 
@@ -83,15 +85,21 @@ public class CommitsActivity extends BaseActivity implements
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+        mOwnerName = savedInstanceState.getString(OWNER_NAME);
+        mRepoName = savedInstanceState.getString(REPO_NEME);
+        mLastPageLoaded = savedInstanceState.getBoolean(LAST_PAGE_LOADED);
+
         ArrayList<CommitView> commits = savedInstanceState.getParcelableArrayList(COMMIT_ARRAY_LIST);
         mCommitsAdapter.setCommits(commits);
-
-        mLastPageLoaded = savedInstanceState.getBoolean(LAST_PAGE_LOADED);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        outState.putString(OWNER_NAME, mOwnerName);
+        outState.putString(REPO_NEME, mRepoName);
+        outState.putBoolean(LAST_PAGE_LOADED, mLastPageLoaded);
 
         ArrayList<CommitView> commits = new ArrayList<>(mCommitsAdapter.getItems());
         outState.putParcelableArrayList(COMMIT_ARRAY_LIST, commits);
