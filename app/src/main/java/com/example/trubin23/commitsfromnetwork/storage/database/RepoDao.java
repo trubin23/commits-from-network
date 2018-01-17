@@ -8,8 +8,8 @@ public interface RepoDao {
     String TABLE_REPO = "table_repo";
 
     String COLUMN_REPO_ID = "id";
-    String COLUMN_REPO_NAME = "date";
-    String COLUMN_REPO_USER_ID = "repo_name";
+    String COLUMN_REPO_NAME = "name";
+    String COLUMN_REPO_USER_ID = "user_id";
 
     String[] COLUMNS = {
             COLUMN_REPO_ID,

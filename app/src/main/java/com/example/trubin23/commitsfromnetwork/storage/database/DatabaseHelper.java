@@ -33,9 +33,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         try {
+            db.execSQL(UserDaoImpl.USER_CREATE_TABLE);
+            db.execSQL(RepoDaoImpl.REPO_CREATE_TABLE);
             db.execSQL(CommitDaoImpl.COMMIT_CREATE_TABLE);
             db.setTransactionSuccessful();
         } catch (Exception e){
