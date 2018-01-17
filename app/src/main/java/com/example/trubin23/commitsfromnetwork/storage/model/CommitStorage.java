@@ -14,6 +14,12 @@ public class CommitStorage {
     @Json(name = "commit")
     private CommitDescription mCommitDescription;
 
+    private RepoStorage mRepoStorage = null;
+
+    @SuppressWarnings("unused") // Moshi uses this!
+    private CommitStorage() {
+    }
+
     @NonNull
     public String getSha() {
         return mSha;
@@ -30,6 +36,14 @@ public class CommitStorage {
 
     public void setCommitDescription(@NonNull CommitDescription commitDescription) {
         mCommitDescription = commitDescription;
+    }
+
+    public RepoStorage getRepoStorage() {
+        return mRepoStorage;
+    }
+
+    public void setRepoStorage(RepoStorage repoStorage) {
+        mRepoStorage = repoStorage;
     }
 
 }

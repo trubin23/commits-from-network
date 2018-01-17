@@ -26,8 +26,8 @@ public interface CommitDao {
             COLUMN_COMMIT_REPO_NAME
     };
 
-    void insertCommits(@NonNull final List<CommitStorage> commits, @NonNull String repoName);
+    void insertCommits(@NonNull final List<CommitStorage> commits, @NonNull String repo);
 
     @Nullable
-    Cursor getCommits(@NonNull String repoName);
+    Cursor getCommits(@NonNull String repo);
 }

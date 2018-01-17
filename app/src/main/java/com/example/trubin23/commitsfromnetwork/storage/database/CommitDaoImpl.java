@@ -31,7 +31,7 @@ public class CommitDaoImpl implements CommitDao {
     }
 
     @Override
-    public void insertCommits(@NonNull List<CommitStorage> commits, @NonNull String repoName) {
+    public void insertCommits(@NonNull List<CommitStorage> commits, @NonNull String repo) {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -40,7 +40,7 @@ public class CommitDaoImpl implements CommitDao {
                 values.put(COLUMN_COMMIT_SHA, commit.getSha());
                 values.put(COLUMN_COMMIT_MESSAGE, commit.getCommitDescription().getMessage());
                 values.put(COLUMN_COMMIT_DATE, commit.getCommitDescription().getAuthor().getDate());
-                values.put(COLUMN_COMMIT_REPO_NAME, repoName);
+                values.put(COLUMN_COMMIT_REPO_NAME, repo);
 
                 db.insertWithOnConflict(TABLE_COMMIT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
@@ -55,14 +55,14 @@ public class CommitDaoImpl implements CommitDao {
 
     @Nullable
     @Override
-    public Cursor getCommits(@NonNull String repoName) {
+    public Cursor getCommits(@NonNull String repo) {
         Cursor cursor = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
         try {
             String whereClause = COLUMN_COMMIT_REPO_NAME + " = ?";
-            String[] whereArgs = new String[] {repoName};
+            String[] whereArgs = new String[] {repo};
 
             cursor = db.query(TABLE_COMMIT, COLUMNS,  whereClause, whereArgs,
                     null, null, null);

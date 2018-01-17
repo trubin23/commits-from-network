@@ -27,7 +27,7 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         RequestValues request = (RequestValues) requestValues;
-        String repoName = request.getRepoName();
+        String repo = request.getRepo();
 
         List<CommitDomain> commitsDomain = request.getCommitsDomain();
         List<CommitStorage> commitsStorage = new ArrayList<>();
@@ -37,17 +37,17 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
-        commitDao.insertCommits(commitsStorage, repoName);
+        commitDao.insertCommits(commitsStorage, repo);
         getUseCaseCallback().onSuccess(new ResponseValues());
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
         private List<CommitDomain> mCommitsDomain;
-        private String mRepoName;
+        private String mRepo;
 
-        public RequestValues(@NonNull List<CommitDomain> commitsDomain, @NonNull String repoName){
+        public RequestValues(@NonNull List<CommitDomain> commitsDomain, @NonNull String owner, @NonNull String repo){
             mCommitsDomain = commitsDomain;
-            mRepoName = repoName;
+            mRepo = repo;
         }
 
         @NonNull
@@ -56,8 +56,8 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         @NonNull
-        public String getRepoName() {
-            return mRepoName;
+        String getRepo() {
+            return mRepo;
         }
     }
 

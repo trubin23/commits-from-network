@@ -36,8 +36,8 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
     }
 
-    private void getCommitsDb(@NonNull String repoName) {
-        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(repoName),
+    private void getCommitsDb(@NonNull String repo) {
+        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(repo),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
@@ -71,7 +71,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                                 (GetCommitsNetworkUseCase.ResponseValues) responseValues;
 
                         List<CommitDomain> commitsDomain = response.getCommitsDomain();
-                        insertCommitsDb(commitsDomain, repo);
+                        insertCommitsDb(commitsDomain, owner, repo);
 
                         List<CommitView> commitsView = new ArrayList<>();
                         for (CommitDomain commitDomain : commitsDomain) {
@@ -93,9 +93,10 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                 });
     }
 
-    private void insertCommitsDb(@NonNull List<CommitDomain> commitsDomain, @NonNull String repoName) {
+    private void insertCommitsDb(@NonNull List<CommitDomain> commitsDomain,
+                                 @NonNull String owner, @NonNull String repo) {
         mUseCaseHandler.execute(mInsertCommitsDbUseCase,
-                new InsertCommitsDbUseCase.RequestValues(commitsDomain, repoName),
+                new InsertCommitsDbUseCase.RequestValues(commitsDomain, owner, repo),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {

@@ -20,7 +20,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String TAG = RetrofitClient.class.getSimpleName();
     private static final String BASE_URL = "https://api.github.com/";
 
     private static SOService mSOService = null;
