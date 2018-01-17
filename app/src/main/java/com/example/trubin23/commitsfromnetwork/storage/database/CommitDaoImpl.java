@@ -6,9 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import java.util.List;
+
+import static com.example.trubin23.commitsfromnetwork.storage.database.RepoDao.COLUMN_REPO_ID;
+import static com.example.trubin23.commitsfromnetwork.storage.database.RepoDao.TABLE_REPO;
 
 /**
  * Created by Andrey on 06.01.2018.
@@ -22,31 +27,36 @@ public class CommitDaoImpl implements CommitDao {
             + COLUMN_COMMIT_SHA + " TEXT PRIMARY KEY, "
             + COLUMN_COMMIT_MESSAGE + " TEXT, "
             + COLUMN_COMMIT_DATE + " TEXT, "
-            + COLUMN_COMMIT_REPO_NAME + " TEXT)";
+            + COLUMN_COMMIT_REPO_ID + " INTEGER, "
+            + "FOREIGN KEY (" + COLUMN_COMMIT_REPO_ID + ") REFERENCES " + TABLE_REPO + "(" + COLUMN_REPO_ID + "))";
 
     private DatabaseHelper mDbOpenHelper;
 
-    public CommitDaoImpl(DatabaseHelper dbOpenHelper) {
+    public CommitDaoImpl(@NonNull DatabaseHelper dbOpenHelper) {
         mDbOpenHelper = dbOpenHelper;
     }
 
     @Override
-    public void insertCommits(@NonNull List<CommitStorage> commits, @NonNull String repo) {
+    public void insertCommits(@NonNull List<CommitStorage> commits) {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
-            for (CommitStorage commit : commits){
+            for (CommitStorage commit : commits) {
+                if (commit.getRepoStorage() == null) {
+                    continue;
+                }
+
                 ContentValues values = new ContentValues();
                 values.put(COLUMN_COMMIT_SHA, commit.getSha());
                 values.put(COLUMN_COMMIT_MESSAGE, commit.getCommitDescription().getMessage());
                 values.put(COLUMN_COMMIT_DATE, commit.getCommitDescription().getAuthor().getDate());
-                values.put(COLUMN_COMMIT_REPO_NAME, repo);
+                values.put(COLUMN_COMMIT_REPO_ID, commit.getRepoStorage().getId());
 
                 db.insertWithOnConflict(TABLE_COMMIT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
 
             db.setTransactionSuccessful();
-        } catch(Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "public void insertCommits(@NonNull List<CommitStorage> commits)", e);
         } finally {
             db.endTransaction();
@@ -55,21 +65,21 @@ public class CommitDaoImpl implements CommitDao {
 
     @Nullable
     @Override
-    public Cursor getCommits(@NonNull String repo) {
+    public Cursor getCommits(@NonNull RepoStorage repo) {
         Cursor cursor = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
         try {
-            String whereClause = COLUMN_COMMIT_REPO_NAME + " = ?";
-            String[] whereArgs = new String[] {repo};
+            String whereClause = COLUMN_COMMIT_REPO_ID + " = ?";
+            String[] whereArgs = new String[]{String.valueOf(repo.getId())};
 
-            cursor = db.query(TABLE_COMMIT, COLUMNS,  whereClause, whereArgs,
+            cursor = db.query(TABLE_COMMIT, COLUMNS, whereClause, whereArgs,
                     null, null, null);
 
             db.setTransactionSuccessful();
-        } catch(Exception e){
-            Log.e(TAG, "public Cursor getCommits()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "public Cursor getCommits(@NonNull RepoStorage repo)", e);
         } finally {
             db.endTransaction();
         }

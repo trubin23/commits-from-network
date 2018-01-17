@@ -7,7 +7,10 @@ import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomainMapper;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;
+import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao;
+import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.OwnerStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,11 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         RequestValues request = (RequestValues) requestValues;
+        String owner = request.mOwner;
         String repo = request.getRepo();
+
+        OwnerDao ownerDao = new OwnerDaoImpl(databaseHelper);
+        OwnerStorage ownerStorage = ownerDao.insertOwner(owner);
 
         List<CommitDomain> commitsDomain = request.getCommitsDomain();
         List<CommitStorage> commitsStorage = new ArrayList<>();
@@ -37,22 +44,30 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
-        commitDao.insertCommits(commitsStorage, repo);
+        commitDao.insertCommits(commitsStorage);
         getUseCaseCallback().onSuccess(new ResponseValues());
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
         private List<CommitDomain> mCommitsDomain;
+        private String mOwner;
         private String mRepo;
 
-        public RequestValues(@NonNull List<CommitDomain> commitsDomain, @NonNull String owner, @NonNull String repo){
+        public RequestValues(@NonNull List<CommitDomain> commitsDomain,
+                             @NonNull String owner, @NonNull String repo){
             mCommitsDomain = commitsDomain;
+            mOwner = owner;
             mRepo = repo;
         }
 
         @NonNull
         List<CommitDomain> getCommitsDomain() {
             return mCommitsDomain;
+        }
+
+        @NonNull
+        public String getOwner() {
+            return mOwner;
         }
 
         @NonNull

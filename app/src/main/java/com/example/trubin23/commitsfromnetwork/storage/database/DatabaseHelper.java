@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         try {
-            db.execSQL(UserDaoImpl.USER_CREATE_TABLE);
+            db.execSQL(OwnerDaoImpl.OWNER_CREATE_TABLE);
             db.execSQL(RepoDaoImpl.REPO_CREATE_TABLE);
             db.execSQL(CommitDaoImpl.COMMIT_CREATE_TABLE);
             db.setTransactionSuccessful();

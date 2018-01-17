@@ -9,11 +9,5 @@ public interface RepoDao {
 
     String COLUMN_REPO_ID = "id";
     String COLUMN_REPO_NAME = "name";
-    String COLUMN_REPO_USER_ID = "user_id";
-
-    String[] COLUMNS = {
-            COLUMN_REPO_ID,
-            COLUMN_REPO_NAME,
-            COLUMN_REPO_USER_ID
-    };
+    String COLUMN_REPO_USER_ID = "owner_id";
 }

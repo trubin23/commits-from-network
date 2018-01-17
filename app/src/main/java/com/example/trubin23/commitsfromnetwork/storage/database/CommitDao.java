@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import java.util.List;
 
@@ -17,17 +18,17 @@ public interface CommitDao {
     String COLUMN_COMMIT_SHA = "sha";
     String COLUMN_COMMIT_MESSAGE = "message";
     String COLUMN_COMMIT_DATE = "date";
-    String COLUMN_COMMIT_REPO_NAME = "repo_name";
+    String COLUMN_COMMIT_REPO_ID = "repo_id";
 
     String[] COLUMNS = {
             COLUMN_COMMIT_SHA,
             COLUMN_COMMIT_MESSAGE,
             COLUMN_COMMIT_DATE,
-            COLUMN_COMMIT_REPO_NAME
+            COLUMN_COMMIT_REPO_ID
     };
 
-    void insertCommits(@NonNull final List<CommitStorage> commits, @NonNull String repo);
+    void insertCommits(@NonNull final List<CommitStorage> commits);
 
     @Nullable
-    Cursor getCommits(@NonNull String repo);
+    Cursor getCommits(@NonNull RepoStorage repo);
 }
