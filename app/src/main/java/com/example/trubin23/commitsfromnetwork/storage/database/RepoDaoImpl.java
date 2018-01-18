@@ -61,11 +61,11 @@ public class RepoDaoImpl implements RepoDao {
         db.beginTransaction();
         try {
             Cursor cursor = db.query(TABLE_OWNER, new String[]{COLUMN_REPO_ID},
-                    "WHERE " + COLUMN_REPO_NAME + " = ? AND " + COLUMN_REPO_USER_ID + " = ?",
+                    COLUMN_REPO_NAME + " = ? AND " + COLUMN_REPO_USER_ID + " = ?",
                     new String[]{repo, String.valueOf(ownerStorage.getId())},
                     null, null, null);
 
-            if (cursor != null) {
+            if (cursor != null && cursor.getCount() != 0) {
                 long id = cursor.getInt(cursor.getColumnIndex(COLUMN_REPO_ID));
                 cursor.close();
 

@@ -54,11 +54,11 @@ public class OwnerDaoImpl implements OwnerDao {
         db.beginTransaction();
         try {
             Cursor cursor = db.query(TABLE_OWNER, new String[]{COLUMN_OWNER_ID},
-                    "WHERE " + COLUMN_OWNER_NAME + " = ?", new String[]{owner},
+                    COLUMN_OWNER_NAME + " = ?", new String[]{owner},
                     null, null, null);
 
-            if (cursor != null) {
-                long id = cursor.getInt(cursor.getColumnIndex(COLUMN_OWNER_ID));
+            if (cursor != null && cursor.getCount() != 0) {
+                long id = cursor.getLong(cursor.getColumnIndex(COLUMN_OWNER_ID));
                 cursor.close();
 
                 ownerStorage = new OwnerStorage(id, owner);
