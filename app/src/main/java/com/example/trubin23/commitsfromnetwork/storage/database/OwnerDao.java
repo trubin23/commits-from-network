@@ -1,6 +1,7 @@
 package com.example.trubin23.commitsfromnetwork.storage.database;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.trubin23.commitsfromnetwork.storage.model.OwnerStorage;
 
@@ -14,6 +15,8 @@ public interface OwnerDao {
     String COLUMN_OWNER_ID = "id";
     String COLUMN_OWNER_NAME = "date";
 
-    @NonNull
-    OwnerStorage insertOwner(@NonNull String owner);
+    void insertOwner(@NonNull String owner);
+
+    @Nullable
+    OwnerStorage getOwner(@NonNull String owner);
 }

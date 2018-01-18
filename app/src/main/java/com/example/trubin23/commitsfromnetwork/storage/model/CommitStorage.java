@@ -18,10 +18,6 @@ public class CommitStorage {
 
     private RepoStorage mRepoStorage = null;
 
-    @SuppressWarnings("unused") // Moshi uses this!
-    private CommitStorage() {
-    }
-
     @NonNull
     public String getSha() {
         return mSha;

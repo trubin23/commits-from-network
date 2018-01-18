@@ -1,6 +1,7 @@
 package com.example.trubin23.commitsfromnetwork.domain.usecase;
 
 import android.support.annotation.NonNull;
+
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomainMapper;
@@ -9,8 +10,11 @@ import com.example.trubin23.commitsfromnetwork.storage.database.CommitDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;
 import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDaoImpl;
+import com.example.trubin23.commitsfromnetwork.storage.database.RepoDao;
+import com.example.trubin23.commitsfromnetwork.storage.database.RepoDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 import com.example.trubin23.commitsfromnetwork.storage.model.OwnerStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +34,30 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         RequestValues request = (RequestValues) requestValues;
-        String owner = request.mOwner;
-        String repo = request.getRepo();
 
+        String owner = request.getOwner();
         OwnerDao ownerDao = new OwnerDaoImpl(databaseHelper);
-        OwnerStorage ownerStorage = ownerDao.insertOwner(owner);
+        ownerDao.insertOwner(owner);
+        OwnerStorage ownerStorage = ownerDao.getOwner(owner);
+        if (ownerStorage == null){
+            getUseCaseCallback().onError();
+            return;
+        }
+
+        String repo = request.getRepo();
+        RepoDao repoDao = new RepoDaoImpl(databaseHelper);
+        repoDao.insertRepo(repo, ownerStorage);
+        RepoStorage repoStorage = repoDao.getRepo(repo, ownerStorage);
+        if (repoStorage == null){
+            getUseCaseCallback().onError();
+            return;
+        }
 
         List<CommitDomain> commitsDomain = request.getCommitsDomain();
         List<CommitStorage> commitsStorage = new ArrayList<>();
         for (CommitDomain commitDomain : commitsDomain){
             CommitStorage commitStorage = CommitDomainMapper.toCommitStorage(commitDomain);
+            commitStorage.setRepoStorage(repoStorage);
             commitsStorage.add(commitStorage);
         }
 
