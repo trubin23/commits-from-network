@@ -13,7 +13,7 @@ public interface OwnerDao {
     String TABLE_OWNER = "table_owner";
 
     String COLUMN_OWNER_ID = "id";
-    String COLUMN_OWNER_NAME = "date";
+    String COLUMN_OWNER_NAME = "name";
 
     void insertOwner(@NonNull String owner);
 

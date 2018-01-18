@@ -57,7 +57,7 @@ public class CommitDaoImpl implements CommitDao {
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "public void insertCommits(@NonNull List<CommitStorage> commits)", e);
+            Log.e(TAG, "void insertCommits(@NonNull List<CommitStorage> commits)", e);
         } finally {
             db.endTransaction();
         }
@@ -74,12 +74,12 @@ public class CommitDaoImpl implements CommitDao {
             String whereClause = COLUMN_COMMIT_REPO_ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(repo.getId())};
 
-            cursor = db.query(TABLE_COMMIT, COLUMNS, whereClause, whereArgs,
+            cursor = db.query(TABLE_COMMIT, COLUMNS_COMMIT, whereClause, whereArgs,
                     null, null, null);
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "public Cursor getCommits(@NonNull RepoStorage repo)", e);
+            Log.e(TAG, "Cursor getCommits(@NonNull RepoStorage repo)", e);
         } finally {
             db.endTransaction();
         }

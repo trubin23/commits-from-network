@@ -22,7 +22,7 @@ public class RepoDaoImpl implements RepoDao {
     private static final String TAG = RepoDaoImpl.class.getSimpleName();
 
     static final String REPO_CREATE_TABLE = "CREATE TABLE " + TABLE_REPO + "("
-            + COLUMN_REPO_ID + " INTEGER PRIMARY KEY, "
+            + COLUMN_REPO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_REPO_NAME + " TEXT, "
             + COLUMN_REPO_USER_ID + " INTEGER, "
             + "FOREIGN KEY (" + COLUMN_REPO_USER_ID + ") REFERENCES " + TABLE_OWNER + "(" + COLUMN_OWNER_ID + "))";

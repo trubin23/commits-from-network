@@ -18,8 +18,8 @@ public class OwnerDaoImpl implements OwnerDao {
     private static final String TAG = OwnerDaoImpl.class.getSimpleName();
 
     static final String OWNER_CREATE_TABLE = "CREATE TABLE " + TABLE_OWNER + "("
-            + COLUMN_OWNER_ID + " INTEGER PRIMARY KEY, "
-            + COLUMN_OWNER_NAME + " TEXT NOT NULL UNIQUE)";
+            + COLUMN_OWNER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_OWNER_NAME + " TEXT UNIQUE NOT NULL)";
 
     private DatabaseHelper mDbOpenHelper;
 

@@ -36,8 +36,8 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
     }
 
-    private void getCommitsDb(@NonNull String repo) {
-        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(repo),
+    private void getCommitsDb(@NonNull String owner, @NonNull String repo) {
+        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(owner, repo),
                 new BaseUseCase.UseCaseCallback() {
                     @Override
                     public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
@@ -112,7 +112,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     @Override
     public void loadCommits(@NonNull String owner, @NonNull String repo,
                             @Nullable Integer pageNumber, @Nullable Integer pageSize) {
-        getCommitsDb(repo);
+        getCommitsDb(owner, repo);
         getCommitsNetwork(owner, repo, pageNumber, pageSize);
     }
 
