@@ -18,11 +18,14 @@ class CommitsContract {
         void setCommits(@NonNull List<CommitView> commitsView);
         void loadFinished();
         void showToast(@NonNull String message);
-        void lastPageLoaded(boolean loaded);
+        void lastPageLoaded();
+        void setRepoData(@NonNull String owner, @NonNull String repo);
     }
 
     interface Presenter {
         void loadCommits(@NonNull String owner, @NonNull String repo,
                          @Nullable Integer pageNumber, @Nullable Integer pageSize);
+        void saveRepoData(@NonNull String owner, @NonNull String repo);
+        void loadRepoData();
     }
 }

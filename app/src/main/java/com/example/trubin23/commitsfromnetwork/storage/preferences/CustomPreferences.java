@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 
 public class CustomPreferences {
 
+    private static final String OWNER_VALUE = "owner_value";
+    private static final String REPO_VALUE = "repo_value";
+
     private static CustomPreferences mCustomPreferences;
     private SharedPreferences mSharedPreferences;
 
@@ -18,21 +21,33 @@ public class CustomPreferences {
         mSharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
     }
 
-    public static CustomPreferences getInstance(@NonNull Context context) {
-        if (mCustomPreferences == null) {
+    @Nullable
+    public static CustomPreferences getInstance(@Nullable Context context) {
+        if (mCustomPreferences == null && context != null) {
             mCustomPreferences = new CustomPreferences(context);
         }
         return mCustomPreferences;
     }
 
-    public void putString(@NonNull String key, @NonNull String value) {
+    public void putOwner(@NonNull String value) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(key, value);
+        editor.putString(OWNER_VALUE, value);
         editor.apply();
     }
 
-    @Nullable
-    public String getString(String key) {
-        return mSharedPreferences.getString(key, null);
+    public void putRepo(@NonNull String value) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(REPO_VALUE, value);
+        editor.apply();
+    }
+
+    @NonNull
+    public String getOwner() {
+        return mSharedPreferences.getString(OWNER_VALUE, "");
+    }
+
+    @NonNull
+    public String getRepo() {
+        return mSharedPreferences.getString(REPO_VALUE, "");
     }
 }

@@ -10,6 +10,8 @@ import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
+import com.example.trubin23.commitsfromnetwork.domain.usecase.LoadRepoDataUseCase;
+import com.example.trubin23.commitsfromnetwork.domain.usecase.SaveRepoDataUseCase;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitViewMapper;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
@@ -28,12 +30,16 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     private final GetCommitsDbUseCase mGetCommitsDbUseCase;
     private final GetCommitsNetworkUseCase mGetCommitsNetworkUseCase;
     private final InsertCommitsDbUseCase mInsertCommitsDbUseCase;
+    private final SaveRepoDataUseCase mSaveRepoDataUseCase;
+    private final LoadRepoDataUseCase mLoadRepoDataUseCase;
 
     CommitsPresenter(@NonNull UseCaseHandler useCaseHandler) {
         super(useCaseHandler);
         mGetCommitsDbUseCase = new GetCommitsDbUseCase();
         mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
+        mSaveRepoDataUseCase = new SaveRepoDataUseCase();
+        mLoadRepoDataUseCase = new LoadRepoDataUseCase();
     }
 
     private void getCommitsDb(@NonNull String owner, @NonNull String repo) {
@@ -81,7 +87,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
                         getView().setCommits(commitsView);
                         if (commitsView.size() < pageSize) {
-                            getView().lastPageLoaded(true);
+                            getView().lastPageLoaded();
                         }
                         getView().loadFinished();
                     }
@@ -120,5 +126,44 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         Log.e(TAG, message);
         getView().showToast(message);
         getView().loadFinished();
+    }
+
+    @Override
+    public void saveRepoData(@NonNull String owner, @NonNull String repo) {
+        mUseCaseHandler.execute(mSaveRepoDataUseCase,
+                new SaveRepoDataUseCase.RequestValues(owner, repo),
+                new BaseUseCase.UseCaseCallback() {
+                    @Override
+                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e(TAG, "SaveRepoDataUseCase: error");
+                    }
+                });
+    }
+
+    @Override
+    public void loadRepoData() {
+        mUseCaseHandler.execute(mLoadRepoDataUseCase,
+                new LoadRepoDataUseCase.RequestValues(),
+                new BaseUseCase.UseCaseCallback() {
+                    @Override
+                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
+                        LoadRepoDataUseCase.ResponseValues response =
+                                (LoadRepoDataUseCase.ResponseValues) responseValues;
+
+                        String owner = response.getOwner();
+                        String repo = response.getRepo();
+
+                        getView().setRepoData(owner, repo);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e(TAG, "SaveRepoDataUseCase: error");
+                    }
+                });
     }
 }

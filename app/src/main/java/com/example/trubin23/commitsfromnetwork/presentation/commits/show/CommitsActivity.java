@@ -113,6 +113,13 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        mPresenter.loadRepoData();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         dismissRepoDialog();
@@ -126,12 +133,25 @@ public class CommitsActivity extends BaseActivity implements
         final EditText ownerName = repoNameDialog.findViewById(R.id.et_owner);
         final EditText repoName = repoNameDialog.findViewById(R.id.et_repo);
 
+        if (mOwnerName != null){
+            ownerName.setText(mOwnerName);
+        }
+        if (mRepoName != null){
+            repoName.setText(mRepoName);
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(repoNameDialog);
 
         builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
             mOwnerName = ownerName.getText().toString();
             mRepoName = repoName.getText().toString();
+
+            mLastPageLoaded = false;
+            mCommitsAdapter.setCommits(null);
+
+            mPresenter.saveRepoData(mOwnerName, mRepoName);
+
             loadCommits();
             dismissRepoDialog();
         });
@@ -147,6 +167,12 @@ public class CommitsActivity extends BaseActivity implements
             mRepoNameDialog.dismiss();
             mRepoNameDialog = null;
         }
+    }
+
+    @Override
+    public void setRepoData(@NonNull String owner, @NonNull String repo) {
+        mOwnerName = owner;
+        mRepoName = repo;
     }
 
     @Override
@@ -179,8 +205,8 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     @Override
-    public void lastPageLoaded(boolean loaded) {
-        mLastPageLoaded = loaded;
+    public void lastPageLoaded() {
+        mLastPageLoaded = true;
     }
 
     @Override

@@ -52,7 +52,8 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     @Override
     public void onBindViewHolder(CommitHolder holder, int position) {
-        CommitView commitView = mCommits.get( (mCommits.keySet().toArray())[ position ] );
+        String sha = (String) (mCommits.keySet().toArray())[ position ];
+        CommitView commitView = mCommits.get( sha );
         holder.setCommit(commitView);
 
         RxView.clicks(holder.itemView)
