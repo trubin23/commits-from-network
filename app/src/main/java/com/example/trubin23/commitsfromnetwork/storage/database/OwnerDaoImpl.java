@@ -57,7 +57,7 @@ public class OwnerDaoImpl implements OwnerDao {
                     COLUMN_OWNER_NAME + " = ?", new String[]{owner},
                     null, null, null);
 
-            if (cursor != null && cursor.getCount() != 0) {
+            if (cursor != null && cursor.moveToFirst()) {
                 long id = cursor.getLong(cursor.getColumnIndex(COLUMN_OWNER_ID));
                 cursor.close();
 

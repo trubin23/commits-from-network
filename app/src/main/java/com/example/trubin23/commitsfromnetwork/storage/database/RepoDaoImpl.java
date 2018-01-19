@@ -42,7 +42,7 @@ public class RepoDaoImpl implements RepoDao {
             values.put(COLUMN_REPO_NAME, repo);
             values.put(COLUMN_REPO_USER_ID, ownerStorage.getId());
 
-            db.insertWithOnConflict(TABLE_OWNER, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+            db.insertWithOnConflict(TABLE_REPO, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
@@ -60,13 +60,13 @@ public class RepoDaoImpl implements RepoDao {
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
         try {
-            Cursor cursor = db.query(TABLE_OWNER, new String[]{COLUMN_REPO_ID},
+            Cursor cursor = db.query(TABLE_REPO, new String[]{COLUMN_REPO_ID},
                     COLUMN_REPO_NAME + " = ? AND " + COLUMN_REPO_USER_ID + " = ?",
                     new String[]{repo, String.valueOf(ownerStorage.getId())},
                     null, null, null);
 
-            if (cursor != null && cursor.getCount() != 0) {
-                long id = cursor.getInt(cursor.getColumnIndex(COLUMN_REPO_ID));
+            if (cursor != null && cursor.moveToFirst()) {
+                long id = cursor.getLong(cursor.getColumnIndex(COLUMN_REPO_ID));
                 cursor.close();
 
                 repoStorage = new RepoStorage(id, repo, ownerStorage);
