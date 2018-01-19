@@ -18,7 +18,8 @@ import static com.example.trubin23.commitsfromnetwork.presentation.commits.model
  * Created by Andrey on 08.01.2018.
  */
 
-public class DetailCommitActivity extends AppCompatActivity {
+public class DetailCommitActivity extends AppCompatActivity implements
+        DetailCommitContract.View {
 
     @BindView(R.id.commit_sha_value)
     TextView tvCommitSha;
