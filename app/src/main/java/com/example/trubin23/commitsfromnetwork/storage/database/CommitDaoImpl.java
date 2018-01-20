@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
-import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import java.util.List;
 
@@ -65,21 +64,21 @@ public class CommitDaoImpl implements CommitDao {
 
     @Nullable
     @Override
-    public Cursor getCommits(@NonNull RepoStorage repo) {
+    public Cursor getCommits(@NonNull Long repoId) {
         Cursor cursor = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
         try {
             String whereClause = COLUMN_COMMIT_REPO_ID + " = ?";
-            String[] whereArgs = new String[]{String.valueOf(repo.getId())};
+            String[] whereArgs = new String[]{String.valueOf(repoId)};
 
             cursor = db.query(TABLE_COMMIT, COLUMNS_COMMIT, whereClause, whereArgs,
                     null, null, null);
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "Cursor getCommits(@NonNull RepoStorage repo)", e);
+            Log.e(TAG, "Cursor getCommits(@NonNull Long repoId)", e);
         } finally {
             db.endTransaction();
         }

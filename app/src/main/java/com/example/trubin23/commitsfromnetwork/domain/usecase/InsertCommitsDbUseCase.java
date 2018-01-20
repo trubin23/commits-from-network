@@ -13,7 +13,6 @@ import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.RepoDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.RepoDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
-import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +45,8 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         String repo = request.getRepo();
         RepoDao repoDao = new RepoDaoImpl(databaseHelper);
         repoDao.insertRepo(repo, ownerId);
-        RepoStorage repoStorage = repoDao.getRepo(repo, ownerId);
-        if (repoStorage == null){
+        Long repoId = repoDao.getRepo(repo, ownerId);
+        if (repoId == null){
             getUseCaseCallback().onError();
             return;
         }
@@ -56,7 +55,7 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         List<CommitStorage> commitsStorage = new ArrayList<>();
         for (CommitDomain commitDomain : commitsDomain){
             CommitStorage commitStorage = CommitDomainMapper.toCommitStorage(commitDomain);
-            commitStorage.setRepoId(repoStorage.getId());
+            commitStorage.setRepoId(repoId);
             commitsStorage.add(commitStorage);
         }
 

@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
-
 import static com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao.COLUMN_OWNER_ID;
 import static com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao.TABLE_OWNER;
 
@@ -53,8 +51,8 @@ public class RepoDaoImpl implements RepoDao {
 
     @Nullable
     @Override
-    public RepoStorage getRepo(@NonNull String repo, @NonNull Long ownerId) {
-        RepoStorage repoStorage = null;
+    public Long getRepo(@NonNull String repo, @NonNull Long ownerId) {
+        Long repoId = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
@@ -68,17 +66,17 @@ public class RepoDaoImpl implements RepoDao {
                 long id = cursor.getLong(cursor.getColumnIndex(COLUMN_REPO_ID));
                 cursor.close();
 
-                repoStorage = new RepoStorage(id, repo, ownerId);
+                repoId = id;
             }
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "RepoStorage getRepo(@NonNull String repo, @NonNull OwnerStorage ownerStorage)", e);
+            Log.e(TAG, "Long getRepo(@NonNull String repo, @NonNull OwnerStorage ownerStorage)", e);
         } finally {
             db.endTransaction();
         }
 
-        return repoStorage;
+        return repoId;
     }
 
 }

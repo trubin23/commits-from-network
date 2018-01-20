@@ -3,8 +3,6 @@ package com.example.trubin23.commitsfromnetwork.storage.database;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
-
 /**
  * Created by Andrey on 16.01.2018.
  */
@@ -19,5 +17,5 @@ public interface RepoDao {
     void insertRepo(@NonNull String repo, @NonNull Long ownerId);
 
     @Nullable
-    RepoStorage getRepo(@NonNull String repo, @NonNull Long ownerId);
+    Long getRepo(@NonNull String repo, @NonNull Long ownerId);
 }
