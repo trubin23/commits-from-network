@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.OwnerStorage;
-
 /**
  * Created by Andrey on 17.01.2018.
  */
@@ -47,8 +45,8 @@ public class OwnerDaoImpl implements OwnerDao {
 
     @Nullable
     @Override
-    public OwnerStorage getOwner(@NonNull String owner) {
-        OwnerStorage ownerStorage = null;
+    public Long getOwnerId(@NonNull String owner) {
+        Long ownerId = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         db.beginTransaction();
@@ -61,16 +59,16 @@ public class OwnerDaoImpl implements OwnerDao {
                 long id = cursor.getLong(cursor.getColumnIndex(COLUMN_OWNER_ID));
                 cursor.close();
 
-                ownerStorage = new OwnerStorage(id, owner);
+                ownerId = id;
             }
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "OwnerStorage getOwner(@NonNull String owner)", e);
+            Log.e(TAG, "Long getOwnerId(@NonNull String owner)", e);
         } finally {
             db.endTransaction();
         }
 
-        return ownerStorage;
+        return ownerId;
     }
 }

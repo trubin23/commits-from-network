@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.OwnerStorage;
 import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import static com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao.COLUMN_OWNER_ID;
@@ -34,19 +33,19 @@ public class RepoDaoImpl implements RepoDao {
     }
 
     @Override
-    public void insertRepo(@NonNull String repo, @NonNull OwnerStorage ownerStorage) {
+    public void insertRepo(@NonNull String repo, @NonNull Long ownerId) {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(COLUMN_REPO_NAME, repo);
-            values.put(COLUMN_REPO_USER_ID, ownerStorage.getId());
+            values.put(COLUMN_REPO_USER_ID, ownerId);
 
             db.insertWithOnConflict(TABLE_REPO, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "void insertRepo(@NonNull String repo, @NonNull OwnerStorage ownerStorage)", e);
+            Log.e(TAG, "void insertRepo(@NonNull String repo, @NonNull ownerId ownerId)", e);
         } finally {
             db.endTransaction();
         }
@@ -54,7 +53,7 @@ public class RepoDaoImpl implements RepoDao {
 
     @Nullable
     @Override
-    public RepoStorage getRepo(@NonNull String repo, @NonNull OwnerStorage ownerStorage) {
+    public RepoStorage getRepo(@NonNull String repo, @NonNull Long ownerId) {
         RepoStorage repoStorage = null;
 
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
@@ -62,14 +61,14 @@ public class RepoDaoImpl implements RepoDao {
         try {
             Cursor cursor = db.query(TABLE_REPO, new String[]{COLUMN_REPO_ID},
                     COLUMN_REPO_NAME + " = ? AND " + COLUMN_REPO_USER_ID + " = ?",
-                    new String[]{repo, String.valueOf(ownerStorage.getId())},
+                    new String[]{repo, String.valueOf(ownerId)},
                     null, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
                 long id = cursor.getLong(cursor.getColumnIndex(COLUMN_REPO_ID));
                 cursor.close();
 
-                repoStorage = new RepoStorage(id, repo, ownerStorage);
+                repoStorage = new RepoStorage(id, repo, ownerId);
             }
 
             db.setTransactionSuccessful();

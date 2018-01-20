@@ -10,12 +10,12 @@ public class RepoStorage {
 
     private Long mId;
     private String mName;
-    private OwnerStorage mOwnerStorage;
+    private Long mOwnerId;
 
-    public RepoStorage(@NonNull Long id, @NonNull String name, @NonNull OwnerStorage ownerStorage) {
+    public RepoStorage(@NonNull Long id, @NonNull String name, @NonNull Long ownerId) {
         mId = id;
         mName = name;
-        mOwnerStorage = ownerStorage;
+        mOwnerId = ownerId;
     }
 
     @NonNull

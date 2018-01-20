@@ -13,7 +13,6 @@ import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.RepoDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.RepoDaoImpl;
-import com.example.trubin23.commitsfromnetwork.storage.model.OwnerStorage;
 import com.example.trubin23.commitsfromnetwork.storage.model.RepoStorage;
 
 import java.util.ArrayList;
@@ -36,15 +35,15 @@ public class GetCommitsDbUseCase extends BaseUseCase {
 
         String owner = request.getOwner();
         OwnerDao ownerDao = new OwnerDaoImpl(databaseHelper);
-        OwnerStorage ownerStorage = ownerDao.getOwner(owner);
-        if (ownerStorage == null){
+        Long ownerId = ownerDao.getOwnerId(owner);
+        if (ownerId == null){
             getUseCaseCallback().onSuccess(new ResponseValues(null));
             return;
         }
 
         String repo = request.getRepo();
         RepoDao repoDao = new RepoDaoImpl(databaseHelper);
-        RepoStorage repoStorage = repoDao.getRepo(repo, ownerStorage);
+        RepoStorage repoStorage = repoDao.getRepo(repo, ownerId);
         if (repoStorage == null){
             getUseCaseCallback().onSuccess(new ResponseValues(null));
             return;
