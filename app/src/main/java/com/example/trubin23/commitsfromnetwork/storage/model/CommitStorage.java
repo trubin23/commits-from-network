@@ -16,7 +16,7 @@ public class CommitStorage {
     @Json(name = "commit")
     private CommitDescription mCommitDescription;
 
-    private RepoStorage mRepoStorage = null;
+    private Long mRepoId = null;
 
     @NonNull
     public String getSha() {
@@ -37,11 +37,11 @@ public class CommitStorage {
     }
 
     @Nullable
-    public RepoStorage getRepoStorage() {
-        return mRepoStorage;
+    public Long getRepoId() {
+        return mRepoId;
     }
 
-    public void setRepoStorage(@Nullable RepoStorage repoStorage) {
-        mRepoStorage = repoStorage;
+    public void setRepoId(@Nullable Long repoId) {
+        mRepoId = repoId;
     }
 }

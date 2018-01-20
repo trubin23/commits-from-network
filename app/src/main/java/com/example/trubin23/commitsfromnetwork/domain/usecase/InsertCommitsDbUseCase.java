@@ -57,7 +57,7 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         List<CommitStorage> commitsStorage = new ArrayList<>();
         for (CommitDomain commitDomain : commitsDomain){
             CommitStorage commitStorage = CommitDomainMapper.toCommitStorage(commitDomain);
-            commitStorage.setRepoStorage(repoStorage);
+            commitStorage.setRepoId(repoStorage.getId());
             commitsStorage.add(commitStorage);
         }
 
