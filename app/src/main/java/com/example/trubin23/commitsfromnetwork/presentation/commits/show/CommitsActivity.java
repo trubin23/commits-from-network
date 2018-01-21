@@ -125,7 +125,7 @@ public class CommitsActivity extends BaseActivity implements
         dismissRepoDialog();
     }
 
-    @OnClick(R.id.btn_load_commits)
+    @OnClick(R.id.fab_show_commit)
     public void onClickLoadCommits(View v) {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View repoNameDialog = layoutInflater.inflate(R.layout.repo_name_dialog, null);
