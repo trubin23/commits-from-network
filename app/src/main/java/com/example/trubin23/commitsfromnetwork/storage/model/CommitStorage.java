@@ -1,7 +1,6 @@
 package com.example.trubin23.commitsfromnetwork.storage.model;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.squareup.moshi.Json;
 
@@ -34,14 +33,5 @@ public class CommitStorage {
 
     public void setCommitDescription(@NonNull CommitDescription commitDescription) {
         mCommitDescription = commitDescription;
-    }
-
-    @Nullable
-    public Long getRepoId() {
-        return mRepoId;
-    }
-
-    public void setRepoId(@Nullable Long repoId) {
-        mRepoId = repoId;
     }
 }

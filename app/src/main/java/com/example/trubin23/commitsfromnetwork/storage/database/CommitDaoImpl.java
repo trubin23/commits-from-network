@@ -41,15 +41,10 @@ public class CommitDaoImpl implements CommitDao {
         db.beginTransaction();
         try {
             for (CommitStorage commit : commits) {
-                if (commit.getRepoId() == null) {
-                    continue;
-                }
-
                 ContentValues values = new ContentValues();
                 values.put(COLUMN_COMMIT_SHA, commit.getSha());
                 values.put(COLUMN_COMMIT_MESSAGE, commit.getCommitDescription().getMessage());
                 values.put(COLUMN_COMMIT_DATE, commit.getCommitDescription().getAuthor().getDate());
-                values.put(COLUMN_COMMIT_REPO_ID, commit.getRepoId());
 
                 db.insertWithOnConflict(TABLE_COMMIT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
