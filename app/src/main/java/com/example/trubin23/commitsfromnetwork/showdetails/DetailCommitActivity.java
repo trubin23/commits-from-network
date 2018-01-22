@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.trubin23.commitsfromnetwork.storage.model.Commit.CLASS_COMMIT;
+import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
 
 /**
  * Created by Andrey on 08.01.2018.

@@ -1,6 +1,6 @@
-package com.example.trubin23.commitsfromnetwork.storage.network;
+package com.example.trubin23.commitsfromnetwork.data.source.remote;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.load.CommitLoad;
+import com.example.trubin23.commitsfromnetwork.data.source.remote.model.load.CommitLoad;
 
 import java.util.List;
 

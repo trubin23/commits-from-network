@@ -2,8 +2,8 @@ package com.example.trubin23.commitsfromnetwork;
 
 import android.app.Application;
 
-import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;
-import com.example.trubin23.commitsfromnetwork.storage.preferences.CustomPreferences;
+import com.example.trubin23.commitsfromnetwork.data.source.local.database.DatabaseHelper;
+import com.example.trubin23.commitsfromnetwork.data.source.local.preferences.CustomPreferences;
 
 /**
  * Created by Andrey on 07.01.2018.

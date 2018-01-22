@@ -3,7 +3,7 @@ package com.example.trubin23.commitsfromnetwork.show;
 import android.support.annotation.NonNull;
 
 import com.example.trubin23.commitsfromnetwork.BaseView;
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.List;
 

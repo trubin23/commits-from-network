@@ -3,7 +3,7 @@ package com.example.trubin23.commitsfromnetwork.domain.usecase;
 import android.support.annotation.NonNull;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
-import com.example.trubin23.commitsfromnetwork.storage.preferences.CustomPreferences;
+import com.example.trubin23.commitsfromnetwork.data.source.local.preferences.CustomPreferences;
 
 /**
  * Created by Andrey on 19.01.2018.

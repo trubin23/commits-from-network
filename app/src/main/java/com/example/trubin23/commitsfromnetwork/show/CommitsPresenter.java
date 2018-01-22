@@ -12,7 +12,7 @@ import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUse
 import com.example.trubin23.commitsfromnetwork.domain.usecase.LoadRepoDataUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.SaveRepoDataUseCase;
 import com.example.trubin23.commitsfromnetwork.BasePresenter;
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.List;
 

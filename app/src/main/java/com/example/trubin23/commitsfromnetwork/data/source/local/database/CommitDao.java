@@ -1,10 +1,10 @@
-package com.example.trubin23.commitsfromnetwork.storage.database;
+package com.example.trubin23.commitsfromnetwork.data.source.local.database;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.List;
 

@@ -1,8 +1,9 @@
-package com.example.trubin23.commitsfromnetwork.storage.model;
+package com.example.trubin23.commitsfromnetwork.data.source.remote.model;
 
 import android.support.annotation.NonNull;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.load.CommitLoad;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
+import com.example.trubin23.commitsfromnetwork.data.source.remote.model.load.CommitLoad;
 
 /**
  * Created by Andrey on 04.01.2018.

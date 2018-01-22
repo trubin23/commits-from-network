@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.storage.preferences;
+package com.example.trubin23.commitsfromnetwork.data.source.local.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;

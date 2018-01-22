@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.storage.database;
+package com.example.trubin23.commitsfromnetwork.data.source.local.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,12 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.List;
 
-import static com.example.trubin23.commitsfromnetwork.storage.database.RepoDao.COLUMN_REPO_ID;
-import static com.example.trubin23.commitsfromnetwork.storage.database.RepoDao.TABLE_REPO;
+import static com.example.trubin23.commitsfromnetwork.data.source.local.database.RepoDao.COLUMN_REPO_ID;
+import static com.example.trubin23.commitsfromnetwork.data.source.local.database.RepoDao.TABLE_REPO;
 
 /**
  * Created by Andrey on 06.01.2018.

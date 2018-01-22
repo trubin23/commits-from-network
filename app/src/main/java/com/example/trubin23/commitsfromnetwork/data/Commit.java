@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.storage.model;
+package com.example.trubin23.commitsfromnetwork.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

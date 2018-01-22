@@ -20,7 +20,7 @@ import com.example.trubin23.commitsfromnetwork.show.commitslist.LoadCommitsActio
 import com.example.trubin23.commitsfromnetwork.show.commitslist.SimpleScrollListener;
 import com.example.trubin23.commitsfromnetwork.showdetails.DetailCommitActivity;
 import com.example.trubin23.commitsfromnetwork.BaseActivity;
-import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.example.trubin23.commitsfromnetwork.storage.model.Commit.CLASS_COMMIT;
+import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
 
 public class CommitsActivity extends BaseActivity implements
         CommitsContract.View,
