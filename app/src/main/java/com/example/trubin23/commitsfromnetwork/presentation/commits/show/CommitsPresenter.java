@@ -6,17 +6,14 @@ import android.util.Log;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
-import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.LoadRepoDataUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.SaveRepoDataUseCase;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitViewMapper;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,13 +47,8 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                         GetCommitsDbUseCase.ResponseValues response =
                                 (GetCommitsDbUseCase.ResponseValues) responseValues;
 
-                        List<CommitDomain> commitsDomain = response.getCommitsDomain();
-                        List<CommitView> commitsView = new ArrayList<>();
-                        for (CommitDomain commitDomain : commitsDomain) {
-                            CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
-                            commitsView.add(commitView);
-                        }
-                        getView().setCommits(commitsView);
+                        List<Commit> commits = response.getCommitsDomain();
+                        getView().setCommits(commits);
                     }
 
                     @Override
@@ -76,17 +68,11 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                         GetCommitsNetworkUseCase.ResponseValues response =
                                 (GetCommitsNetworkUseCase.ResponseValues) responseValues;
 
-                        List<CommitDomain> commitsDomain = response.getCommitsDomain();
-                        insertCommitsDb(commitsDomain, owner, repo);
+                        List<Commit> commits = response.getCommitsDomain();
+                        insertCommitsDb(commits, owner, repo);
 
-                        List<CommitView> commitsView = new ArrayList<>();
-                        for (CommitDomain commitDomain : commitsDomain) {
-                            CommitView commitView = CommitViewMapper.toCommitDomain(commitDomain);
-                            commitsView.add(commitView);
-                        }
-
-                        getView().setCommits(commitsView);
-                        if (commitsView.size() < pageSize) {
+                        getView().setCommits(commits);
+                        if (commits.size() < pageSize) {
                             getView().lastPageLoaded();
                         }
                         getView().loadFinished();
@@ -99,7 +85,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                 });
     }
 
-    private void insertCommitsDb(@NonNull List<CommitDomain> commitsDomain,
+    private void insertCommitsDb(@NonNull List<Commit> commitsDomain,
                                  @NonNull String owner, @NonNull String repo) {
         mUseCaseHandler.execute(mInsertCommitsDbUseCase,
                 new InsertCommitsDbUseCase.RequestValues(commitsDomain, owner, repo),
@@ -117,7 +103,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     @Override
     public void loadCommits(@NonNull String owner, @NonNull String repo,
-                            @Nullable Integer pageNumber, @Nullable Integer pageSize) {
+                            @NonNull Integer pageNumber, @NonNull Integer pageSize) {
         getCommitsDb(owner, repo);
         getCommitsNetwork(owner, repo, pageNumber, pageSize);
     }

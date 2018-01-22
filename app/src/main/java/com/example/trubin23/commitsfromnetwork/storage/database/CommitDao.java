@@ -3,7 +3,8 @@ package com.example.trubin23.commitsfromnetwork.storage.database;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface CommitDao {
             COLUMN_COMMIT_DATE
     };
 
-    void insertCommits(@NonNull final List<CommitStorage> commits);
+    void insertCommits(@NonNull final List<Commit> commits, @NonNull Long repoId);
 
     @Nullable
     Cursor getCommits(@NonNull Long repoId);

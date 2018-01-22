@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;
@@ -51,14 +51,14 @@ public class GetCommitsDbUseCase extends BaseUseCase {
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
         Cursor cursor = commitDao.getCommits(repoId);
 
-        List<CommitDomain> commitsDomain = new ArrayList<>();
+        List<Commit> commitsDomain = new ArrayList<>();
         if (cursor != null) {
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 String sha = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_SHA));
                 String message = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_MESSAGE));
                 String date = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_DATE));
 
-                CommitDomain commit = new CommitDomain(sha, message, date);
+                Commit commit = new Commit(sha, message, date);
                 commitsDomain.add(commit);
             }
         }
@@ -87,9 +87,9 @@ public class GetCommitsDbUseCase extends BaseUseCase {
     }
 
     public static class ResponseValues implements BaseUseCase.ResponseValues {
-        List<CommitDomain> mCommitsDomain;
+        List<Commit> mCommitsDomain;
 
-        ResponseValues(@Nullable List<CommitDomain> commitsDomain){
+        ResponseValues(@Nullable List<Commit> commitsDomain){
             if (commitsDomain != null) {
                 mCommitsDomain = commitsDomain;
             } else {
@@ -98,7 +98,7 @@ public class GetCommitsDbUseCase extends BaseUseCase {
         }
 
         @NonNull
-        public List<CommitDomain> getCommitsDomain(){
+        public List<Commit> getCommitsDomain(){
             return mCommitsDomain;
         }
     }

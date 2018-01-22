@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -29,16 +29,16 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     public static final int PAGE_SIZE = 15;
 
-    private LinkedHashMap<String, CommitView> mCommits;
+    private LinkedHashMap<String, Commit> mCommits;
 
-    private PublishSubject<CommitView> mViewClickSubject;
+    private PublishSubject<Commit> mViewClickSubject;
 
     public CommitsAdapter() {
         mCommits = new LinkedHashMap<>();
         mViewClickSubject = PublishSubject.create();
     }
 
-    public Observable<CommitView> getViewClickedObservable() {
+    public Observable<Commit> getViewClickedObservable() {
         return mViewClickSubject.hide();
     }
 
@@ -53,7 +53,7 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     @Override
     public void onBindViewHolder(CommitHolder holder, int position) {
         String sha = (String) (mCommits.keySet().toArray())[ position ];
-        CommitView commitView = mCommits.get( sha );
+        Commit commitView = mCommits.get( sha );
         holder.setCommit(commitView);
 
         RxView.clicks(holder.itemView)
@@ -73,21 +73,21 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
         mViewClickSubject.onComplete();
     }
 
-    public void setCommits(@Nullable List<CommitView> commits) {
+    public void setCommits(@Nullable List<Commit> commits) {
         mCommits = new LinkedHashMap<>();
         if (commits != null) {
             insertCommits(commits);
         }
     }
 
-    public void insertCommits(@NonNull List<CommitView> commits) {
-        for (CommitView commit : commits) {
+    public void insertCommits(@NonNull List<Commit> commits) {
+        for (Commit commit : commits) {
             mCommits.put(commit.getSha(), commit);
         }
         notifyItemRangeChanged(mCommits.size() - commits.size(), commits.size());
     }
 
-    public List<CommitView> getItems() {
+    public List<Commit> getItems() {
         return new ArrayList<>(mCommits.values());
     }
 
@@ -107,7 +107,7 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
             ButterKnife.bind(this, itemView);
         }
 
-        void setCommit(CommitView commit) {
+        void setCommit(Commit commit) {
             mTextViewSha.setText(commit.getSha());
             mTextViewMessage.setText(commit.getMessage());
             mTextViewDate.setText(commit.getDate());

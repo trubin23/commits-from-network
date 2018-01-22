@@ -1,6 +1,6 @@
 package com.example.trubin23.commitsfromnetwork.storage.network;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.load.CommitLoad;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import retrofit2.http.Query;
 public interface SOService {
 
     @GET("/repos/{owner}/{repo}/commits")
-    Call<List<CommitStorage>> getCommits(@Path(value = "owner") String owner,
-                                         @Path(value = "repo") String repo);
+    Call<List<CommitLoad>> getCommits(@Path(value = "owner") String owner,
+                                      @Path(value = "repo") String repo);
 
     @GET("/repos/{owner}/{repo}/commits")
-    Call<List<CommitStorage>> getPageCommits(@Path(value = "owner") String owner,
-                                             @Path(value = "repo") String repo,
-                                             @Query(value = "page") Integer page,
-                                             @Query(value = "per_page") Integer pageSize);
+    Call<List<CommitLoad>> getPageCommits(@Path(value = "owner") String owner,
+                                          @Path(value = "repo") String repo,
+                                          @Query(value = "page") Integer page,
+                                          @Query(value = "per_page") Integer pageSize);
 }

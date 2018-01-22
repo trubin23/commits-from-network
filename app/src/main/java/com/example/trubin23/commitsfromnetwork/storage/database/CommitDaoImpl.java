@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.List;
 
@@ -36,22 +36,24 @@ public class CommitDaoImpl implements CommitDao {
     }
 
     @Override
-    public void insertCommits(@NonNull List<CommitStorage> commits) {
+    public void insertCommits(@NonNull List<Commit> commits, @NonNull Long repoId) {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
-            for (CommitStorage commit : commits) {
+            for (Commit commit : commits) {
+
                 ContentValues values = new ContentValues();
                 values.put(COLUMN_COMMIT_SHA, commit.getSha());
-                values.put(COLUMN_COMMIT_MESSAGE, commit.getCommitDescription().getMessage());
-                values.put(COLUMN_COMMIT_DATE, commit.getCommitDescription().getAuthor().getDate());
+                values.put(COLUMN_COMMIT_MESSAGE, commit.getMessage());
+                values.put(COLUMN_COMMIT_DATE, commit.getDate());
+                values.put(COLUMN_COMMIT_REPO_ID, repoId);
 
                 db.insertWithOnConflict(TABLE_COMMIT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "void insertCommits(@NonNull List<CommitStorage> commits)", e);
+            Log.e(TAG, "void insertCommits(@NonNull List<Commit> commits, @NonNull Long repoId)", e);
         } finally {
             db.endTransaction();
         }

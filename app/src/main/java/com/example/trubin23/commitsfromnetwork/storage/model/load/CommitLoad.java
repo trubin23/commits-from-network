@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.storage.model;
+package com.example.trubin23.commitsfromnetwork.storage.model.load;
 
 import android.support.annotation.NonNull;
 
@@ -8,14 +8,12 @@ import com.squareup.moshi.Json;
  * Created by Andrey on 01.01.2018.
  */
 
-public class CommitStorage {
+public class CommitLoad {
 
     @Json(name = "sha")
     private String mSha;
     @Json(name = "commit")
     private CommitDescription mCommitDescription;
-
-    private Long mRepoId = null;
 
     @NonNull
     public String getSha() {

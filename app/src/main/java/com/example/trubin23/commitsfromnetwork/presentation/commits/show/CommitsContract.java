@@ -1,10 +1,9 @@
 package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseView;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 class CommitsContract {
 
     interface View extends BaseView {
-        void setCommits(@NonNull List<CommitView> commitsView);
+        void setCommits(@NonNull List<Commit> commitsView);
         void loadFinished();
         void showToast(@NonNull String message);
         void lastPageLoaded();
@@ -24,7 +23,7 @@ class CommitsContract {
 
     interface Presenter {
         void loadCommits(@NonNull String owner, @NonNull String repo,
-                         @Nullable Integer pageNumber, @Nullable Integer pageSize);
+                         @NonNull Integer pageNumber, @NonNull Integer pageSize);
         void saveRepoData(@NonNull String owner, @NonNull String repo);
         void loadRepoData();
     }

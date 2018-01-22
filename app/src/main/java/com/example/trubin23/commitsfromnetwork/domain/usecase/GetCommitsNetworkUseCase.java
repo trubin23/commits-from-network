@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
-import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomainMapper;
-import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
+import com.example.trubin23.commitsfromnetwork.storage.model.CommitMapper;
+import com.example.trubin23.commitsfromnetwork.storage.model.load.CommitLoad;
 import com.example.trubin23.commitsfromnetwork.storage.network.RetrofitClient;
 
 import java.util.ArrayList;
@@ -30,17 +30,17 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
         Integer pageNumber = request.getPageNumber();
         Integer pageSize = request.getPageSize();
 
-        RetrofitClient.getCommits(owner, repo, pageNumber, pageSize, new Callback<List<CommitStorage>>() {
+        RetrofitClient.getCommits(owner, repo, pageNumber, pageSize, new Callback<List<CommitLoad>>() {
             @Override
-            public void onResponse(Call<List<CommitStorage>> call, Response<List<CommitStorage>> response) {
-                List<CommitStorage> commitsStorage = response.body();
+            public void onResponse(Call<List<CommitLoad>> call, Response<List<CommitLoad>> response) {
+                List<CommitLoad> commitsStorage = response.body();
 
                 if (response.isSuccessful() && commitsStorage != null) {
-                    List<CommitDomain> commitsDomain = new ArrayList<>();
+                    List<Commit> commitsDomain = new ArrayList<>();
 
-                    for (CommitStorage commitStorage : commitsStorage) {
-                        CommitDomain commitDomain = CommitDomainMapper.toCommitDomain(commitStorage);
-                        commitsDomain.add(commitDomain);
+                    for (CommitLoad commitLoad : commitsStorage) {
+                        Commit commit = CommitMapper.toCommit(commitLoad);
+                        commitsDomain.add(commit);
                     }
 
                     getUseCaseCallback().onSuccess(new ResponseValues(commitsDomain));
@@ -50,7 +50,7 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
             }
 
             @Override
-            public void onFailure(Call<List<CommitStorage>> call, Throwable t) {
+            public void onFailure(Call<List<CommitLoad>> call, Throwable t) {
                 getUseCaseCallback().onError();
             }
         });
@@ -90,14 +90,14 @@ public class GetCommitsNetworkUseCase extends BaseUseCase {
     }
 
     public static class ResponseValues implements BaseUseCase.ResponseValues {
-        private List<CommitDomain> mCommitsDomain;
+        private List<Commit> mCommitsDomain;
 
-        ResponseValues(@NonNull List<CommitDomain> commitsDomain) {
+        ResponseValues(@NonNull List<Commit> commitsDomain) {
             mCommitsDomain = commitsDomain;
         }
 
         @NonNull
-        public List<CommitDomain> getCommitsDomain() {
+        public List<Commit> getCommitsDomain() {
             return mCommitsDomain;
         }
     }

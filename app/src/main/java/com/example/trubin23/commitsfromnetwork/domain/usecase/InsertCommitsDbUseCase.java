@@ -3,8 +3,7 @@ package com.example.trubin23.commitsfromnetwork.domain.usecase;
 import android.support.annotation.NonNull;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomain;
-import com.example.trubin23.commitsfromnetwork.domain.model.CommitDomainMapper;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.CommitDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.DatabaseHelper;
@@ -12,9 +11,7 @@ import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.OwnerDaoImpl;
 import com.example.trubin23.commitsfromnetwork.storage.database.RepoDao;
 import com.example.trubin23.commitsfromnetwork.storage.database.RepoDaoImpl;
-import com.example.trubin23.commitsfromnetwork.storage.model.CommitStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,24 +48,18 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
             return;
         }
 
-        List<CommitDomain> commitsDomain = request.getCommitsDomain();
-        List<CommitStorage> commitsStorage = new ArrayList<>();
-        for (CommitDomain commitDomain : commitsDomain){
-            CommitStorage commitStorage = CommitDomainMapper.toCommitStorage(commitDomain);
-            commitsStorage.add(commitStorage);
-        }
-
+        List<Commit> commits = request.getCommits();
         CommitDao commitDao = new CommitDaoImpl(databaseHelper);
-        commitDao.insertCommits(commitsStorage);
+        commitDao.insertCommits(commits, repoId);
         getUseCaseCallback().onSuccess(new ResponseValues());
     }
 
     public static class RequestValues implements BaseUseCase.RequestValues {
-        private List<CommitDomain> mCommitsDomain;
+        private List<Commit> mCommitsDomain;
         private String mOwner;
         private String mRepo;
 
-        public RequestValues(@NonNull List<CommitDomain> commitsDomain,
+        public RequestValues(@NonNull List<Commit> commitsDomain,
                              @NonNull String owner, @NonNull String repo){
             mCommitsDomain = commitsDomain;
             mOwner = owner;
@@ -76,7 +67,7 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
 
         @NonNull
-        List<CommitDomain> getCommitsDomain() {
+        List<Commit> getCommits() {
             return mCommitsDomain;
         }
 
@@ -91,7 +82,7 @@ public class InsertCommitsDbUseCase extends BaseUseCase {
         }
     }
 
-    public static class ResponseValues implements BaseUseCase.ResponseValues {
+    private static class ResponseValues implements BaseUseCase.ResponseValues {
 
     }
 }

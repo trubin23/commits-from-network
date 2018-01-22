@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView.CLASS_COMMIT_VIEW;
+import static com.example.trubin23.commitsfromnetwork.storage.model.Commit.CLASS_COMMIT;
 
 /**
  * Created by Andrey on 08.01.2018.
@@ -38,11 +38,11 @@ public class DetailCommitActivity extends AppCompatActivity implements
 
         Intent intent = getIntent();
         if (intent != null) {
-            CommitView commitView = intent.getParcelableExtra(CLASS_COMMIT_VIEW);
-            if (commitView != null) {
-                tvCommitSha.setText(commitView.getSha());
-                tvCommitMessage.setText(commitView.getMessage());
-                tvCommitDate.setText(commitView.getDate());
+            Commit commit = intent.getParcelableExtra(CLASS_COMMIT);
+            if (commit != null) {
+                tvCommitSha.setText(commit.getSha());
+                tvCommitMessage.setText(commit.getMessage());
+                tvCommitDate.setText(commit.getDate());
             }
         }
     }

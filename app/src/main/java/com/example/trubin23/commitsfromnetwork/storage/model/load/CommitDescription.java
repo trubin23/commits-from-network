@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.storage.model;
+package com.example.trubin23.commitsfromnetwork.storage.model.load;
 
 import android.support.annotation.NonNull;
 import com.squareup.moshi.Json;

@@ -15,12 +15,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.CommitsAdapter;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.LoadCommitsActionHandler;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.SimpleScrollListener;
 import com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails.DetailCommitActivity;
 import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
+import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.example.trubin23.commitsfromnetwork.presentation.commits.model.CommitView.CLASS_COMMIT_VIEW;
+import static com.example.trubin23.commitsfromnetwork.storage.model.Commit.CLASS_COMMIT;
 
 public class CommitsActivity extends BaseActivity implements
         CommitsContract.View,
@@ -91,7 +91,7 @@ public class CommitsActivity extends BaseActivity implements
         mRepoName = savedInstanceState.getString(REPO_NAME);
         mLastPageLoaded = savedInstanceState.getBoolean(LAST_PAGE_LOADED);
 
-        ArrayList<CommitView> commits = savedInstanceState.getParcelableArrayList(COMMIT_ARRAY_LIST);
+        ArrayList<Commit> commits = savedInstanceState.getParcelableArrayList(COMMIT_ARRAY_LIST);
         mCommitsAdapter.setCommits(commits);
     }
 
@@ -103,7 +103,7 @@ public class CommitsActivity extends BaseActivity implements
         outState.putString(REPO_NAME, mRepoName);
         outState.putBoolean(LAST_PAGE_LOADED, mLastPageLoaded);
 
-        ArrayList<CommitView> commits = new ArrayList<>(mCommitsAdapter.getItems());
+        ArrayList<Commit> commits = new ArrayList<>(mCommitsAdapter.getItems());
         outState.putParcelableArrayList(COMMIT_ARRAY_LIST, commits);
     }
 
@@ -176,10 +176,10 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     @Override
-    public void setCommits(@NonNull List<CommitView> commitsView) {
-        Log.d(TAG, "Commits count: " + commitsView.size());
+    public void setCommits(@NonNull List<Commit> commits) {
+        Log.d(TAG, "Commits count: " + commits.size());
 
-        runOnUiThread(() -> mCommitsAdapter.insertCommits(commitsView));
+        runOnUiThread(() -> mCommitsAdapter.insertCommits(commits));
     }
 
     @Override
@@ -221,9 +221,9 @@ public class CommitsActivity extends BaseActivity implements
         }
     }
 
-    private void clickItemRecyclerView(CommitView commitView) {
+    private void clickItemRecyclerView(Commit commitView) {
         Intent intent = new Intent(CommitsActivity.this, DetailCommitActivity.class);
-        intent.putExtra(CLASS_COMMIT_VIEW, commitView);
+        intent.putExtra(CLASS_COMMIT, commitView);
         startActivity(intent);
     }
 }
