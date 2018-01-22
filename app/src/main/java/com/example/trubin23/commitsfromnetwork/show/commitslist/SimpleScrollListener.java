@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist;
+package com.example.trubin23.commitsfromnetwork.show.commitslist;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;

@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.presentation.common;
+package com.example.trubin23.commitsfromnetwork;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

@@ -1,8 +1,8 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
+package com.example.trubin23.commitsfromnetwork.show;
 
 import android.support.annotation.NonNull;
 
-import com.example.trubin23.commitsfromnetwork.presentation.common.BaseView;
+import com.example.trubin23.commitsfromnetwork.BaseView;
 import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.List;

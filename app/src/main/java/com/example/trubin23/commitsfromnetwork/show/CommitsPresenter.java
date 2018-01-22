@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
+package com.example.trubin23.commitsfromnetwork.show;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +11,7 @@ import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkU
 import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.LoadRepoDataUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.SaveRepoDataUseCase;
-import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
+import com.example.trubin23.commitsfromnetwork.BasePresenter;
 import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.List;

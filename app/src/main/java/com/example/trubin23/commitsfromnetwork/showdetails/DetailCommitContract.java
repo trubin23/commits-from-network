@@ -1,6 +1,6 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails;
+package com.example.trubin23.commitsfromnetwork.showdetails;
 
-import com.example.trubin23.commitsfromnetwork.presentation.common.BaseView;
+import com.example.trubin23.commitsfromnetwork.BaseView;
 
 /**
  * Created by Andrey on 19.01.2018.

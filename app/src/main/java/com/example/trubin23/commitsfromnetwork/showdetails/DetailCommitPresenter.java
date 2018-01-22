@@ -1,9 +1,9 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails;
+package com.example.trubin23.commitsfromnetwork.showdetails;
 
 import android.support.annotation.NonNull;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
-import com.example.trubin23.commitsfromnetwork.presentation.common.BasePresenter;
+import com.example.trubin23.commitsfromnetwork.BasePresenter;
 
 /**
  * Created by Andrey on 19.01.2018.

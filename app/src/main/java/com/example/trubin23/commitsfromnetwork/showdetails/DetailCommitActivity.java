@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails;
+package com.example.trubin23.commitsfromnetwork.showdetails;
 
 import android.content.Intent;
 import android.os.Bundle;

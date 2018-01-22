@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.presentation.commits.show;
+package com.example.trubin23.commitsfromnetwork.show;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.CommitsAdapter;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.LoadCommitsActionHandler;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.show.commitslist.SimpleScrollListener;
-import com.example.trubin23.commitsfromnetwork.presentation.commits.showdetails.DetailCommitActivity;
-import com.example.trubin23.commitsfromnetwork.presentation.common.BaseActivity;
+import com.example.trubin23.commitsfromnetwork.show.commitslist.CommitsAdapter;
+import com.example.trubin23.commitsfromnetwork.show.commitslist.LoadCommitsActionHandler;
+import com.example.trubin23.commitsfromnetwork.show.commitslist.SimpleScrollListener;
+import com.example.trubin23.commitsfromnetwork.showdetails.DetailCommitActivity;
+import com.example.trubin23.commitsfromnetwork.BaseActivity;
 import com.example.trubin23.commitsfromnetwork.storage.model.Commit;
 
 import java.util.ArrayList;
