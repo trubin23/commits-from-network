@@ -2,6 +2,7 @@ package com.example.trubin23.commitsfromnetwork;
 
 import android.app.Application;
 
+import com.example.trubin23.commitsfromnetwork.data.source.CommitsRepository;
 import com.example.trubin23.commitsfromnetwork.data.source.database.DatabaseHelper;
 import com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences;
 
@@ -16,7 +17,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        DatabaseHelper.getInstance(getApplicationContext());
-        CommitsSharedPreferences.getInstance(getApplicationContext());
+        CommitsRepository commitsRepository = CommitsRepository.getInstance(
+                CommitsSharedPreferences.getInstance(getApplicationContext()),
+                DatabaseHelper.getInstance(getApplicationContext()));
     }
 }

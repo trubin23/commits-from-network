@@ -24,9 +24,9 @@ public class CommitsSharedPreferences {
                 Context.MODE_PRIVATE);
     }
 
-    @Nullable
-    public static CommitsSharedPreferences getInstance(@Nullable Context context) {
-        if (mCommitsSharedPreferences == null && context != null) {
+    @NonNull
+    public static CommitsSharedPreferences getInstance(@NonNull Context context) {
+        if (mCommitsSharedPreferences == null) {
             mCommitsSharedPreferences = new CommitsSharedPreferences(context);
         }
         return mCommitsSharedPreferences;
