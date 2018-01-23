@@ -4,13 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.CommitDao;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.CommitDaoImpl;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.DatabaseHelper;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.OwnerDao;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.OwnerDaoImpl;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.RepoDao;
-import com.example.trubin23.commitsfromnetwork.data.source.local.database.RepoDaoImpl;
+import com.example.trubin23.commitsfromnetwork.data.source.database.CommitDao;
+import com.example.trubin23.commitsfromnetwork.data.source.database.CommitDaoImpl;
+import com.example.trubin23.commitsfromnetwork.data.source.database.DatabaseHelper;
+import com.example.trubin23.commitsfromnetwork.data.source.database.OwnerDao;
+import com.example.trubin23.commitsfromnetwork.data.source.database.OwnerDaoImpl;
+import com.example.trubin23.commitsfromnetwork.data.source.database.RepoDao;
+import com.example.trubin23.commitsfromnetwork.data.source.database.RepoDaoImpl;
 
 import java.util.List;
 

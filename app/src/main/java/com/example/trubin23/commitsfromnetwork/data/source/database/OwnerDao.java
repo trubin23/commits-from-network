@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.data.source.local.database;
+package com.example.trubin23.commitsfromnetwork.data.source.database;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

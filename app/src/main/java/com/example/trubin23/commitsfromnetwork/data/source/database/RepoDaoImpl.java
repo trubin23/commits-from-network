@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.data.source.local.database;
+package com.example.trubin23.commitsfromnetwork.data.source.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import static com.example.trubin23.commitsfromnetwork.data.source.local.database.OwnerDao.COLUMN_OWNER_ID;
-import static com.example.trubin23.commitsfromnetwork.data.source.local.database.OwnerDao.TABLE_OWNER;
+import static com.example.trubin23.commitsfromnetwork.data.source.database.OwnerDao.COLUMN_OWNER_ID;
+import static com.example.trubin23.commitsfromnetwork.data.source.database.OwnerDao.TABLE_OWNER;
 
 /**
  * Created by Andrey on 17.01.2018.

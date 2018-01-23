@@ -2,17 +2,17 @@ package com.example.trubin23.commitsfromnetwork.domain.usecase;
 
 import android.support.annotation.NonNull;
 
+import com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoSharedPreferences;
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
-import com.example.trubin23.commitsfromnetwork.data.source.local.preferences.CustomPreferences;
+
+import static com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoPreferences.OWNER_VALUE;
+import static com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoPreferences.REPO_VALUE;
 
 /**
  * Created by Andrey on 19.01.2018.
  */
 
 public class SaveRepoDataUseCase extends BaseUseCase {
-
-    public static final String OWNER_VALUE = "owner_value";
-    public static final String REPO_VALUE = "repo_value";
 
     @Override
     protected void executeUseCase(@NonNull BaseUseCase.RequestValues requestValues) {
@@ -21,10 +21,10 @@ public class SaveRepoDataUseCase extends BaseUseCase {
         String owner = request.getOwner();
         String repo = request.getRepo();
 
-        CustomPreferences customPreferences = CustomPreferences.getInstance(null);
+        RepoSharedPreferences customPreferences = RepoSharedPreferences.getInstance(null);
         if (customPreferences != null){
-            customPreferences.putOwner(owner);
-            customPreferences.putRepo(repo);
+            customPreferences.putString(OWNER_VALUE, owner);
+            customPreferences.putString(REPO_VALUE, repo);
             getUseCaseCallback().onSuccess(new ResponseValues());
         } else {
             getUseCaseCallback().onError();
