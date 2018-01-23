@@ -2,11 +2,11 @@ package com.example.trubin23.commitsfromnetwork.domain.usecase;
 
 import android.support.annotation.NonNull;
 
-import com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoSharedPreferences;
+import com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences;
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 
-import static com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoPreferences.OWNER_VALUE;
-import static com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoPreferences.REPO_VALUE;
+import static com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences.OWNER_VALUE;
+import static com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences.REPO_VALUE;
 
 /**
  * Created by Andrey on 19.01.2018.
@@ -21,7 +21,7 @@ public class SaveRepoDataUseCase extends BaseUseCase {
         String owner = request.getOwner();
         String repo = request.getRepo();
 
-        RepoSharedPreferences customPreferences = RepoSharedPreferences.getInstance(null);
+        CommitsSharedPreferences customPreferences = CommitsSharedPreferences.getInstance(null);
         if (customPreferences != null){
             customPreferences.putString(OWNER_VALUE, owner);
             customPreferences.putString(REPO_VALUE, repo);

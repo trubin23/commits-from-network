@@ -3,7 +3,7 @@ package com.example.trubin23.commitsfromnetwork;
 import android.app.Application;
 
 import com.example.trubin23.commitsfromnetwork.data.source.database.DatabaseHelper;
-import com.example.trubin23.commitsfromnetwork.data.source.preferences.RepoSharedPreferences;
+import com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences;
 
 
 /**
@@ -17,6 +17,6 @@ public class MyApplication extends Application {
         super.onCreate();
 
         DatabaseHelper.getInstance(getApplicationContext());
-        RepoSharedPreferences.getInstance(getApplicationContext());
+        CommitsSharedPreferences.getInstance(getApplicationContext());
     }
 }
