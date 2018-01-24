@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.trubin23.commitsfromnetwork.BasePresenter;
+import com.example.trubin23.commitsfromnetwork.data.Commit;
+import com.example.trubin23.commitsfromnetwork.data.source.CommitsRepository;
 import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
@@ -11,8 +14,6 @@ import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkU
 import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.LoadRepoDataUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.SaveRepoDataUseCase;
-import com.example.trubin23.commitsfromnetwork.BasePresenter;
-import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.List;
 
@@ -30,8 +31,9 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     private final SaveRepoDataUseCase mSaveRepoDataUseCase;
     private final LoadRepoDataUseCase mLoadRepoDataUseCase;
 
-    CommitsPresenter(@NonNull UseCaseHandler useCaseHandler) {
-        super(useCaseHandler);
+    CommitsPresenter(@NonNull CommitsRepository commitsRepository,
+                     @NonNull UseCaseHandler useCaseHandler) {
+        super(commitsRepository, useCaseHandler);
         mGetCommitsDbUseCase = new GetCommitsDbUseCase();
         mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();

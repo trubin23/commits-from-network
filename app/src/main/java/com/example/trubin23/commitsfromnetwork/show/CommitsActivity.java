@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.show.commitslist.CommitsAdapter;
 import com.example.trubin23.commitsfromnetwork.show.commitslist.LoadCommitsActionHandler;
@@ -108,7 +109,8 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     private void createPresenter() {
-        mPresenter = new CommitsPresenter(mUseCaseHandler);
+        mPresenter = new CommitsPresenter(Injection.provideCommitsRepository(this),
+                mUseCaseHandler);
         bindPresenterToView(mPresenter);
     }
 
@@ -133,10 +135,10 @@ public class CommitsActivity extends BaseActivity implements
         final EditText ownerName = repoNameDialog.findViewById(R.id.et_owner);
         final EditText repoName = repoNameDialog.findViewById(R.id.et_repo);
 
-        if (mOwnerName != null){
+        if (mOwnerName != null) {
             ownerName.setText(mOwnerName);
         }
-        if (mRepoName != null){
+        if (mRepoName != null) {
             repoName.setText(mRepoName);
         }
 

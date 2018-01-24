@@ -2,6 +2,8 @@ package com.example.trubin23.commitsfromnetwork;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.example.trubin23.commitsfromnetwork.data.source.CommitsRepository;
 import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
 
 /**
@@ -16,7 +18,11 @@ public class BasePresenter<T extends BaseView> implements BasePresenterInterface
 
     protected UseCaseHandler mUseCaseHandler;
 
-    public BasePresenter(@NonNull UseCaseHandler useCaseHandler){
+    protected CommitsRepository mCommitsRepository;
+
+    public BasePresenter(@NonNull CommitsRepository commitsRepository,
+                         @NonNull UseCaseHandler useCaseHandler) {
+        mCommitsRepository = commitsRepository;
         mUseCaseHandler = useCaseHandler;
     }
 
