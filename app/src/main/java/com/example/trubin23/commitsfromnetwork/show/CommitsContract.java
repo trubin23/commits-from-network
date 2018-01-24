@@ -18,7 +18,8 @@ class CommitsContract {
         void loadFinished();
         void showToast(@NonNull String message);
         void lastPageLoaded();
-        void setRepoData(@NonNull String owner, @NonNull String repo);
+        void setOwnerName(@NonNull String ownerName);
+        void setRepoName(@NonNull String repoName);
     }
 
     interface Presenter {

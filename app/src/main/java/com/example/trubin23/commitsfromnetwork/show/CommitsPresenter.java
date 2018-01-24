@@ -12,10 +12,11 @@ import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
 import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.LoadRepoDataUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.SaveRepoDataUseCase;
 
 import java.util.List;
+
+import static com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences.OWNER_VALUE;
+import static com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences.REPO_VALUE;
 
 /**
  * Created by Andrey on 31.12.2017.
@@ -28,8 +29,6 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
     private final GetCommitsDbUseCase mGetCommitsDbUseCase;
     private final GetCommitsNetworkUseCase mGetCommitsNetworkUseCase;
     private final InsertCommitsDbUseCase mInsertCommitsDbUseCase;
-    private final SaveRepoDataUseCase mSaveRepoDataUseCase;
-    private final LoadRepoDataUseCase mLoadRepoDataUseCase;
 
     CommitsPresenter(@NonNull CommitsRepository commitsRepository,
                      @NonNull UseCaseHandler useCaseHandler) {
@@ -37,8 +36,6 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
         mGetCommitsDbUseCase = new GetCommitsDbUseCase();
         mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
         mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
-        mSaveRepoDataUseCase = new SaveRepoDataUseCase();
-        mLoadRepoDataUseCase = new LoadRepoDataUseCase();
     }
 
     private void getCommitsDb(@NonNull String owner, @NonNull String repo) {
@@ -118,40 +115,13 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     @Override
     public void saveRepoData(@NonNull String owner, @NonNull String repo) {
-        mUseCaseHandler.execute(mSaveRepoDataUseCase,
-                new SaveRepoDataUseCase.RequestValues(owner, repo),
-                new BaseUseCase.UseCaseCallback() {
-                    @Override
-                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                    }
-
-                    @Override
-                    public void onError() {
-                        Log.e(TAG, "SaveRepoDataUseCase: error");
-                    }
-                });
+        mCommitsRepository.savePreference(OWNER_VALUE, owner);
+        mCommitsRepository.savePreference(REPO_VALUE, repo);
     }
 
     @Override
     public void loadRepoData() {
-        mUseCaseHandler.execute(mLoadRepoDataUseCase,
-                new LoadRepoDataUseCase.RequestValues(),
-                new BaseUseCase.UseCaseCallback() {
-                    @Override
-                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                        LoadRepoDataUseCase.ResponseValues response =
-                                (LoadRepoDataUseCase.ResponseValues) responseValues;
-
-                        String owner = response.getOwner();
-                        String repo = response.getRepo();
-
-                        getView().setRepoData(owner, repo);
-                    }
-
-                    @Override
-                    public void onError() {
-                        Log.e(TAG, "SaveRepoDataUseCase: error");
-                    }
-                });
+        mCommitsRepository.getPreference(OWNER_VALUE, value -> getView().setOwnerName(value));
+        mCommitsRepository.getPreference(REPO_VALUE, value -> getView().setRepoName(value));
     }
 }

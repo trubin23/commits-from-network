@@ -172,8 +172,12 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     @Override
-    public void setRepoData(@NonNull String owner, @NonNull String repo) {
+    public void setOwnerName(@NonNull String owner) {
         mOwnerName = owner;
+    }
+
+    @Override
+    public void setRepoName(@NonNull String repo) {
         mRepoName = repo;
     }
 
