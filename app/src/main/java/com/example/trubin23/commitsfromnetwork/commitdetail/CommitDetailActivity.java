@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.showdetails;
+package com.example.trubin23.commitsfromnetwork.commitdetail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,8 @@ import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
  * Created by Andrey on 08.01.2018.
  */
 
-public class DetailCommitActivity extends AppCompatActivity implements
-        DetailCommitContract.View {
+public class CommitDetailActivity extends AppCompatActivity implements
+        CommitDetailContract.View {
 
     @BindView(R.id.commit_sha_value)
     TextView tvCommitSha;

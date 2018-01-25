@@ -16,6 +16,7 @@ import com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSh
 import com.example.trubin23.commitsfromnetwork.data.source.remote.RetrofitClient;
 import com.example.trubin23.commitsfromnetwork.data.source.remote.model.CommitMapper;
 import com.example.trubin23.commitsfromnetwork.data.source.remote.model.load.CommitLoad;
+import com.example.trubin23.commitsfromnetwork.util.AppExecutors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +33,19 @@ public class CommitsRepository implements CommitsDataSource {
 
     private static CommitsRepository INSTANCE;
 
+    private AppExecutors mAppExecutors;
+
     private CommitsSharedPreferences mCommitsSharedPreferences;
 
     private OwnerDao mOwnerDao;
     private RepoDao mRepoDao;
     private CommitDao mCommitDao;
 
-    private CommitsRepository(@NonNull CommitsSharedPreferences commitsSharedPreferences,
+    private CommitsRepository(@NonNull AppExecutors appExecutors,
+                              @NonNull CommitsSharedPreferences commitsSharedPreferences,
                               @NonNull DatabaseHelper databaseHelper) {
+        mAppExecutors = appExecutors;
+
         mCommitsSharedPreferences = commitsSharedPreferences;
 
         mOwnerDao = new OwnerDaoImpl(databaseHelper);
@@ -47,10 +53,11 @@ public class CommitsRepository implements CommitsDataSource {
         mCommitDao = new CommitDaoImpl(databaseHelper);
     }
 
-    public static CommitsRepository getInstance(@NonNull CommitsSharedPreferences commitsSharedPreferences,
+    public static CommitsRepository getInstance(@NonNull AppExecutors appExecutors,
+                                                @NonNull CommitsSharedPreferences commitsSharedPreferences,
                                                 @NonNull DatabaseHelper databaseHelper) {
         if (INSTANCE == null) {
-            INSTANCE = new CommitsRepository(commitsSharedPreferences, databaseHelper);
+            INSTANCE = new CommitsRepository(appExecutors, commitsSharedPreferences, databaseHelper);
         }
         return INSTANCE;
     }
@@ -69,53 +76,61 @@ public class CommitsRepository implements CommitsDataSource {
     @Override
     public void getCommitsDb(@NonNull String owner, @NonNull String repo,
                              @NonNull LoadCommitsCallback callback) {
-        Long ownerId = mOwnerDao.getOwnerId(owner);
-        if (ownerId == null) {
-            callback.onDataNotAvailable();
-            return;
-        }
+        Runnable runnable = () -> {
+            Long ownerId = mOwnerDao.getOwnerId(owner);
+            if (ownerId == null) {
+                mAppExecutors.getMainThread().execute(callback::onDataNotAvailable);
+                return;
+            }
 
-        Long repoId = mRepoDao.getRepo(repo, ownerId);
-        if (repoId == null) {
-            callback.onDataNotAvailable();
-            return;
-        }
+            Long repoId = mRepoDao.getRepo(repo, ownerId);
+            if (repoId == null) {
+                mAppExecutors.getMainThread().execute(callback::onDataNotAvailable);
+                return;
+            }
 
-        Cursor cursor = mCommitDao.getCommits(repoId);
-        if (cursor == null) {
-            callback.onDataNotAvailable();
-            return;
-        }
+            Cursor cursor = mCommitDao.getCommits(repoId);
+            if (cursor == null) {
+                mAppExecutors.getMainThread().execute(callback::onDataNotAvailable);
+                return;
+            }
 
-        List<Commit> commits = new ArrayList<>();
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            String sha = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_SHA));
-            String message = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_MESSAGE));
-            String date = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_DATE));
+            List<Commit> commits = new ArrayList<>();
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                String sha = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_SHA));
+                String message = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_MESSAGE));
+                String date = cursor.getString(cursor.getColumnIndex(CommitDao.COLUMN_COMMIT_DATE));
 
-            Commit commit = new Commit(sha, message, date);
-            commits.add(commit);
-        }
+                Commit commit = new Commit(sha, message, date);
+                commits.add(commit);
+            }
 
-        callback.onCommitsLoaded(commits);
+            mAppExecutors.getMainThread().execute(() -> callback.onCommitsLoaded(commits));
+        };
+
+        mAppExecutors.getDbThread().execute(runnable);
     }
 
     @Override
     public void insertCommitsDb(@NonNull List<Commit> commits, @NonNull String owner,
                                 @NonNull String repo) {
-        mOwnerDao.insertOwner(owner);
-        Long ownerId = mOwnerDao.getOwnerId(owner);
-        if (ownerId == null) {
-            return;
-        }
+        Runnable runnable = () -> {
+            mOwnerDao.insertOwner(owner);
+            Long ownerId = mOwnerDao.getOwnerId(owner);
+            if (ownerId == null) {
+                return;
+            }
 
-        mRepoDao.insertRepo(repo, ownerId);
-        Long repoId = mRepoDao.getRepo(repo, ownerId);
-        if (repoId == null) {
-            return;
-        }
+            mRepoDao.insertRepo(repo, ownerId);
+            Long repoId = mRepoDao.getRepo(repo, ownerId);
+            if (repoId == null) {
+                return;
+            }
 
-        mCommitDao.insertCommits(commits, repoId);
+            mCommitDao.insertCommits(commits, repoId);
+        };
+
+        mAppExecutors.getDbThread().execute(runnable);
     }
 
     @Override

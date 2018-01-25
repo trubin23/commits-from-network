@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "commits.db";
     private static final int DB_VERSION = 1;
 
-    private static DatabaseHelper mDatabaseHelper;
+    private static volatile DatabaseHelper INSTANCE;
 
     private DatabaseHelper(@NonNull Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -25,10 +25,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @NonNull
     public static DatabaseHelper getInstance(@NonNull Context context) {
-        if (mDatabaseHelper == null){
-            mDatabaseHelper = new DatabaseHelper(context.getApplicationContext());
+        if (INSTANCE == null) {
+            synchronized (DatabaseHelper.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new DatabaseHelper(context.getApplicationContext());
+                }
+            }
         }
-        return mDatabaseHelper;
+        return INSTANCE;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(RepoDaoImpl.REPO_CREATE_TABLE);
             db.execSQL(CommitDaoImpl.COMMIT_CREATE_TABLE);
             db.setTransactionSuccessful();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "create table " + CommitDao.TABLE_COMMIT, e);
         } finally {
             db.endTransaction();

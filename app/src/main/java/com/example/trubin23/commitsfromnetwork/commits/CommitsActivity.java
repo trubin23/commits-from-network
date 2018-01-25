@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.show;
+package com.example.trubin23.commitsfromnetwork.commits;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
-import com.example.trubin23.commitsfromnetwork.show.commitslist.CommitsAdapter;
-import com.example.trubin23.commitsfromnetwork.show.commitslist.LoadCommitsActionHandler;
-import com.example.trubin23.commitsfromnetwork.show.commitslist.SimpleScrollListener;
-import com.example.trubin23.commitsfromnetwork.showdetails.DetailCommitActivity;
+import com.example.trubin23.commitsfromnetwork.commits.commitslist.CommitsAdapter;
+import com.example.trubin23.commitsfromnetwork.commits.commitslist.LoadCommitsActionHandler;
+import com.example.trubin23.commitsfromnetwork.commits.commitslist.SimpleScrollListener;
+import com.example.trubin23.commitsfromnetwork.commitdetail.CommitDetailActivity;
 import com.example.trubin23.commitsfromnetwork.BaseActivity;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
 
@@ -227,7 +227,7 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     private void clickItemRecyclerView(Commit commitView) {
-        Intent intent = new Intent(CommitsActivity.this, DetailCommitActivity.class);
+        Intent intent = new Intent(CommitsActivity.this, CommitDetailActivity.class);
         intent.putExtra(CLASS_COMMIT, commitView);
         startActivity(intent);
     }

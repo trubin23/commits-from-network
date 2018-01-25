@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.show.commitslist;
+package com.example.trubin23.commitsfromnetwork.commits.commitslist;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

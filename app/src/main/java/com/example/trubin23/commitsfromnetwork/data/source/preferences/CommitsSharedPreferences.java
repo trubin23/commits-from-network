@@ -11,10 +11,7 @@ import android.support.annotation.Nullable;
 
 public class CommitsSharedPreferences {
 
-    public static final String OWNER_VALUE = "owner_value";
-    public static final String REPO_VALUE = "repo_value";
-
-    private static CommitsSharedPreferences mCommitsSharedPreferences;
+    private static CommitsSharedPreferences INSTANCE;
     private SharedPreferences mSharedPreferences;
 
     private CommitsSharedPreferences(@NonNull Context context) {
@@ -26,10 +23,14 @@ public class CommitsSharedPreferences {
 
     @NonNull
     public static CommitsSharedPreferences getInstance(@NonNull Context context) {
-        if (mCommitsSharedPreferences == null) {
-            mCommitsSharedPreferences = new CommitsSharedPreferences(context);
+        if (INSTANCE == null) {
+            synchronized (CommitsSharedPreferences.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new CommitsSharedPreferences(context);
+                }
+            }
         }
-        return mCommitsSharedPreferences;
+        return INSTANCE;
     }
 
     public void putString(@NonNull String key, @NonNull String value) {

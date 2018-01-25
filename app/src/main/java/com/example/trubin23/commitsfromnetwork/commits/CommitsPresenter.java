@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.show;
+package com.example.trubin23.commitsfromnetwork.commits;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,14 +11,14 @@ import com.example.trubin23.commitsfromnetwork.data.source.CommitsRepository;
 
 import java.util.List;
 
-import static com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences.OWNER_VALUE;
-import static com.example.trubin23.commitsfromnetwork.data.source.preferences.CommitsSharedPreferences.REPO_VALUE;
-
 /**
  * Created by Andrey on 31.12.2017.
  */
 
 class CommitsPresenter extends BasePresenter<CommitsContract.View> implements CommitsContract.Presenter {
+
+    private static final String OWNER_VALUE = "owner_value";
+    private static final String REPO_VALUE = "repo_value";
 
     private static final String TAG = CommitsPresenter.class.getSimpleName();
 
@@ -60,7 +60,6 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                     @Override
                     public void onDataNotAvailable() {
                         errorMessage("getCommitsNetwork: error");
-
                     }
                 });
     }

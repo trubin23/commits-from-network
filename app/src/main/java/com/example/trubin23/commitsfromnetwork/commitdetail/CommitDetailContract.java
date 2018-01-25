@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.showdetails;
+package com.example.trubin23.commitsfromnetwork.commitdetail;
 
 import com.example.trubin23.commitsfromnetwork.BaseView;
 
@@ -6,7 +6,7 @@ import com.example.trubin23.commitsfromnetwork.BaseView;
  * Created by Andrey on 19.01.2018.
  */
 
-public class DetailCommitContract {
+interface CommitDetailContract {
 
     interface View extends BaseView {
     }

@@ -1,4 +1,4 @@
-package com.example.trubin23.commitsfromnetwork.show;
+package com.example.trubin23.commitsfromnetwork.commits;
 
 import android.support.annotation.NonNull;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Andrey on 31.12.2017.
  */
 
-class CommitsContract {
+interface CommitsContract {
 
     interface View extends BaseView {
         void setCommits(@NonNull List<Commit> commitsView);
