@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
-import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,8 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Andrey on 10.01.2018.
@@ -31,15 +28,8 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     private LinkedHashMap<String, Commit> mCommits;
 
-    private PublishSubject<Commit> mViewClickSubject;
-
     public CommitsAdapter() {
         mCommits = new LinkedHashMap<>();
-        mViewClickSubject = PublishSubject.create();
-    }
-
-    public Observable<Commit> getViewClickedObservable() {
-        return mViewClickSubject.hide();
     }
 
     @Override
@@ -55,22 +45,11 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
         String sha = (String) (mCommits.keySet().toArray())[ position ];
         Commit commitView = mCommits.get( sha );
         holder.setCommit(commitView);
-
-        RxView.clicks(holder.itemView)
-                .map(aVoid -> commitView)
-                .subscribe(mViewClickSubject);
     }
 
     @Override
     public int getItemCount() {
         return mCommits.size();
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-
-        mViewClickSubject.onComplete();
     }
 
     public void setCommits(@Nullable List<Commit> commits) {

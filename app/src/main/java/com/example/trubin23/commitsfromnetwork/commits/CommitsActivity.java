@@ -74,7 +74,6 @@ public class CommitsActivity extends BaseActivity implements
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         mCommitsAdapter = new CommitsAdapter();
-        mCommitsAdapter.getViewClickedObservable().subscribe(this::clickItemRecyclerView);
         mRecyclerView.setAdapter(mCommitsAdapter);
 
         mRecyclerView.addOnScrollListener(new SimpleScrollListener(this));

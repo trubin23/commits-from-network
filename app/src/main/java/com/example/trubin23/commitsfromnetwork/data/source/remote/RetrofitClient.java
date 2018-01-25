@@ -11,7 +11,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
@@ -42,7 +41,6 @@ public class RetrofitClient {
                     .baseUrl(BASE_URL)
                     .client(httpClient)
                     .addConverterFactory(MoshiConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
 
             mSOService = retrofit.create(SOService.class);
