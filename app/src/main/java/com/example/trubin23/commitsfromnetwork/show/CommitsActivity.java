@@ -109,8 +109,7 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     private void createPresenter() {
-        mPresenter = new CommitsPresenter(Injection.provideCommitsRepository(this),
-                mUseCaseHandler);
+        mPresenter = new CommitsPresenter(Injection.provideCommitsRepository(this));
         bindPresenterToView(mPresenter);
     }
 
@@ -185,7 +184,7 @@ public class CommitsActivity extends BaseActivity implements
     public void setCommits(@NonNull List<Commit> commits) {
         Log.d(TAG, "Commits count: " + commits.size());
 
-        runOnUiThread(() -> mCommitsAdapter.insertCommits(commits));
+        mCommitsAdapter.insertCommits(commits);
     }
 
     @Override

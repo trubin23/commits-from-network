@@ -6,12 +6,8 @@ import android.util.Log;
 
 import com.example.trubin23.commitsfromnetwork.BasePresenter;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
+import com.example.trubin23.commitsfromnetwork.data.source.CommitsDataSource;
 import com.example.trubin23.commitsfromnetwork.data.source.CommitsRepository;
-import com.example.trubin23.commitsfromnetwork.domain.common.BaseUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.common.UseCaseHandler;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsDbUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.GetCommitsNetworkUseCase;
-import com.example.trubin23.commitsfromnetwork.domain.usecase.InsertCommitsDbUseCase;
 
 import java.util.List;
 
@@ -26,32 +22,21 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     private static final String TAG = CommitsPresenter.class.getSimpleName();
 
-    private final GetCommitsDbUseCase mGetCommitsDbUseCase;
-    private final GetCommitsNetworkUseCase mGetCommitsNetworkUseCase;
-    private final InsertCommitsDbUseCase mInsertCommitsDbUseCase;
-
-    CommitsPresenter(@NonNull CommitsRepository commitsRepository,
-                     @NonNull UseCaseHandler useCaseHandler) {
-        super(commitsRepository, useCaseHandler);
-        mGetCommitsDbUseCase = new GetCommitsDbUseCase();
-        mGetCommitsNetworkUseCase = new GetCommitsNetworkUseCase();
-        mInsertCommitsDbUseCase = new InsertCommitsDbUseCase();
+    CommitsPresenter(@NonNull CommitsRepository commitsRepository) {
+        super(commitsRepository);
     }
 
     private void getCommitsDb(@NonNull String owner, @NonNull String repo) {
-        mUseCaseHandler.execute(mGetCommitsDbUseCase, new GetCommitsDbUseCase.RequestValues(owner, repo),
-                new BaseUseCase.UseCaseCallback() {
-                    @Override
-                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                        GetCommitsDbUseCase.ResponseValues response =
-                                (GetCommitsDbUseCase.ResponseValues) responseValues;
+        mCommitsRepository.getCommitsDb(owner, repo,
+                new CommitsDataSource.LoadCommitsCallback() {
 
-                        List<Commit> commits = response.getCommitsDomain();
+                    @Override
+                    public void onCommitsLoaded(List<Commit> commits) {
                         getView().setCommits(commits);
                     }
 
                     @Override
-                    public void onError() {
+                    public void onDataNotAvailable() {
                         errorMessage("GetCommitsDbUseCase: error");
                     }
                 });
@@ -59,15 +44,10 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     private void getCommitsNetwork(@NonNull String owner, @NonNull String repo,
                                    @Nullable Integer pageNumber, @Nullable Integer pageSize) {
-        mUseCaseHandler.execute(mGetCommitsNetworkUseCase,
-                new GetCommitsNetworkUseCase.RequestValues(owner, repo, pageNumber, pageSize),
-                new BaseUseCase.UseCaseCallback() {
+        mCommitsRepository.getCommitsNetwork(owner, repo, pageNumber, pageSize,
+                new CommitsDataSource.LoadCommitsCallback() {
                     @Override
-                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                        GetCommitsNetworkUseCase.ResponseValues response =
-                                (GetCommitsNetworkUseCase.ResponseValues) responseValues;
-
-                        List<Commit> commits = response.getCommitsDomain();
+                    public void onCommitsLoaded(List<Commit> commits) {
                         insertCommitsDb(commits, owner, repo);
 
                         getView().setCommits(commits);
@@ -78,26 +58,16 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                     }
 
                     @Override
-                    public void onError() {
-                        errorMessage("GetCommitsNetworkUseCase: error");
+                    public void onDataNotAvailable() {
+                        errorMessage("getCommitsNetwork: error");
+
                     }
                 });
     }
 
-    private void insertCommitsDb(@NonNull List<Commit> commitsDomain,
+    private void insertCommitsDb(@NonNull List<Commit> commits,
                                  @NonNull String owner, @NonNull String repo) {
-        mUseCaseHandler.execute(mInsertCommitsDbUseCase,
-                new InsertCommitsDbUseCase.RequestValues(commitsDomain, owner, repo),
-                new BaseUseCase.UseCaseCallback() {
-                    @Override
-                    public void onSuccess(@NonNull BaseUseCase.ResponseValues responseValues) {
-                    }
-
-                    @Override
-                    public void onError() {
-                        errorMessage("InsertCommitsDbUseCase: error");
-                    }
-                });
+        mCommitsRepository.insertCommitsDb(commits, owner, repo);
     }
 
     @Override

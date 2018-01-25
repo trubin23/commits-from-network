@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Andrey on 23.01.2018.
  */
 
-interface CommitsDataSource {
+public interface CommitsDataSource {
 
     interface LoadCommitsCallback {
 

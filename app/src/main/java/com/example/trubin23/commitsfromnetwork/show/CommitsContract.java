@@ -16,10 +16,10 @@ class CommitsContract {
     interface View extends BaseView {
         void setCommits(@NonNull List<Commit> commitsView);
         void loadFinished();
-        void showToast(@NonNull String message);
         void lastPageLoaded();
         void setOwnerName(@NonNull String ownerName);
         void setRepoName(@NonNull String repoName);
+        void showToast(@NonNull String message);
     }
 
     interface Presenter {
