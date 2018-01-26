@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
+import com.example.trubin23.commitsfromnetwork.commits.commitslist.CommitItemActionHandler;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.CommitsAdapter;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.LoadCommitsActionHandler;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.SimpleScrollListener;
@@ -34,7 +35,8 @@ import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
 
 public class CommitsActivity extends BaseActivity implements
         CommitsContract.View,
-        LoadCommitsActionHandler {
+        LoadCommitsActionHandler,
+        CommitItemActionHandler {
 
     private static final String TAG = CommitsActivity.class.getSimpleName();
 
@@ -73,7 +75,7 @@ public class CommitsActivity extends BaseActivity implements
                 mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        mCommitsAdapter = new CommitsAdapter();
+        mCommitsAdapter = new CommitsAdapter(this);
         mRecyclerView.setAdapter(mCommitsAdapter);
 
         mRecyclerView.addOnScrollListener(new SimpleScrollListener(this));
@@ -183,7 +185,7 @@ public class CommitsActivity extends BaseActivity implements
     public void setCommits(@NonNull List<Commit> commits) {
         Log.d(TAG, "Commits count: " + commits.size());
 
-        mCommitsAdapter.insertCommits(commits);
+        mCommitsAdapter.addCommits(commits);
     }
 
     @Override
@@ -225,9 +227,10 @@ public class CommitsActivity extends BaseActivity implements
         }
     }
 
-    private void clickItemRecyclerView(Commit commitView) {
+    @Override
+    public void onClickItemRecyclerView(Commit commit) {
         Intent intent = new Intent(CommitsActivity.this, CommitDetailActivity.class);
-        intent.putExtra(CLASS_COMMIT, commitView);
+        intent.putExtra(CLASS_COMMIT, commit);
         startActivity(intent);
     }
 }

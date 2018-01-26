@@ -53,7 +53,7 @@ public class CommitDaoImpl implements CommitDao {
 
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "void insertCommits(@NonNull List<Commit> commits, @NonNull Long repoId)", e);
+            Log.e(TAG, "void addCommits(@NonNull List<Commit> commits, @NonNull Long repoId)", e);
         } finally {
             db.endTransaction();
         }

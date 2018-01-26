@@ -28,7 +28,10 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
 
     private LinkedHashMap<String, Commit> mCommits;
 
-    public CommitsAdapter() {
+    private CommitItemActionHandler mCommitItemActionHandler;
+
+    public CommitsAdapter(CommitItemActionHandler commitItemActionHandler) {
+        mCommitItemActionHandler = commitItemActionHandler;
         mCommits = new LinkedHashMap<>();
     }
 
@@ -45,6 +48,9 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
         String sha = (String) (mCommits.keySet().toArray())[ position ];
         Commit commitView = mCommits.get( sha );
         holder.setCommit(commitView);
+
+        holder.itemView.setOnClickListener(v ->
+                mCommitItemActionHandler.onClickItemRecyclerView(commitView));
     }
 
     @Override
@@ -55,11 +61,11 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitHo
     public void setCommits(@Nullable List<Commit> commits) {
         mCommits = new LinkedHashMap<>();
         if (commits != null) {
-            insertCommits(commits);
+            addCommits(commits);
         }
     }
 
-    public void insertCommits(@NonNull List<Commit> commits) {
+    public void addCommits(@NonNull List<Commit> commits) {
         for (Commit commit : commits) {
             mCommits.put(commit.getSha(), commit);
         }

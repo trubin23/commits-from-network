@@ -52,7 +52,7 @@ public class RetrofitClient {
                                   @Nullable Integer pageNumber, @Nullable Integer pageSize,
                                   @NonNull Callback<List<CommitLoad>> callback) {
         SOService soService = getSOService();
-        if (pageNumber == null) {
+        if (pageNumber == null || pageSize == null) {
             soService.getCommits(owner, repo).enqueue(callback);
         } else {
             soService.getPageCommits(owner, repo, pageNumber, pageSize).enqueue(callback);

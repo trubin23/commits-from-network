@@ -64,13 +64,19 @@ public class CommitsRepository implements CommitsDataSource {
 
     @Override
     public void savePreference(@NonNull String key, @NonNull String value) {
-        mCommitsSharedPreferences.putString(key, value);
+        Runnable runnable = () -> mCommitsSharedPreferences.putString(key, value);
+
+        mAppExecutors.getSharedPreferencesThread().execute(runnable);
     }
 
     @Override
     public void getPreference(@NonNull String key, @NonNull GetPreferenceCallback callback) {
-        String value = mCommitsSharedPreferences.getString(key);
-        callback.onPreferenceGot(value);
+        Runnable runnable = () -> {
+            String value = mCommitsSharedPreferences.getString(key);
+            mAppExecutors.getMainThread().execute(() -> callback.onPreferenceGot(value));
+        };
+
+        mAppExecutors.getSharedPreferencesThread().execute(runnable);
     }
 
     @Override
@@ -137,7 +143,7 @@ public class CommitsRepository implements CommitsDataSource {
     public void getCommitsNetwork(@NonNull String owner, @NonNull String repo,
                                   @Nullable Integer pageNumber, @Nullable Integer pageSize,
                                   @NonNull LoadCommitsCallback callback) {
-        RetrofitClient.getCommits(owner, repo, pageNumber, pageSize, new Callback<List<CommitLoad>>() {
+        Callback<List<CommitLoad>> retrofitCallback = new Callback<List<CommitLoad>>() {
             @Override
             public void onResponse(Call<List<CommitLoad>> call, Response<List<CommitLoad>> response) {
                 List<CommitLoad> commitsLoad = response.body();
@@ -150,16 +156,21 @@ public class CommitsRepository implements CommitsDataSource {
                         commits.add(commit);
                     }
 
-                    callback.onCommitsLoaded(commits);
+                    mAppExecutors.getMainThread().execute(() -> callback.onCommitsLoaded(commits));
                 } else {
-                    callback.onDataNotAvailable();
+                    mAppExecutors.getMainThread().execute(callback::onDataNotAvailable);
                 }
             }
 
             @Override
             public void onFailure(Call<List<CommitLoad>> call, Throwable t) {
-                callback.onDataNotAvailable();
+                mAppExecutors.getMainThread().execute(callback::onDataNotAvailable);
             }
-        });
+        };
+
+        Runnable runnable = () -> RetrofitClient.getCommits(
+                owner, repo, pageNumber, pageSize, retrofitCallback);
+
+        mAppExecutors.getNetworkThreads().execute(runnable);
     }
 }
