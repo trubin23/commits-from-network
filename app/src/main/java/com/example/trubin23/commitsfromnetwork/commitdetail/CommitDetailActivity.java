@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
 
@@ -20,6 +21,8 @@ import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
 
 public class CommitDetailActivity extends AppCompatActivity implements
         CommitDetailContract.View {
+
+    private CommitDetailContract.Presenter mPresenter;
 
     @BindView(R.id.commit_sha_value)
     TextView tvCommitSha;
@@ -45,5 +48,7 @@ public class CommitDetailActivity extends AppCompatActivity implements
                 tvCommitDate.setText(commit.getDate());
             }
         }
+
+        mPresenter = new CommitDetailPresenter(Injection.provideCommitsRepository(this), this);
     }
 }

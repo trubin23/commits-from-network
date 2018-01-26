@@ -12,12 +12,11 @@ public class CommitDetailPresenter implements CommitDetailContract.Presenter {
 
     private CommitsRepository mCommitsRepository;
 
-    public CommitDetailPresenter(@NonNull CommitsRepository commitsRepository) {
+    private final CommitDetailContract.View mCommitDetailView;
+
+    public CommitDetailPresenter(@NonNull CommitsRepository commitsRepository,
+                                 @NonNull CommitDetailContract.View commitDetailView) {
         mCommitsRepository = commitsRepository;
-    }
-
-    @Override
-    public void start() {
-
+        mCommitDetailView = commitDetailView;
     }
 }

@@ -95,12 +95,7 @@ class CommitsPresenter implements CommitsContract.Presenter {
 
     @Override
     public void loadRepoData() {
-        mCommitsRepository.getPreference(OWNER_VALUE, value -> mCommitsView.setOwnerName(value));
-        mCommitsRepository.getPreference(REPO_VALUE, value -> mCommitsView.setRepoName(value));
-    }
-
-    @Override
-    public void start() {
-
+        mCommitsRepository.getPreference(OWNER_VALUE, mCommitsView::setOwnerName);
+        mCommitsRepository.getPreference(REPO_VALUE, mCommitsView::setRepoName);
     }
 }

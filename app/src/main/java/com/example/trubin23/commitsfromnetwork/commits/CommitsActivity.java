@@ -45,7 +45,7 @@ public class CommitsActivity extends AppCompatActivity implements
     private static final String LAST_PAGE_LOADED = "last-page-loaded";
     private static final String COMMIT_ARRAY_LIST = "commit-array-list";
 
-    private CommitsPresenter mPresenter;
+    private CommitsContract.Presenter mPresenter;
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -82,7 +82,8 @@ public class CommitsActivity extends AppCompatActivity implements
 
         mSwipeRefreshLayout.setEnabled(false);
 
-        createPresenter();
+        mPresenter = new CommitsPresenter(
+                Injection.provideCommitsRepository(this), this);
     }
 
     @Override
@@ -107,11 +108,6 @@ public class CommitsActivity extends AppCompatActivity implements
 
         ArrayList<Commit> commits = new ArrayList<>(mCommitsAdapter.getItems());
         outState.putParcelableArrayList(COMMIT_ARRAY_LIST, commits);
-    }
-
-    private void createPresenter() {
-        mPresenter = new CommitsPresenter(
-                Injection.provideCommitsRepository(this), this);
     }
 
     @Override
