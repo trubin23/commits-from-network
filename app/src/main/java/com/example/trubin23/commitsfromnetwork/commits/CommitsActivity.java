@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +17,11 @@ import android.widget.Toast;
 
 import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
+import com.example.trubin23.commitsfromnetwork.commitdetail.CommitDetailActivity;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.CommitItemActionHandler;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.CommitsAdapter;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.LoadCommitsActionHandler;
 import com.example.trubin23.commitsfromnetwork.commits.commitslist.SimpleScrollListener;
-import com.example.trubin23.commitsfromnetwork.commitdetail.CommitDetailActivity;
-import com.example.trubin23.commitsfromnetwork.BaseActivity;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import butterknife.OnClick;
 
 import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
 
-public class CommitsActivity extends BaseActivity implements
+public class CommitsActivity extends AppCompatActivity implements
         CommitsContract.View,
         LoadCommitsActionHandler,
         CommitItemActionHandler {
@@ -110,8 +110,8 @@ public class CommitsActivity extends BaseActivity implements
     }
 
     private void createPresenter() {
-        mPresenter = new CommitsPresenter(Injection.provideCommitsRepository(this));
-        bindPresenterToView(mPresenter);
+        mPresenter = new CommitsPresenter(
+                Injection.provideCommitsRepository(this), this);
     }
 
     @Override

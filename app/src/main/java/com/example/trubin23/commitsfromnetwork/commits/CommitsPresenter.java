@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.trubin23.commitsfromnetwork.BasePresenter;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
 import com.example.trubin23.commitsfromnetwork.data.source.CommitsDataSource;
 import com.example.trubin23.commitsfromnetwork.data.source.CommitsRepository;
@@ -15,15 +14,21 @@ import java.util.List;
  * Created by Andrey on 31.12.2017.
  */
 
-class CommitsPresenter extends BasePresenter<CommitsContract.View> implements CommitsContract.Presenter {
+class CommitsPresenter implements CommitsContract.Presenter {
 
     private static final String OWNER_VALUE = "owner_value";
     private static final String REPO_VALUE = "repo_value";
 
     private static final String TAG = CommitsPresenter.class.getSimpleName();
 
-    CommitsPresenter(@NonNull CommitsRepository commitsRepository) {
-        super(commitsRepository);
+    private CommitsRepository mCommitsRepository;
+
+    private final CommitsContract.View mCommitsView;
+
+    CommitsPresenter(@NonNull CommitsRepository commitsRepository,
+                     @NonNull CommitsContract.View commitsView) {
+        mCommitsRepository = commitsRepository;
+        mCommitsView = commitsView;
     }
 
     private void getCommitsDb(@NonNull String owner, @NonNull String repo) {
@@ -32,7 +37,7 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
                     @Override
                     public void onCommitsLoaded(List<Commit> commits) {
-                        getView().setCommits(commits);
+                        mCommitsView.setCommits(commits);
                     }
 
                     @Override
@@ -50,11 +55,11 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
                     public void onCommitsLoaded(List<Commit> commits) {
                         insertCommitsDb(commits, owner, repo);
 
-                        getView().setCommits(commits);
+                        mCommitsView.setCommits(commits);
                         if (commits.size() < pageSize) {
-                            getView().lastPageLoaded();
+                            mCommitsView.lastPageLoaded();
                         }
-                        getView().loadFinished();
+                        mCommitsView.loadFinished();
                     }
 
                     @Override
@@ -78,8 +83,8 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     private void errorMessage(@NonNull String message) {
         Log.e(TAG, message);
-        getView().showToast(message);
-        getView().loadFinished();
+        mCommitsView.showToast(message);
+        mCommitsView.loadFinished();
     }
 
     @Override
@@ -90,7 +95,12 @@ class CommitsPresenter extends BasePresenter<CommitsContract.View> implements Co
 
     @Override
     public void loadRepoData() {
-        mCommitsRepository.getPreference(OWNER_VALUE, value -> getView().setOwnerName(value));
-        mCommitsRepository.getPreference(REPO_VALUE, value -> getView().setRepoName(value));
+        mCommitsRepository.getPreference(OWNER_VALUE, value -> mCommitsView.setOwnerName(value));
+        mCommitsRepository.getPreference(REPO_VALUE, value -> mCommitsView.setRepoName(value));
+    }
+
+    @Override
+    public void start() {
+
     }
 }

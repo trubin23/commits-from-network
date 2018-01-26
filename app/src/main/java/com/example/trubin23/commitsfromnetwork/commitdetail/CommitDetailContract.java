@@ -1,5 +1,6 @@
 package com.example.trubin23.commitsfromnetwork.commitdetail;
 
+import com.example.trubin23.commitsfromnetwork.BasePresenter;
 import com.example.trubin23.commitsfromnetwork.BaseView;
 
 /**
@@ -8,9 +9,9 @@ import com.example.trubin23.commitsfromnetwork.BaseView;
 
 interface CommitDetailContract {
 
-    interface View extends BaseView {
+    interface View extends BaseView<Presenter> {
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter {
     }
 }
