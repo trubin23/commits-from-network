@@ -63,7 +63,7 @@ public class CommitsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_commits);
+        setContentView(R.layout.commits_act);
         ButterKnife.bind(this);
 
         mLastPageLoaded = false;
@@ -126,7 +126,7 @@ public class CommitsActivity extends AppCompatActivity implements
     @OnClick(R.id.fab_show_commit)
     public void onClickLoadCommits(View v) {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View repoNameDialog = layoutInflater.inflate(R.layout.repo_name_dialog, null);
+        View repoNameDialog = layoutInflater.inflate(R.layout.repo_dialog, null);
 
         final EditText ownerName = repoNameDialog.findViewById(R.id.et_owner);
         final EditText repoName = repoNameDialog.findViewById(R.id.et_repo);

@@ -36,7 +36,7 @@ public class CommitDetailActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_commit);
+        setContentView(R.layout.commitdetail_act);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
