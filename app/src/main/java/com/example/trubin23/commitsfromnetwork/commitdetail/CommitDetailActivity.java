@@ -51,4 +51,9 @@ public class CommitDetailActivity extends AppCompatActivity implements
 
         mPresenter = new CommitDetailPresenter(Injection.provideCommitsRepository(this), this);
     }
+
+    @Override
+    public void setPresenter(CommitDetailContract.Presenter presenter) {
+
+    }
 }

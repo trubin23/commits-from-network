@@ -6,6 +6,6 @@ package com.example.trubin23.commitsfromnetwork;
 
 public interface BaseView<T> {
 
-    //void setPresenter(T presenter);
+    void setPresenter(T presenter);
 
 }

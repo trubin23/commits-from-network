@@ -29,6 +29,8 @@ class CommitsPresenter implements CommitsContract.Presenter {
                      @NonNull CommitsContract.View commitsView) {
         mCommitsRepository = commitsRepository;
         mCommitsView = commitsView;
+
+        mCommitsView.setPresenter(this);
     }
 
     private void getCommitsDb(@NonNull String owner, @NonNull String repo) {
