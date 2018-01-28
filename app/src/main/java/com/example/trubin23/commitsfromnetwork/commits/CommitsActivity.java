@@ -7,15 +7,12 @@ import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.util.ActivityUtils;
 
-import butterknife.ButterKnife;
-
 public class CommitsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.commits_act);
-        ButterKnife.bind(this);
 
         CommitsFragment commitsFragment = (CommitsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
@@ -25,9 +22,6 @@ public class CommitsActivity extends AppCompatActivity {
                     commitsFragment, R.id.contentFrame);
         }
 
-        new CommitsPresenter(
-                Injection.provideCommitsRepository(this), commitsFragment);
+        new CommitsPresenter(Injection.provideCommitsRepository(this), commitsFragment);
     }
-
-
 }

@@ -18,5 +18,7 @@ public class CommitDetailPresenter implements CommitDetailContract.Presenter {
                                  @NonNull CommitDetailContract.View commitDetailView) {
         mCommitsRepository = commitsRepository;
         mCommitDetailView = commitDetailView;
+
+        mCommitDetailView.setPresenter(this);
     }
 }

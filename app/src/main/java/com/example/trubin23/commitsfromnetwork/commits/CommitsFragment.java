@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
@@ -66,6 +68,21 @@ public class CommitsFragment extends Fragment implements
     @NonNull
     public static CommitsFragment newInstance() {
         return new CommitsFragment();
+    }
+
+    @Override
+    public void setPresenter(CommitsContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.commits_frag, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 
     @Override
@@ -228,10 +245,5 @@ public class CommitsFragment extends Fragment implements
         Intent intent = new Intent(getContext(), CommitDetailActivity.class);
         intent.putExtra(CLASS_COMMIT, commit);
         startActivity(intent);
-    }
-
-    @Override
-    public void setPresenter(CommitsContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 }

@@ -5,4 +5,7 @@ package com.example.trubin23.commitsfromnetwork;
  */
 
 public interface BasePresenter {
+
+    //void start();
+
 }
