@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.trubin23.commitsfromnetwork.Injection;
 import com.example.trubin23.commitsfromnetwork.R;
 import com.example.trubin23.commitsfromnetwork.data.Commit;
+import com.example.trubin23.commitsfromnetwork.util.ActivityUtils;
 
 import static com.example.trubin23.commitsfromnetwork.data.Commit.CLASS_COMMIT;
 
@@ -30,6 +31,8 @@ public class CommitDetailActivity extends AppCompatActivity {
 
         if (commitDetailFragment == null) {
             commitDetailFragment = CommitDetailFragment.newInstance(commit);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+                    commitDetailFragment, R.id.contentFrame);
         }
 
         new CommitDetailPresenter(Injection.provideCommitsRepository(this), commitDetailFragment);

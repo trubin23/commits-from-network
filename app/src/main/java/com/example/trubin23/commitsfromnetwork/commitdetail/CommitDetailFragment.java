@@ -57,8 +57,9 @@ public class CommitDetailFragment extends Fragment implements CommitDetailContra
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            Commit commit = savedInstanceState.getParcelable(CLASS_COMMIT);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Commit commit = bundle.getParcelable(CLASS_COMMIT);
             if (commit != null) {
                 tvCommitSha.setText(commit.getSha());
                 tvCommitMessage.setText(commit.getMessage());
