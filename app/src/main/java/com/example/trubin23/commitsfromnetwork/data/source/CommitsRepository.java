@@ -73,7 +73,7 @@ public class CommitsRepository implements CommitsDataSource {
     public void getPreference(@NonNull String key, @NonNull GetPreferenceCallback callback) {
         Runnable runnable = () -> {
             String value = mCommitsSharedPreferences.getString(key);
-            mAppExecutors.getMainThread().execute(() -> callback.onPreferenceGot(value));
+            mAppExecutors.getMainThread().execute(() -> callback.onPreference(value));
         };
 
         mAppExecutors.getSharedPreferencesThread().execute(runnable);

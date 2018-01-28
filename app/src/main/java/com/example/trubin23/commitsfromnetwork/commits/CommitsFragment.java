@@ -130,8 +130,7 @@ public class CommitsFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-
-        mPresenter.loadRepoData();
+        mPresenter.start();
     }
 
     @Override

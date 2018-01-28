@@ -21,4 +21,9 @@ public class CommitDetailPresenter implements CommitDetailContract.Presenter {
 
         mCommitDetailView.setPresenter(this);
     }
+
+    @Override
+    public void start() {
+
+    }
 }

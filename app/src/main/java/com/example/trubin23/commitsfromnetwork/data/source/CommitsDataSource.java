@@ -22,7 +22,7 @@ public interface CommitsDataSource {
 
     interface GetPreferenceCallback {
 
-        void onPreferenceGot(String value);
+        void onPreference(String value);
     }
 
     void savePreference(@NonNull String key, @NonNull String value);

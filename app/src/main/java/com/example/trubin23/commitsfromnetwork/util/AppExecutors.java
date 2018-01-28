@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 
 public class AppExecutors {
 
-    private static final int THREAD_COUNT = 5;
+    private static final int THREAD_COUNT = 2;
 
     private final Executor mSharedPreferencesThread;
 

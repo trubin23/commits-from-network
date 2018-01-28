@@ -36,11 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-    }
-
-    @Override
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         try {
@@ -49,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(CommitDaoImpl.COMMIT_CREATE_TABLE);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "create table " + CommitDao.TABLE_COMMIT, e);
+            Log.e(TAG, "create tables", e);
         } finally {
             db.endTransaction();
         }
